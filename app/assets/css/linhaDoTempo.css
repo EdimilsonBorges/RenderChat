@@ -1,0 +1,940 @@
+/* Área principal ==================================================================================*/
+
+.container-corpo {
+    width: 100%;
+    height: auto;
+    position: relative;
+    top: 90px;
+    display: flex;
+}
+
+.posts {
+
+    margin: 0px 1% 0px 1%;
+    width: 40%;
+    height: max-content;
+
+}
+
+.posts section {
+    border: 1px solid rgb(192, 191, 191);
+    background-color: #fff;
+    border-radius: 15px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.esquerda {
+    margin: 0px 10% 0px 0px;
+    width: 15%;
+    height: max-content;
+}
+
+.esquerda section {
+    border: 1px solid rgb(192, 191, 191);
+    background-color: #fff;
+    border-radius: 15px;
+    padding: 5%;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.direita {
+    margin: 0px 0px 0px 10%;
+    width: 20%;
+    height: max-content;
+}
+
+.direita section {
+    border: 1px solid rgb(192, 191, 191);
+    background-color: #fff;
+    border-radius: 15px;
+    padding: 5%;
+    margin-bottom: 15px;
+    margin-top: 15px;
+}
+
+/* Área para postar ===================================================================================*/
+
+.publicar {
+    margin-top: 0px;
+    display: block;
+    height: max-content;
+    padding: 0px 2% 2% 0px;
+}
+
+.publicar .perfil {
+    display: flex;
+    width: 100%;
+}
+
+.publicar .perfil img {
+    border-radius: 50%;
+    width: 60px;
+}
+
+.publicar .perfil .btnPublicar {
+
+    height: 40px;
+    width: 100%;
+    border-radius: 20px;
+    border: 1px solid #000;
+    padding: 5px 15px 5px 15px;
+    margin: 13px 15px 0 15px;
+    color: #444;
+    background-color: #fff;
+    text-align: left;
+    cursor: pointer;
+}
+
+.publicar .perfil .btnPublicar:hover {
+    background-color: #eee;
+}
+
+.publicar .links {
+    display: flex;
+    text-align: center;
+    margin: 10px 0px 0px 0px;
+    justify-content: center;
+}
+
+.publicar .links a {
+    padding: 8px 3% 8px 3%;
+    background-color: aqua;
+    text-decoration: none;
+    border-radius: 10px;
+    margin-left: 3%;
+    margin-right: 3%;
+}
+
+.publicar .links a:hover {
+    background-color: #00f;
+    color: #fff;
+}
+
+/*Área de publicação ================================================================================================*/
+.publication {
+    display: block;
+    flex-direction: column;
+}
+
+.publication .perfil {
+    position: relative;
+    left: 10px;
+}
+
+.publication .cabecalho {
+    display: flex;
+    flex-direction: column;
+}
+
+.postCabecalho {
+    display: flex;
+}
+
+.postMenuDrop {
+    position: relative;
+    float: right;
+    right: 3%;
+    width: 10%;
+    top: 15px;
+    z-index: 9;
+}
+
+.visivel {
+    visibility: visible;
+}
+
+.navLinks {
+    position: relative;
+    float: right;
+    box-shadow: #444 1px 1px 10px;
+    width: 90px;
+    left: 20%;
+    text-align: center;
+    visibility: hidden;
+}
+
+.linksPostMenuDrop {
+    max-width: 90px;
+    height: 85px;
+    background-color: #eee;
+}
+
+.linksPostMenuDrop a {
+    position: relative;
+    color: #444;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    cursor: pointer;
+}
+
+.linksPostMenuDrop a:hover {
+    background-color: #ddd;
+}
+
+
+.postMenuDrop .btnPostMenuDrop {
+    font-size: 15pt;
+    cursor: pointer;
+    float: right;
+    color: #444;
+    border: none;
+    background-color: #fff;
+    font-weight: bold;
+}
+
+
+.publication p {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 0px 5% 0px 5%;
+    font-size: 12pt;
+    color: #444;
+}
+
+.publication .post {
+    padding: 0px 5% 0px 5%;
+    font-size: 12pt;
+    color: #444;
+}
+
+.container-corpo nav p {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 0px 5% 0px 5%;
+    font-size: 12pt;
+    color: #444;
+}
+
+.publication img {
+    width: 100%;
+}
+
+.botoes-publication {
+    display: flex;
+    justify-content: center;
+}
+
+.botoes-publication button {
+    margin: 2%;
+    padding: 2%;
+    background-color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-weight: 700;
+    color: #444;
+}
+
+.botoes-publication button:hover {
+    background-color: #eee;
+    cursor: pointer;
+}
+
+/*Textos de curtidas e comentários ==============================================================*/
+
+.curtidas-comentarios {
+    display: table;
+    width: 100%;
+    margin-top: 10px;
+    font-size: 10pt;
+    font-weight: 600;
+}
+
+.curtidas,
+.comentarios,
+.compartilhamentos {
+    display: table-cell;
+    width: max-content;
+    text-align: center;
+}
+
+.curtidas p,
+.curtidas span,
+.comentarios p,
+.comentarios span,
+.compartilhamentos p,
+.compartilhamentos span {
+    display: inline-flex;
+    color: #555;
+    cursor: pointer;
+}
+
+.perfil {
+    display: flex;
+    padding: 2% 0px 0px 2%;
+}
+
+.perfil img {
+    border-radius: 50%;
+    width: 60px;
+}
+
+.perfil h5 {
+    position: relative;
+    top: 8px;
+    width: 100%;
+    margin: 0px 15px 0px 15px;
+    color: #888;
+}
+
+.perfil h3 {
+    position: relative;
+    top: 8px;
+    margin: 0px 15px 0px 15px;
+    color: #555;
+}
+
+/*bate papo perfil ===================================================================================*/
+
+.bate-papo-perfil {
+    width: 300px;
+    margin-left: 9px;
+    margin-right: 1px;
+    position: relative;
+    box-shadow: 1px 1px 10px #000;
+    border-radius: 10px 10px 0px 0px;
+    background-color: #ffffff;
+    transition: all 1s;
+}
+
+.submit-bate-papo{
+    position: relative;
+    display: flex;
+    bottom: -6px;
+    transition: all 1s;
+}
+
+.bate-papo-perfil input{
+    position:relative;
+    width: 60%;
+    height: 30px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 20px;
+    margin: 8px;
+    margin-bottom: 0px;
+    bottom: 0px;
+}
+
+.bate-papo-perfil button{
+    position: relative;
+    top: 10px;
+    color: #000;
+    float: right;
+    width: 60px;
+    height: 30px;
+}
+
+/*.bate-papo:hover {
+    height: 75%;
+}*/
+
+.perfil-bate-papo-perfil {
+    display: flex;
+    background-color: #fff;
+    border-radius: 15px 15px 0px 0px;
+    height: 57px;
+}
+
+.perfil-bate-papo-perfil:hover {
+    background-color: rgb(250, 250, 250);
+    border-radius: 15px 15px 0px 0px;
+    cursor: pointer;
+}
+
+.perfil-bate-papo-perfil img {
+    border-radius: 50%;
+    width: 40px;
+    margin-left: 10px;
+    margin-top: 10px;
+    margin-right: 10px;
+}
+
+.perfil-bate-papo-perfil h3 {
+    border-radius: 50%;
+    width: 100%;
+    margin-top: 20px;
+    margin-left: 10px;
+    color: #555;
+    font-size: 12pt;
+}
+
+.conversa-bate-papo-perfil {
+    height: 77%;
+    overflow: scroll;
+    overflow-x: hidden;
+    bottom: 0px;
+    position: relative;
+}
+
+.conversa-bate-papo-perfil section {
+    display: flex;
+    flex-direction: column;
+}
+
+.caixa-eu {
+    display:flex;
+    margin-right: 5%;
+    margin-left: 25%;
+    justify-content: flex-end;
+
+}
+
+.caixa-outro {
+    display:flex;
+    margin-right: 25%;
+    margin-left: 5%;
+    justify-content:flex-start;
+}
+
+.mensagem-eu {
+    vertical-align: middle;
+    width: fit-content;
+    border-radius: 15px 15px 0px 15px;
+    color: #fff;
+    text-align: end;
+    background-color: #333;
+    margin-top: 10px;
+    padding: 10px;
+}
+
+.mensagem-outro {
+    width: fit-content;
+    border-radius: 15px 15px 15px 0px;
+    color: #333;
+    background-color: #ccc;
+    margin-top: 10px;
+    padding: 10px;
+}
+
+.mensagem-eu p,
+.mensagem-outro p {
+    font-size: 11pt;
+    margin-right: 5px;
+}
+
+/* janela de posts e edição =========================================================================================*/
+
+.mostrarPostModal {
+    display: block;
+}
+
+.esconderPostModal {
+    display: none;
+}
+
+.areaPostModal {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 9999;
+    background-color: rgb(0, 0, 0, 0.8);
+}
+
+.areaPostModal .postModal {
+    top: 100px;
+    width: 45%;
+    height: 400px;
+    border-radius: 10px;
+    background-color: #fff;
+    margin: 8vh auto auto auto;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+
+
+.areaPostModal .postModal .cabecalhoPostModal {
+    position: relative;
+    font-size: 15pt;
+    padding: 15px;
+    display: flex;
+    background-color: rgb(166, 247, 120);
+    border-radius: 10px 10px 0 0;
+}
+
+.btnFecharPostModal {
+    position: fixed;
+    font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
+    cursor: pointer;
+    right: 29%;
+    color: rgb(0, 0, 0);
+    /*color: #444;*/
+}
+
+.postModal .cabecalhoPostModal h4 {
+    color: rgb(2, 2, 2);
+    /*color: #444;*/
+}
+
+.perfilPostModal {
+    display: flex;
+}
+
+.perfilPostModal img {
+    border-radius: 50%;
+    width: 45px;
+    margin-left: 20px;
+    margin-top: 10px;
+    margin-right: 10px;
+}
+
+.perfilPostModal h5 {
+    margin-top: 25px;
+    font-size: 11pt;
+    color: #444;
+}
+
+.textAreaPostModal {
+    position: relative;
+    margin: 2vh 3% 0px 3%;
+    max-width: 91%;
+    max-height: 200px;
+    min-width: 91%;
+    min-height: 200px;
+    padding: 1.5%;
+    outline: none;
+    border: 1px solid #ccc;
+    resize: none;
+}
+
+.textAreaPostModal:focus {
+    border: #090 solid 1px;
+    box-shadow: #090 1px 1px 5px;
+}
+
+.postModal button {
+    margin: 7px auto 7px auto;
+    font-size: 12pt;
+    padding: 5px 10px 5px 10px;
+    color: #444;
+}
+
+
+/* janela de curtidas e compartilhamentos =========================================================================================*/
+
+.arealinksCurtidas,
+.arealinksComp {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 9999;
+    background-color: rgb(0, 0, 0, 0.8);
+}
+
+.arealinksCurtidas .linksCurtidas,
+.arealinksComp .linksComp {
+    top: 100px;
+    width: 40%;
+    height: 400px;
+    border-radius: 10px;
+    background-color: #fff;
+    margin: 8vh auto auto auto;
+    display: flex;
+    flex-direction: column;
+}
+
+
+.arealinksCurtidas .linksCurtidas .cabecalhoCurtidas,
+.arealinksComp .linksComp .cabecalhoComp {
+    position: relative;
+    font-size: 15pt;
+    padding: 15px;
+}
+
+.btnFecharCurtidas,
+.btnFecharComp {
+    position: fixed;
+    top: 10vh;
+    font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
+    cursor: pointer;
+    right: 31.5%;
+    color: #444;
+}
+
+.perfilCurtidas,
+.perfilComp {
+    display: flex;
+    margin: 10px;
+}
+
+.perfilCurtidas img,
+.perfilComp img {
+    border-radius: 50%;
+    width: 45px;
+    margin-left: 20px;
+    margin-right: 10px;
+}
+
+.linksCurtidas .cabecalhoCurtidas h4,
+.linksComp .cabecalhoComp h4 {
+    color: #444;
+    width: 100%;
+}
+
+.perfilCurtidas h5,
+.perfilComp h5,
+.perfilCurtidas span,
+.perfilComp span {
+    width: 100%;
+    margin-top: 15px;
+    font-size: 11pt;
+    color: #444;
+}
+
+.campoCurtidas,
+.campoComp {
+    overflow: scroll;
+    overflow-x: hidden;
+    width: 100%;
+    height: 100%;
+    margin-bottom: 6px;
+}
+
+.totalCurtidas,
+.totalComp {
+    margin-left: 40px;
+}
+
+.totalCurtidas h5,
+.totalCurtidas span,
+.totalComp h5,
+.totalComp span {
+    display: inline-block;
+    color: #444;
+    font-weight: bold;
+    padding-bottom: 10px;
+    margin-left: 5px;
+}
+
+.linksCurtidas,
+.linksComp {
+    width: 100;
+}
+
+.arealinksCurtidas .linksCurtidas .campoCurtidas .perfilCurtidas button,
+.arealinksComp .linksComp .campoComp .perfilComp button {
+    position: relative;
+    padding: 0px 10px;
+    border-radius: 10px;
+    border: none;
+    color: #fff;
+    background-color: #090;
+    cursor: pointer;
+}
+
+/* barra topo compartilhamentos e curtidas =============================================================================*/
+
+.perfilshare div {
+    display: flex;
+    align-items: center;
+    background-color: #ccf;
+    border-radius: 10px 10px 0 0;
+}
+
+.perfil_like div {
+    display: flex;
+    align-items: center;
+    background-color: #cfc;
+    border-radius: 10px 10px 0 0;
+}
+
+.publication .perfilshare img,
+.publication .perfil_like img {
+    position: relative;
+    margin: 5px 5px 5px 5px;
+    left: 30px;
+    border-radius: 50%;
+    width: 25px;
+
+}
+
+.publication .perfilshare p,
+.publication .perfil_like p {
+    margin: 5px 5px 5px 5px;
+}
+
+.publication .perfilshare .shareComment {
+    background-color: #ccf;
+    margin: 0px 0px 0px 0px;
+    padding: 10px 20px 10px 20px;
+
+}
+
+/* janela de compartilhamento =================================================================================*/
+
+
+.mostrarCompartModal {
+    display: block;
+}
+
+.esconderCompartModal {
+    display: none;
+}
+
+.areaCompartModal {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 9999;
+    background-color: rgb(0, 0, 0, 0.8);
+}
+
+.areaCompartModal .compartModal {
+    top: 100px;
+    width: 45%;
+    height: 85vh;
+    border-radius: 10px;
+    background-color: #fff;
+    margin: 8vh auto auto auto;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+
+
+.areaCompartModal .compartModal .cabecalhoCompartModal {
+    position: relative;
+    font-size: 15pt;
+    padding: 15px;
+    display: flex;
+    background-color: rgb(166, 247, 120);
+    border-radius: 10px 10px 0 0;
+}
+
+.btnFecharCompartModal {
+    position: fixed;
+    font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
+    cursor: pointer;
+    right: 29%;
+    color: rgb(0, 0, 0);
+    /*color: #444;*/
+}
+
+.compartModal .cabecalhoCompartModal h4 {
+    color: rgb(2, 2, 2);
+    /*color: #444;*/
+}
+
+.perfilCompartModal {
+    display: flex;
+}
+
+.perfilCompartModal img {
+    border-radius: 50%;
+    width: 45px;
+    margin-left: 20px;
+    margin-top: 10px;
+    margin-right: 10px;
+}
+
+.perfilCompartModal h5 {
+    margin-top: 25px;
+    font-size: 11pt;
+    color: #444;
+}
+
+.textAreaCompartModal {
+    position: relative;
+    margin: 2vh 3% 0px 3%;
+    max-width: 91%;
+    max-height: 40px;
+    min-width: 91%;
+    min-height: 40px;
+    padding: 1.5%;
+    outline: none;
+    resize: none;
+    border: #ccc solid 1px;
+}
+
+.textAreaCompartModal:focus {
+    border: #090 solid 1px;
+    box-shadow: #090 1px 1px 5px;
+}
+
+.compartModal button {
+    margin: 7px auto 7px auto;
+    font-size: 12pt;
+    padding: 5px 10px 5px 10px;
+    color: #444;
+}
+
+.compartPost {
+    height: 300px;
+    overflow: scroll;
+    overflow-x: hidden;
+    text-align: left;
+    margin: 0px 0px 0px 30px;
+}
+
+/* area de comentários =================================================================================================*/
+
+.most {
+    display: flex;
+}
+
+.ocult {
+    display: none;
+}
+
+.commentArea {
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 60px;
+}
+
+.commentArea .commentar {
+    display: flex;
+    width: 95%;
+    align-self: center
+}
+
+.commentArea .commentar textarea {
+    width: 100%;
+    padding: 10px;
+    height: 15px;
+    margin: 0px 10px 10px 10px;
+    border-radius: 10px;
+    outline: none;
+    resize: none;
+    border: #ccc solid 1px;
+}
+
+.commentArea .commentar textarea:focus {
+    outline: none;
+    border: 1px solid #090;
+    box-shadow: 0 0 10px #090;
+}
+
+.commentArea .commentar button {
+    height: 40px;
+    padding: 8px;
+    margin: 0px 8px 8px 0px;
+    border-radius: 10px;
+    background-color: #eee;
+    border: #000 solid 1px;
+    cursor: pointer;
+}
+
+.commentArea .commentar button:hover {
+    background-color: #ccf;
+}
+
+/*perfil Comentários ===========================================================================*/
+
+.commentArea .area {
+    position: relative;
+    margin: 0px 0px -40px 0px;
+    ;
+}
+
+.commentArea .area .perfil_comment {
+    position: relative;
+    top: 15px;
+    margin: 0;
+}
+
+.area .perfil_comment img {
+    position: relative;
+    left: 15px;
+    border-radius: 50%;
+    width: 25px;
+}
+
+.area .corpo_comment {
+    position: relative;
+    top: -58px;
+    left: 45px;
+    background-color: #eee;
+    width: 85%;
+    border-radius: 0px 10px 10px 10px;
+    text-overflow: clip '-';
+    overflow: hidden;
+    margin-bottom: -60px;
+}
+
+.area .corpo_comment .nomePerf {
+    margin: 0px;
+    padding: 5px 10px 10px 10px;
+    font-weight: bold;
+}
+
+.area .corpo_comment p {
+    position: relative;
+    padding: 0px 10px 10px 10px;
+    margin: 0px 0px -0px 0px;
+}
+
+/*menu drop comentários ===========================================================================*/
+
+.linksCommentMenuDrop {
+    max-width: 90px;
+    height: 42px;
+    background-color: #eee;
+}
+
+.commentMenuDrop {
+    position: relative;
+    float: right;
+    width: fit-content;
+    top: 15px;
+}
+
+.navLinksCommentVisible {
+    visibility: visible;
+}
+
+.navLinksCommentInvisible {
+    visibility: hidden;
+}
+
+.navLinksComment {
+    position: relative;
+    float: right;
+    box-shadow: #444 1px 1px 10px;
+    width: 90px;
+    text-align: center;
+    right: 2vw;
+    z-index: 9;
+}
+
+.linksCommentMenuDrop a {
+    position: relative;
+    color: #444;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    cursor: pointer;
+}
+
+.linksCommentMenuDrop a:hover {
+    background-color: #ddd;
+}
+
+.btnCommentMenuDrop {
+    position: relative;
+    font-size: 15pt;
+    cursor: pointer;
+    color: #444;
+    background-color: #eee;
+    border: none;
+    top: -30px;
+    float: right;
+    right: 3.5vw;
+    font-weight: bold;
+    z-index: 8;
+}

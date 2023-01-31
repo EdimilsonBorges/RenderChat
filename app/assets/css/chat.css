@@ -1,0 +1,120 @@
+/*Bate papo =========================================================================================== */
+
+.area-chat{
+    position:fixed;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: flex-end;
+    bottom: 0px;
+    width: 100%;
+    height: 0%;
+    background-color: #00f;
+    z-index: 999;
+}
+
+.bate-papo {
+    width: 300px;
+    height: 57px;
+    margin-left: 9px;
+    margin-right: 1px;
+    position: relative;
+    box-shadow: 1px 1px 10px #000;
+    border-radius: 10px 10px 0px 0px;
+    background-color: #ffffff;
+    transition: all 1s;
+}
+
+.perfil-bate-papo {
+    display: flex;
+    background-color: #fff;
+    border-radius: 15px 15px 0px 0px;
+    height: 57px;
+}
+
+.perfil-bate-papo:hover {
+    background-color: rgb(250, 250, 250);
+    border-radius: 15px 15px 0px 0px;
+    cursor: pointer;
+}
+
+.perfil-bate-papo img {
+    border-radius: 50%;
+    width: 40px;
+    margin-left: 10px;
+    margin-top: 10px;
+    margin-right: 10px;
+}
+
+.perfil-bate-papo h3 {
+    border-radius: 50%;
+    width: 40px;
+    margin-top: 20px;
+    margin-left: 10px;
+    color: #555;
+    font-size: 12pt;
+}
+
+.online {
+    width: 11px;
+    height: 11px;
+    position: relative;
+    bottom: 22px;
+    left: 37px;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    background-color: #090;
+}
+
+.offline {
+    width: 11px;
+    height: 11px;
+    position: relative;
+    bottom: 22px;
+    left: 37px;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    background-color: #888;
+}
+
+.conversa-bate-papo {
+    height: 87%;
+    overflow: scroll;
+    overflow-x: hidden;
+}
+
+.conversa-bate-papo section {
+    display: flex;
+    cursor: pointer;
+}
+
+.conversa-bate-papo section:hover {
+    display: flex;
+    background-color: #eee;
+}
+
+.conversa-bate-papo img {
+    border-radius: 50%;
+    width: 45px;
+    margin-left: 10px;
+    margin-top: 10px;
+    margin-right: 10px;
+}
+
+.mensagem {
+    width: 100%;
+    color: #555;
+    margin-top: 15px;
+}
+
+.mensagem h3 {
+    font-size: 15px;
+}
+
+.mensagem p {
+    font-size: 10pt;
+    margin-right: 5px;
+}
+
+.mensagem hr {
+    margin-top: 25px;
+}

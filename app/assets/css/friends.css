@@ -1,0 +1,29 @@
+.container-friends{
+    position: relative;
+    border-radius: 20px 20px 20px 20px;
+    border: 1px solid #ccc;
+    top: 100px;
+    width: 80%;
+    height:fit-content;
+    background-color: #fff;
+}
+
+.perfil-friends{
+    position: relative;
+    left:90px;
+    display: flex;
+    margin: 3%;
+    text-align: center;
+    align-items: center;
+    width:fit-content;
+    float: left;
+}
+
+.perfil-friends img{
+    border-radius: 20px;
+    width: 80px;
+}
+
+.perfil-friends h3{
+    margin: 10px;
+}

@@ -1,0 +1,1 @@
+web: chmod u+x socket/socket.sh && socket/socket.sh

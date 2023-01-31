@@ -1,0 +1,20 @@
+{
+    "description": "Upper",
+    "authors": [
+        {
+            "name": "Edimilson Borges",
+            "email": "edimilson-borges159@hotmail.com"
+        }
+    ],
+    
+    "autoload": {
+        "psr-4": {
+            "App\\" : "app/lib",
+            "Core\\" : "core"
+        }
+    }, 
+
+    "require": {
+        "cboden/ratchet": "^0.4.4"
+    }
+}
