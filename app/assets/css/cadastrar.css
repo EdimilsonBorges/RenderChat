@@ -56,12 +56,11 @@ body {
     border: 1px solid rgb(255, 94, 0);
 }
 
-.formulario form #nome, .formulario form #sobre-nome{
+.formulario form:has(#nome, #sobre-nome){
     width: 41%;
-
 }
 
-.formulario form #email, .formulario form #nova-senha{
+.formulario form:has(#email, #nova-senha){
     width: 91%;
 }
 
@@ -83,11 +82,7 @@ body {
     outline: 0;
 }
 
-.formulario form #nome {
-    display: inline;
-}
-
-.formulario form #sobre-nome {
+.formulario form:has(#nome, #sobre-nome) {
     display: inline;
 }
 
