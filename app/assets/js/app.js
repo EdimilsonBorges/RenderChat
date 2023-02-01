@@ -77,8 +77,6 @@ function showChatMessage(msg, user) {
 
         let areaMenssage = document.getElementById(msg.userId + msg.fromId);
 
-        areaMenssage.scrollTop = areaMenssage.scrollHeight;
-
         let caixaEu = document.createElement('div');
         caixaEu.setAttribute('class', 'caixa-eu');
 
@@ -92,22 +90,24 @@ function showChatMessage(msg, user) {
         caixaEu.appendChild(mensagemEu);
         areaMenssage.appendChild(caixaEu);
 
+        areaMenssage.scrollTop = areaMenssage.scrollHeight;
 
     } else {
-
         let areaMenssage = document.getElementById(msg.fromId + msg.userId);
         openChat(msg.userId, msg.name, msg.photo, true);
 
         if (areaMenssage != null) {
             receberMensagemChat(msg);
         }
+
+        areaMenssage.scrollTop = areaMenssage.scrollHeight;
+
     }
 }
 
 function receberMensagemChat(msg) {
 
     let areaMenssage = document.getElementById(msg.fromId + msg.userId);
-    areaMenssage.scrollTo(0, document.body.scrollHeight);
 
     let caixaOutro = document.createElement('div');
     caixaOutro.setAttribute('class', 'caixa-outro');
@@ -652,9 +652,7 @@ function carregarUserChat() {
         conversaBatePapo.innerHTML = "";
 
         results['results'].forEach((result) => {
-
             let nomeCompleto = result['first_name'] + " " + result['last_name'];
-
             let itemChat = document.createElement("section");
             itemChat.id = "itemChat";
             itemChat.onclick = function () {
@@ -713,10 +711,6 @@ function carregarUserChat() {
 }
 
 function openChat(fromId, nomeCompleto, perfImg, online) {
-
-    //msg.userId, msg.name, msg.photo
-    // fromId, nomeCompleto, perfImg
-
 
     const myElement = document.getElementById(userId + fromId);
 
@@ -808,19 +802,23 @@ function openChat(fromId, nomeCompleto, perfImg, online) {
         batePapoPerfil.appendChild(submitBatePapo);
 
         areaChat.appendChild(batePapoPerfil);
-
-
+    
         let pedidos = new XMLHttpRequest();
         pedidos.open("GET", "Controllers/get_messager_chat?user_id=" + userId + "&to_user_id=" + fromId, true);
         pedidos.send();
 
         pedidos.onloadend = function () {
 
+            let indexMesseger = 0;
+
             results = JSON.parse(this.response);
             results['results'].forEach((result) => {
 
+                
+
                 if (userId == fromId && result['user_id'] == result['to_user_id']) {
                     // eu enviei para mim mesmo
+                    indexMesseger++;
                     let msg = { // cria um objeto msg
                         'userId': userId,
                         'fromId': fromId,
@@ -832,6 +830,7 @@ function openChat(fromId, nomeCompleto, perfImg, online) {
 
                 if (userId != fromId && userId == result['user_id'] && result['user_id'] != result['to_user_id'] && fromId == result['to_user_id']) {
                     // eu enviei para outra pessoa
+                    indexMesseger++;
                     let msg = { // cria um objeto msg
                         'userId': userId,
                         'fromId': fromId,
@@ -842,6 +841,7 @@ function openChat(fromId, nomeCompleto, perfImg, online) {
                 }
                 if (userId != fromId && result['user_id'] != result['to_user_id'] && fromId == result['user_id']) {
                     // eu recebi de outra pessoa
+                    indexMesseger++;
                     let msg = { // cria um objeto msg
                         'userId': fromId,
                         'fromId': userId,
@@ -850,7 +850,8 @@ function openChat(fromId, nomeCompleto, perfImg, online) {
                     msg = JSON.stringify(msg); //converte para json
                     showChatMessage(msg, "other");
                 }
-            });
+                document.getElementById(userId + fromId).scrollIntoView({block: "end"});
+             });
         }
     }
 
