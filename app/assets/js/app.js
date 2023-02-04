@@ -551,31 +551,6 @@ function mostrarCurtidas(postId) {
         janela.classList.add("esconderPostModal");
     }
 }
-
-function postMenuDrop(itemPosition, post_users, user) {
-
-    let item = document.getElementsByClassName('linksPostMenuDrop')[itemPosition];
-
-    window.onclick = function (event) {
-        if (!event.target.matches('.btnPostMenuDrop')) {
-            let elements = document.getElementsByClassName("linksPostMenuDrop");
-
-            for (let i = 0; i < elements.length; i++) {
-                let aberto = elements[i];
-                if (aberto.classList.contains("visivel")) {
-                    aberto.classList.remove("visivel");
-                }
-            }
-
-        }
-    }
-
-    if (user == post_users) {
-        item.classList.toggle("visivel");
-    }
-}
-
-
 function postModal(pagina) {
 
     const janela = document.getElementById("areaPostModal");
@@ -652,7 +627,7 @@ function carregarUserChat() {
         results['results'].forEach((result) => {
             let nomeCompleto = result['first_name'] + " " + result['last_name'];
             let itemChat = document.createElement("section");
-            itemChat.setAttribute("class","itemChat");
+            itemChat.setAttribute("class", "itemChat");
             itemChat.onclick = function () {
                 if (onlines.includes(result['id'])) {
                     openChat(result['id'], nomeCompleto, result['photo_url'], true);
@@ -800,7 +775,7 @@ function openChat(fromId, nomeCompleto, perfImg, online) {
         batePapoPerfil.appendChild(submitBatePapo);
 
         areaChat.appendChild(batePapoPerfil);
-    
+
         let pedidos = new XMLHttpRequest();
         pedidos.open("GET", "Controllers/get_messager_chat?user_id=" + userId + "&to_user_id=" + fromId, true);
         pedidos.send();
@@ -812,7 +787,7 @@ function openChat(fromId, nomeCompleto, perfImg, online) {
             results = JSON.parse(this.response);
             results['results'].forEach((result) => {
 
-                
+
 
                 if (userId == fromId && result['user_id'] == result['to_user_id']) {
                     // eu enviei para mim mesmo
@@ -848,8 +823,8 @@ function openChat(fromId, nomeCompleto, perfImg, online) {
                     msg = JSON.stringify(msg); //converte para json
                     showChatMessage(msg, "other");
                 }
-                document.getElementById(userId + fromId).scrollIntoView({block: "end"});
-             });
+                document.getElementById(userId + fromId).scrollIntoView({ block: "end" });
+            });
         }
     }
 
@@ -911,3 +886,44 @@ function like(post_id, userId, element, elementLikesPosition) { // curtir ou des
         element.innerHTML = this.responseText;
     }
 }
+
+// Publicar um Post (Página Home)
+let btnPublicarHome = document.getElementById("btnPublicarHome");
+if (btnPublicarHome != null) {
+    btnPublicarHome.addEventListener("click", () => {
+        postModal("home");
+    });
+} else {
+    // Publicar um Post (Página Perfil)
+    let btnPublicarPerfil = document.getElementById("btnPublicarPerfil");
+    btnPublicarPerfil.addEventListener("click", () => {
+        postModal("perfil");
+    });
+}
+
+// exibir o Drop menu do post
+let btnPostMenuDrop = [...document.getElementsByClassName("btnPostMenuDrop")];
+
+btnPostMenuDrop.map((el) => {
+    el.addEventListener("click", () => {
+        let item = el.parentElement.children[1].firstElementChild;
+
+            if (userId == el.id) {
+                 item.classList.toggle("visivel");
+            }
+
+            // ocultar menu se clicar fora do elemento
+            window.onclick = function (event) {
+                if (!event.target.matches('.btnPostMenuDrop')) {
+                    let elements = document.getElementsByClassName("linksPostMenuDrop");
+        
+                    for (let i = 0; i < elements.length; i++) {
+                        let aberto = elements[i];
+                        if (aberto.classList.contains("visivel")) {
+                            aberto.classList.remove("visivel");
+                        }
+                    }    
+                }
+            }
+    });
+});

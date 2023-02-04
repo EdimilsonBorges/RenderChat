@@ -35,7 +35,7 @@ defined("ROOT") or die("Acesso negado");
                 <?php else : ?>
                     <img src="assets/images/sem-foto.jpg" alt="">
                 <?php endif; ?>
-                <button class="btnPublicar" type="text" name="" id="btnPublicar" onclick="postModal('home')">Criar nova publicação</button>
+                <button class="btnPublicar" type="text" name="" id="btnPublicarHome">Criar nova publicação</button>
             </div>
             <div class="links">
                 <a href="#">Foto</a>
@@ -112,11 +112,11 @@ defined("ROOT") or die("Acesso negado");
                     endif;
                     ?>
                     <div class="postMenuDrop">
-                        <button id="postMenuDrop" onclick="postMenuDrop(<?= $i ?>, '<?= $post['user_id'] ?>', '<?= $_SESSION['user_id'] ?>')" class="btnPostMenuDrop">...</button>
-                        <nav id="navLinks" class="navLinks">
+                        <button id="<?= $post['user_id'] ?>" class="btnPostMenuDrop">...</button>
+                        <nav class="navLinks">
                             <div class="linksPostMenuDrop">
-                                <a id="edit" onclick="editModal('<?= $post['id'] ?>', <?= $i ?>, 'home')">Editar</a>
-                                <a id="delet" href="Controllers/delete_post.php?id=<?= $post['id'] ?>&r=home">Excluir</a>
+                                <a onclick="editModal('<?= $post['id'] ?>', <?= $i ?>, 'home')">Editar</a>
+                                <a href="Controllers/delete_post.php?id=<?= $post['id'] ?>&r=home">Excluir</a>
                             </div>
                         </nav>
                     </div>
