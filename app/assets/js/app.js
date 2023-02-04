@@ -121,18 +121,12 @@ function receberMensagemChat(msg) {
     areaMenssage.appendChild(caixaOutro);
 }
 
-function verComment(userId, postId, postUserId, janelaPosition) {
+function verComment(postId, postUserId, janelaPosition) {
 
     let janela = document.getElementsByClassName('commentArea')[janelaPosition];
     let campo = document.getElementsByClassName('area')[janelaPosition];
 
-    if (janela.classList.contains("ocult")) {
-        janela.classList.remove("ocult");
-        janela.classList.add("most");
-    } else {
-        janela.classList.remove("most");
-        janela.classList.add("ocult");
-    }
+    janela.classList.toggle("most");
 
     let pedidos = new XMLHttpRequest();
 
@@ -144,78 +138,81 @@ function verComment(userId, postId, postUserId, janelaPosition) {
         results = JSON.parse(this.response);
         campo.innerHTML = "";
         results['results'].forEach((result) => {
-            let commentUserId = result['user_id'];
-            let commentId = result['id'];
-
-            let perfilComment = document.createElement("header");
-            perfilComment.setAttribute("class", "perfil_comment");
-
-            let div = document.createElement("div");
-
-            let img = document.createElement("img");
-            if (result['co_photo_url'] != null) {
-                img.src = "assets/images/" + result['co_photo_url'];
-            } else {
-                img.src = "assets/images/sem-foto.jpg";
-            }
-
-            let ccommentMenuDrop = document.createElement("div");
-            ccommentMenuDrop.setAttribute("class", "commentMenuDrop");
-
-            let btnCommentMenuDrop = document.createElement("button");
-            btnCommentMenuDrop.setAttribute("class", "btnCommentMenuDrop");
-            btnCommentMenuDrop.id = "btnCommentMenuDrop";
-            btnCommentMenuDrop.innerText = "...";
-            btnCommentMenuDrop.onclick = function () {
-                commentMenuDrop(commentId, commentUserId, userId);
-            }
-
-            let navLinksComment = document.createElement("nav");
-            navLinksComment.setAttribute("class", "navLinksComment navLinksCommentInvisible");
-            navLinksComment.id = commentId;
-
-            let linksCommentMenuDrop = document.createElement("div");
-            linksCommentMenuDrop.setAttribute("class", "linksCommentMenuDrop");
-
-            let delet = document.createElement("a");
-            delet.id = "delet";
-            delet.innerText = "Excluir";
-            delet.onclick = function () {
-
-                deletComment(result['id'], postId, postUserId, userId, position);
-            }
-
-            let corpoComment = document.createElement("div");
-            corpoComment.setAttribute("class", "corpo_comment");
-
-            let nomePerf = document.createElement("p");
-            nomePerf.setAttribute("class", "nomePerf");
-            nomePerf.innerText = result['co_first_name'] + " " + result['co_last_name'];
-
-            let p = document.createElement("p");
-            p.innerHTML = result['comment'];
-
-            div.appendChild(img);
-            perfilComment.appendChild(div);
-
-            linksCommentMenuDrop.appendChild(delet);
-            navLinksComment.appendChild(linksCommentMenuDrop);
-            ccommentMenuDrop.appendChild(btnCommentMenuDrop);
-            ccommentMenuDrop.appendChild(navLinksComment);
-
-            corpoComment.appendChild(nomePerf);
-            corpoComment.appendChild(p);
-
-            campo.appendChild(perfilComment);
-            campo.appendChild(ccommentMenuDrop);
-            campo.appendChild(corpoComment);
+            createComment(postId, postUserId, result, janelaPosition, campo);
         });
     }
 }
 
-function deletComment(commentId, postId, postUserId, userId, position) {
+function createComment(postId, postUserId, result, position, campo) {
+    let commentUserId = result['user_id'];
+    let commentId = result['id'];
 
-    let campo = document.getElementsByClassName("area")[position];
+    let perfilComment = document.createElement("header");
+    perfilComment.setAttribute("class", "perfil_comment");
+
+    let div = document.createElement("div");
+
+    let img = document.createElement("img");
+    if (result['co_photo_url'] != null) {
+        img.src = "assets/images/" + result['co_photo_url'];
+    } else {
+        img.src = "assets/images/sem-foto.jpg";
+    }
+
+    let ccommentMenuDrop = document.createElement("div");
+    ccommentMenuDrop.setAttribute("class", "commentMenuDrop");
+
+    let btnCommentMenuDrop = document.createElement("button");
+    btnCommentMenuDrop.setAttribute("class", "btnCommentMenuDrop");
+    btnCommentMenuDrop.id = "btnCommentMenuDrop";
+    btnCommentMenuDrop.innerText = "...";
+    btnCommentMenuDrop.onclick = function () {
+        commentMenuDrop(commentId, commentUserId, userId);
+    }
+
+    let navLinksComment = document.createElement("nav");
+    navLinksComment.setAttribute("class", "navLinksComment navLinksCommentInvisible");
+    navLinksComment.id = commentId;
+
+    let linksCommentMenuDrop = document.createElement("div");
+    linksCommentMenuDrop.setAttribute("class", "linksCommentMenuDrop");
+
+    let delet = document.createElement("a");
+    delet.id = "delet";
+    delet.innerText = "Excluir";
+    delet.onclick = function () {
+        deletComment(result['id'], postId, postUserId, position);
+    }
+
+    let corpoComment = document.createElement("div");
+    corpoComment.setAttribute("class", "corpo_comment");
+
+    let nomePerf = document.createElement("p");
+    nomePerf.setAttribute("class", "nomePerf");
+    nomePerf.innerText = result['co_first_name'] + " " + result['co_last_name'];
+
+    let p = document.createElement("p");
+    p.innerHTML = result['comment'];
+
+    div.appendChild(img);
+    perfilComment.appendChild(div);
+
+    linksCommentMenuDrop.appendChild(delet);
+    navLinksComment.appendChild(linksCommentMenuDrop);
+    ccommentMenuDrop.appendChild(btnCommentMenuDrop);
+    ccommentMenuDrop.appendChild(navLinksComment);
+
+    corpoComment.appendChild(nomePerf);
+    corpoComment.appendChild(p);
+
+    campo.appendChild(perfilComment);
+    campo.appendChild(ccommentMenuDrop);
+    campo.appendChild(corpoComment);
+}
+
+function deletComment(commentId, postId, postUserId, janelaPosition) {
+
+    let campo = document.getElementsByClassName("area")[janelaPosition];
     let pedidos = new XMLHttpRequest();
 
     pedidos.open("GET", "Controllers/delete_comment?id=" + commentId + "&post_id=" + postId);
@@ -224,74 +221,10 @@ function deletComment(commentId, postId, postUserId, userId, position) {
     pedidos.onloadend = function () {
 
         results = JSON.parse(this.response);
-        document.getElementsByClassName("comment")[position].innerHTML--;
+        document.getElementsByClassName("comment")[janelaPosition].innerHTML--;
         campo.innerHTML = "";
         results['results'].forEach((result) => {
-            let commentUserId = result['user_id'];
-            let commentId = result['id'];
-
-            let perfilComment = document.createElement("header");
-            perfilComment.setAttribute("class", "perfil_comment");
-
-            let div = document.createElement("div");
-
-            let img = document.createElement("img");
-            if (result['co_photo_url'] != null) {
-                img.src = "assets/images/" + result['co_photo_url'];
-            } else {
-                img.src = "assets/images/sem-foto.jpg";
-            }
-
-            let ccommentMenuDrop = document.createElement("div");
-            ccommentMenuDrop.setAttribute("class", "commentMenuDrop");
-
-            let btnCommentMenuDrop = document.createElement("button");
-            btnCommentMenuDrop.setAttribute("class", "btnCommentMenuDrop");
-            btnCommentMenuDrop.id = "btnCommentMenuDrop";
-            btnCommentMenuDrop.innerText = "...";
-            btnCommentMenuDrop.onclick = function () {
-                commentMenuDrop(commentId, commentUserId, userId);
-            }
-
-            let navLinksComment = document.createElement("nav");
-            navLinksComment.setAttribute("class", "navLinksComment navLinksCommentInvisible");
-            navLinksComment.id = commentId;
-
-            let linksCommentMenuDrop = document.createElement("div");
-            linksCommentMenuDrop.setAttribute("class", "linksCommentMenuDrop");
-
-            let delet = document.createElement("a");
-            delet.id = "delet";
-            delet.innerText = "Excluir";
-            delet.onclick = function () {
-                deletComment(result['id'], postId, postUserId, userId, position);
-            }
-
-            let corpoComment = document.createElement("div");
-            corpoComment.setAttribute("class", "corpo_comment");
-
-            let nomePerf = document.createElement("p");
-            nomePerf.setAttribute("class", "nomePerf");
-            nomePerf.innerText = result['co_first_name'] + " " + result['co_last_name'];
-
-            let p = document.createElement("p");
-            p.innerText = result['comment'];
-
-            div.appendChild(img);
-            perfilComment.appendChild(div);
-
-            linksCommentMenuDrop.appendChild(delet);
-            navLinksComment.appendChild(linksCommentMenuDrop);
-            ccommentMenuDrop.appendChild(btnCommentMenuDrop);
-            ccommentMenuDrop.appendChild(navLinksComment);
-
-            corpoComment.appendChild(nomePerf);
-            corpoComment.appendChild(p);
-
-            campo.appendChild(perfilComment);
-            campo.appendChild(ccommentMenuDrop);
-            campo.appendChild(corpoComment);
-
+            createComment(postId, postUserId, result, janelaPosition, campo);
         });
     }
 }
@@ -327,17 +260,17 @@ function commentMenuDrop(commentId, commentUser, user) {
 
 }
 
-function comment(userId, postId, postUserId, position) {
+function comment(userId, postId, postUserId, janelaPosition) {
 
-    let menssage = document.getElementsByClassName("txtTextAreaComment")[position].value.replaceAll('\n', '<br/>');
-    document.getElementsByClassName("txtTextAreaComment")[position].value = "";
-    document.getElementsByClassName("txtTextAreaComment")[position].style.height = "15px";
-    let campo = document.getElementsByClassName("area")[position];
+    let menssage = document.getElementsByClassName("txtTextAreaComment")[janelaPosition].value.replaceAll('\n', '<br/>');
+    document.getElementsByClassName("txtTextAreaComment")[janelaPosition].value = "";
+    document.getElementsByClassName("txtTextAreaComment")[janelaPosition].style.height = "15px";
+    let campo = document.getElementsByClassName("area")[janelaPosition];
     let pedidos = new XMLHttpRequest();
 
     if (menssage != "") {
 
-        document.getElementsByClassName("comment")[position].innerHTML++;
+        document.getElementsByClassName("comment")[janelaPosition].innerHTML++;
 
         pedidos.open("GET", "Controllers/create_new_comment?comment=" + menssage + "&user_id=" + userId + "&post_id=" + postId);
         pedidos.send();
@@ -348,71 +281,7 @@ function comment(userId, postId, postUserId, position) {
         results = JSON.parse(this.response);
         campo.innerHTML = "";
         results['results'].forEach((result) => {
-            let commentUserId = result['user_id'];
-            let commentId = result['id'];
-
-            let perfilComment = document.createElement("header");
-            perfilComment.setAttribute("class", "perfil_comment");
-
-            let div = document.createElement("div");
-
-            let img = document.createElement("img");
-            if (result['co_photo_url'] != null) {
-                img.src = "assets/images/" + result['co_photo_url'];
-            } else {
-                img.src = "assets/images/sem-foto.jpg";
-            }
-
-            let ccommentMenuDrop = document.createElement("div");
-            ccommentMenuDrop.setAttribute("class", "commentMenuDrop");
-
-            let btnCommentMenuDrop = document.createElement("button");
-            btnCommentMenuDrop.setAttribute("class", "btnCommentMenuDrop");
-            btnCommentMenuDrop.id = "btnCommentMenuDrop";
-            btnCommentMenuDrop.innerText = "...";
-            btnCommentMenuDrop.onclick = function () {
-                commentMenuDrop(commentId, commentUserId, userId);
-            }
-
-            let navLinksComment = document.createElement("nav");
-            navLinksComment.setAttribute("class", "navLinksComment navLinksCommentInvisible");
-            navLinksComment.id = commentId;
-
-            let linksCommentMenuDrop = document.createElement("div");
-            linksCommentMenuDrop.setAttribute("class", "linksCommentMenuDrop");
-
-            let delet = document.createElement("a");
-            delet.id = "delet";
-            delet.innerText = "Excluir";
-            delet.onclick = function () {
-                deletComment(result['id'], postId, postUserId, userId, position);
-            }
-
-            let corpoComment = document.createElement("div");
-            corpoComment.setAttribute("class", "corpo_comment");
-
-            let nomePerf = document.createElement("p");
-            nomePerf.setAttribute("class", "nomePerf");
-            nomePerf.innerText = result['co_first_name'] + " " + result['co_last_name'];
-
-            let p = document.createElement("p");
-            p.innerText = result['comment'];
-
-            div.appendChild(img);
-            perfilComment.appendChild(div);
-
-            linksCommentMenuDrop.appendChild(delet);
-            navLinksComment.appendChild(linksCommentMenuDrop);
-            ccommentMenuDrop.appendChild(btnCommentMenuDrop);
-            ccommentMenuDrop.appendChild(navLinksComment);
-
-            corpoComment.appendChild(nomePerf);
-            corpoComment.appendChild(p);
-
-            campo.appendChild(perfilComment);
-            campo.appendChild(ccommentMenuDrop);
-            campo.appendChild(corpoComment);
-
+            createComment(postId, postUserId, result, janelaPosition, campo);
         });
 
     }
@@ -908,22 +777,22 @@ btnPostMenuDrop.map((el) => {
     el.addEventListener("click", () => {
         let item = el.parentElement.children[1].firstElementChild;
 
-            if (userId == el.id) {
-                 item.classList.toggle("visivel");
-            }
+        if (userId == el.id) {
+            item.classList.toggle("visivel");
+        }
 
-            // ocultar menu se clicar fora do elemento
-            window.onclick = function (event) {
-                if (!event.target.matches('.btnPostMenuDrop')) {
-                    let elements = document.getElementsByClassName("linksPostMenuDrop");
-        
-                    for (let i = 0; i < elements.length; i++) {
-                        let aberto = elements[i];
-                        if (aberto.classList.contains("visivel")) {
-                            aberto.classList.remove("visivel");
-                        }
-                    }    
+        // ocultar menu se clicar fora do elemento
+        window.onclick = function (event) {
+            if (!event.target.matches('.btnPostMenuDrop')) {
+                let elements = document.getElementsByClassName("linksPostMenuDrop");
+
+                for (let i = 0; i < elements.length; i++) {
+                    let aberto = elements[i];
+                    if (aberto.classList.contains("visivel")) {
+                        aberto.classList.remove("visivel");
+                    }
                 }
             }
+        }
     });
 });

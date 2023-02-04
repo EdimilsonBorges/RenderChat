@@ -189,7 +189,7 @@ defined("ROOT") or die("Acesso negado");
                             <?php endif; ?>
                         </div>
                         <div class="comentarios">
-                            <p id="comment" class="comment" onclick="mostrar(<?= $i ?>)"><?= $comments ?></p><span onclick="verComment('<?= $_SESSION['user_id'] ?>','<?= $post['id'] ?>','<?= $post['user_id'] ?>',<?= $i ?>)"> Comentários</span>
+                            <p id="comment" class="comment" onclick="mostrar(<?= $i ?>)"><?= $comments ?></p><span onclick="verComment('<?= $post['id'] ?>','<?= $post['user_id'] ?>',<?= $i ?>)"> Comentários</span>
                         </div>
                         <div class="compartilhamentos">
                             <?php if ($shares > 1) : ?>
@@ -206,10 +206,10 @@ defined("ROOT") or die("Acesso negado");
                         <?php else : ?>
                             <button type="button" onclick="like('<?= $post['id'] ?>','<?= $_SESSION['user_id'] ?>', this, <?= $i ?>)">Descurtir</button>
                         <?php endif; ?>
-                        <button type="button" onclick="verComment('<?= $_SESSION['user_id'] ?>','<?= $post['id'] ?>','<?= $post['user_id'] ?>',<?= $i ?>)">Comentar</button>
+                        <button type="button" onclick="verComment('<?= $post['id'] ?>','<?= $post['user_id'] ?>',<?= $i ?>)">Comentar</button>
                         <button type="button" onclick="share('<?= $post['id'] ?>', <?= $i ?>, 'home')">Compartilhar</button>
                     </div>
-                    <div class="commentArea ocult">
+                    <div class="commentArea">
                         <div class="commentar">
                             <textarea class="txtTextAreaComment" name="" id="txtTextAreaComment" onkeyup="autoResize(this)" placeholder="Escreva um comentário"></textarea>
                             <button type="button" onclick="comment('<?= $_SESSION['user_id'] ?>','<?= $post['id'] ?>','<?= $post['user_id'] ?>', <?= $i ?>)">Enviar</button>

@@ -41,18 +41,6 @@ if (!password_verify($variables['pass'], $results['pass'])) {
 
 sucess_response("", $results);
 
-
-function aesEncriptar($valor){
-
-    return bin2hex(openssl_encrypt($valor, "aes-256-cbc", AES_KEY, OPENSSL_RAW_DATA, AES_IV));
-}
-
-function aesDesencriptar($valor){
-
-    return openssl_decrypt(hex2bin($valor), "aes-256-cbc", AES_KEY, OPENSSL_RAW_DATA, AES_IV);
-}
-
-
 function sucess_response($mensage, $results = [])
 {
     header("Content-Type:application/json");
@@ -78,3 +66,14 @@ function error_response($mensage, $results = [])
     );
     exit;
 }
+
+function aesEncriptar($valor){
+
+    return bin2hex(openssl_encrypt($valor, "aes-256-cbc", AES_KEY, OPENSSL_RAW_DATA, AES_IV));
+}
+
+function aesDesencriptar($valor){
+
+    return openssl_decrypt(hex2bin($valor), "aes-256-cbc", AES_KEY, OPENSSL_RAW_DATA, AES_IV);
+}
+

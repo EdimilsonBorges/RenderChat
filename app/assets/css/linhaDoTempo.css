@@ -656,14 +656,11 @@
 /* area de comentários =================================================================================================*/
 
 .most {
-    display: flex;
-}
-
-.ocult {
-    display: none;
+    display: flex !important;
 }
 
 .commentArea {
+    display: none;
     flex-direction: column;
     width: 100%;
     margin-bottom: 60px;
