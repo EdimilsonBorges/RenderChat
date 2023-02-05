@@ -121,29 +121,42 @@ function receberMensagemChat(msg) {
     areaMenssage.appendChild(caixaOutro);
 }
 
-function verComment(postId, postUserId, janelaPosition) {
+let btnComment = [...document.getElementsByClassName('comentarios')];
+let spanComment = [...document.getElementsByClassName('btnComment')];
 
-    let janela = document.getElementsByClassName('commentArea')[janelaPosition];
-    let campo = document.getElementsByClassName('area')[janelaPosition];
+btnComment.map((el) => {
+    commentar(el);
+});
 
-    janela.classList.toggle("most");
+spanComment.map((el) => {
+    commentar(el);
+});
 
-    let pedidos = new XMLHttpRequest();
+function commentar(el) {
+    el.addEventListener("click", () => {
+        let janela = el.parentNode.parentNode.lastElementChild;
+        let postId = el.parentNode.parentNode.id;
+        let campo = el.parentNode.parentNode.lastElementChild.lastElementChild;
+        let spanComment = el.parentNode.parentNode.children[2].children[1].firstElementChild;
 
-    pedidos.open("GET", "Controllers/get_comments?post_id=" + postId);
-    pedidos.send();
+        janela.classList.toggle("most");
 
-    pedidos.onloadend = function () {
+        let pedidos = new XMLHttpRequest();
 
-        results = JSON.parse(this.response);
-        campo.innerHTML = "";
-        results['results'].forEach((result) => {
-            createComment(postId, postUserId, result, janelaPosition, campo);
-        });
-    }
+        pedidos.open("GET", "Controllers/get_comments?post_id=" + postId);
+        pedidos.send();
+
+        pedidos.onloadend = function () {
+            results = JSON.parse(this.response);
+            campo.innerHTML = "";
+            results['results'].forEach((result) => {
+                createComment(postId, result, campo, spanComment);
+            });
+        }
+    });
 }
 
-function createComment(postId, postUserId, result, position, campo) {
+function createComment(postId, result, campo, spanComment) {
     let commentUserId = result['user_id'];
     let commentId = result['id'];
 
@@ -181,7 +194,7 @@ function createComment(postId, postUserId, result, position, campo) {
     delet.id = "delet";
     delet.innerText = "Excluir";
     delet.onclick = function () {
-        deletComment(result['id'], postId, postUserId, position);
+        deletComment(commentId, postId, campo, spanComment);
     }
 
     let corpoComment = document.createElement("div");
@@ -210,9 +223,8 @@ function createComment(postId, postUserId, result, position, campo) {
     campo.appendChild(corpoComment);
 }
 
-function deletComment(commentId, postId, postUserId, janelaPosition) {
+function deletComment(commentId, postId, campo, spanComment) {
 
-    let campo = document.getElementsByClassName("area")[janelaPosition];
     let pedidos = new XMLHttpRequest();
 
     pedidos.open("GET", "Controllers/delete_comment?id=" + commentId + "&post_id=" + postId);
@@ -221,10 +233,10 @@ function deletComment(commentId, postId, postUserId, janelaPosition) {
     pedidos.onloadend = function () {
 
         results = JSON.parse(this.response);
-        document.getElementsByClassName("comment")[janelaPosition].innerHTML--;
+        spanComment.innerHTML--;
         campo.innerHTML = "";
         results['results'].forEach((result) => {
-            createComment(postId, postUserId, result, janelaPosition, campo);
+            createComment(postId, result, campo, spanComment);
         });
     }
 }
@@ -260,32 +272,32 @@ function commentMenuDrop(commentId, commentUser, user) {
 
 }
 
-function comment(userId, postId, postUserId, janelaPosition) {
+let btnEnviarComment = [...document.getElementsByClassName("btnEnviarComment")];
+btnEnviarComment.map((el) => {
+    el.addEventListener("click", () => {
+        let menssage = el.parentNode.firstElementChild.value.replaceAll('\n', '<br/>');
+        el.parentNode.firstElementChild.value = "";
+        el.parentNode.firstElementChild.style.height = "15px";
+        let campo = el.parentNode.parentNode.lastElementChild;
+        let spanComment = el.parentNode.parentNode.parentNode.children[2].children[1].firstElementChild;
+        let postId = el.parentNode.parentNode.parentNode.id;
 
-    let menssage = document.getElementsByClassName("txtTextAreaComment")[janelaPosition].value.replaceAll('\n', '<br/>');
-    document.getElementsByClassName("txtTextAreaComment")[janelaPosition].value = "";
-    document.getElementsByClassName("txtTextAreaComment")[janelaPosition].style.height = "15px";
-    let campo = document.getElementsByClassName("area")[janelaPosition];
-    let pedidos = new XMLHttpRequest();
+        let pedidos = new XMLHttpRequest();
 
-    if (menssage != "") {
-
-        document.getElementsByClassName("comment")[janelaPosition].innerHTML++;
-
-        pedidos.open("GET", "Controllers/create_new_comment?comment=" + menssage + "&user_id=" + userId + "&post_id=" + postId);
-        pedidos.send();
-    }
-
-    pedidos.onloadend = function () {
-
-        results = JSON.parse(this.response);
-        campo.innerHTML = "";
-        results['results'].forEach((result) => {
-            createComment(postId, postUserId, result, janelaPosition, campo);
-        });
-
-    }
-}
+        if (menssage != "") {
+            spanComment.innerHTML++;
+            pedidos.open("GET", "Controllers/create_new_comment?comment=" + menssage + "&user_id=" + userId + "&post_id=" + postId);
+            pedidos.send();
+        }
+        pedidos.onloadend = function () {
+            results = JSON.parse(this.response);
+            campo.innerHTML = "";
+            results['results'].forEach((result) => {
+                createComment(postId, result, campo, spanComment);
+            });
+        }
+    });
+});
 
 function autoResize(element) {
     textArea = element;
@@ -365,7 +377,6 @@ function mostrarCurtidas(postId) {
 
     const totalLikes = document.querySelector(".totalCurtidas span");
     const campo = document.querySelector(".campoCurtidas");
-    //const imagem = document.querySelector(".campoCurtidas .perfilCurtidas img");
 
     campo.innerHTML = "";
 
@@ -570,14 +581,7 @@ function openChat(fromId, nomeCompleto, perfImg, online) {
         headerPapoPerfil.id = "cabecalhoBatePapo";
 
         headerPapoPerfil.onclick = function () {
-
             areaChat.removeChild(batePapoPerfil);
-
-            // if (batePapoPerfil.style.height == "500px") {
-            //     batePapoPerfil.style.height = "57px";
-            // } else if (batePapoPerfil.style.height < "60px") {
-            //     batePapoPerfil.style.height = "500px";
-            // }
         }
 
         let div = document.createElement('div');
