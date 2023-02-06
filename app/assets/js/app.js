@@ -121,8 +121,8 @@ function receberMensagemChat(msg) {
     areaMenssage.appendChild(caixaOutro);
 }
 
-let btnComment = [...document.getElementsByClassName('comentarios')];
-let spanComment = [...document.getElementsByClassName('btnComment')];
+let spanComment = [...document.getElementsByClassName('comentarios')];
+let btnComment = [...document.getElementsByClassName('btnComment')];
 
 btnComment.map((el) => {
     commentar(el);
@@ -135,7 +135,7 @@ spanComment.map((el) => {
 function commentar(el) {
     el.addEventListener("click", () => {
         let janela = el.parentNode.parentNode.lastElementChild;
-        let postId = el.parentNode.parentNode.id;
+        let postId = el.parentNode.parentNode.dataset.postid;
         let campo = el.parentNode.parentNode.lastElementChild.lastElementChild;
         let spanComment = el.parentNode.parentNode.children[2].children[1].firstElementChild;
 
@@ -281,7 +281,7 @@ btnEnviarComment.map((el) => {
         el.parentNode.firstElementChild.style.height = "15px";
         let campo = el.parentNode.parentNode.lastElementChild;
         let spanComment = el.parentNode.parentNode.parentNode.children[2].children[1].firstElementChild;
-        let postId = el.parentNode.parentNode.parentNode.id;
+        let postId = el.parentNode.parentNode.parentNode.dataset.postid;
 
         let pedidos = new XMLHttpRequest();
 
@@ -441,30 +441,6 @@ function postModal(pagina) {
     document.querySelector("#postForm button").innerHTML = "Publicar";
     document.querySelector("#postForm").action = "Controllers/postar.php";
     document.getElementById("rpost").value = pagina;
-
-    janela.classList.remove("esconderPostModal");
-    janela.classList.add("mostrarPostModal");
-
-    btnFechar.onclick = function () {
-        document.querySelector("#postForm textarea").value = "";
-        janela.classList.remove("mostrarPostModal");
-        janela.classList.add("esconderPostModal");
-    }
-}
-
-function editModal(postId, postPosition) {
-
-    const janela = document.getElementById("areaPostModal");
-    const btnFechar = document.getElementById("btnFecharPostModal");
-    const post = document.getElementsByClassName('post')[postPosition];
-
-    document.querySelector('.postModal .cabecalhoPostModal h4').innerText = "Editar publicação";
-    document.querySelector("#postForm button").innerHTML = "Salvar";
-    document.querySelector("#postForm").action = "Controllers/postUpdate.php";
-
-    document.getElementById("postId").value = postId;
-
-    document.querySelector("#postForm textarea").value = post.innerText;
 
     janela.classList.remove("esconderPostModal");
     janela.classList.add("mostrarPostModal");
@@ -711,7 +687,7 @@ function showHint(str) {
     }
 }
 
- // compartilhar publicação
+// compartilhar publicação
 function share(post_id, position, pagina) {
 
     const post = document.getElementById('conteudoPost');
@@ -776,8 +752,9 @@ let btnPostMenuDrop = [...document.getElementsByClassName("btnPostMenuDrop")];
 btnPostMenuDrop.map((el) => {
     el.addEventListener("click", () => {
         let item = el.parentElement.children[1].firstElementChild;
+        let postUserId = el.parentElement.parentElement.dataset.postuserid;
 
-        if (userId == el.id) {
+        if (userId == postUserId) {
             item.classList.toggle("visivel");
         }
 
@@ -793,6 +770,36 @@ btnPostMenuDrop.map((el) => {
                     }
                 }
             }
+        }
+    });
+});
+
+// editar publicação
+const linksPostMenuDrop = [...document.getElementsByClassName("linksPostMenuDrop")];
+linksPostMenuDrop.map((el) => {
+    let edit = el.firstElementChild;
+
+    // editar publicação
+    edit.addEventListener("click", () => {
+
+        const janela = document.getElementById("areaPostModal");
+        const btnFecharPostModal = document.getElementById("btnFecharPostModal");
+        const post = el.parentElement.parentElement.parentElement.children[1].lastElementChild.firstElementChild;
+        const postId = el.parentElement.parentElement.parentElement.dataset.postid;
+
+        document.querySelector('.postModal .cabecalhoPostModal h4').innerText = "Editar publicação";
+        document.querySelector("#postForm button").innerHTML = "Salvar";
+        document.querySelector("#postForm").action = "Controllers/postUpdate.php";
+        document.getElementById("postId").value = postId;
+        document.querySelector("#postForm textarea").value = post.innerText;
+
+        janela.classList.remove("esconderPostModal");
+        janela.classList.add("mostrarPostModal");
+
+        btnFecharPostModal.onclick = function () {
+            document.querySelector("#postForm textarea").value = "";
+            janela.classList.remove("mostrarPostModal");
+            janela.classList.add("esconderPostModal");
         }
     });
 });

@@ -74,7 +74,7 @@ defined("ROOT") or die("Acesso negado");
 
                 $intervalo_post = $time_post->diff($agora);
             ?>
-                <section class="publication" id = <?= $post['id'] ?>>
+                <section class="publication" data-postid=<?= $post['id'] ?> data-postuserid=<?= $post['user_id'] ?>>
                     <?php
                     if (!empty($post['sh_user_id'])) : ?>
                         <header class="perfilshare">
@@ -99,7 +99,7 @@ defined("ROOT") or die("Acesso negado");
                                 <?php else : ?>
                                     <img src="assets/images/sem-foto.jpg" alt="">
                                 <?php endif;
-                                if ($likes <= 1) : ?>
+                                if ($likes <= 1) : ?>l
                                     <p><?php echo ($post['lik_first_name'] . " " . $post['lik_last_name']) ?> curtiu isso!</p>
                                 <?php else : ?>
                                     <p><?php echo ($post['lik_first_name'] . " " . $post['lik_last_name']) ?> e outras <?= $likes - 1 ?> pessoas curtiu isso!</p>
@@ -111,10 +111,10 @@ defined("ROOT") or die("Acesso negado");
                     endif;
                     ?>
                     <div class="postMenuDrop">
-                        <button id="<?= $post['user_id'] ?>" class="btnPostMenuDrop">...</button>
+                        <button class="btnPostMenuDrop">...</button>
                         <nav class="navLinks">
                             <div class="linksPostMenuDrop">
-                                <a onclick="editModal('<?= $post['id'] ?>', <?= $i ?>, 'home')">Editar</a>
+                                <a>Editar</a>
                                 <a href="Controllers/delete_post.php?id=<?= $post['id'] ?>&r=home">Excluir</a>
                             </div>
                         </nav>

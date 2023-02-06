@@ -108,7 +108,7 @@ defined("ROOT") or die("Acesso negado");
 
                 $intervalo_post = $time_post->diff($agora);
             ?>
-                <section class="publication" id = <?= $post['id'] ?>>
+                <section class="publication" data-postid = <?= $post['id'] ?> data-postuserid=<?= $post['user_id'] ?>>
                     <?php
                     if (!empty($post['sh_user_id'])) : ?>
                         <header class="perfilshare">
@@ -145,10 +145,10 @@ defined("ROOT") or die("Acesso negado");
                     endif;
                     ?>
                     <div class="postMenuDrop">
-                        <button id="<?= $post['user_id'] ?>" class="btnPostMenuDrop">...</button>
+                        <button class="btnPostMenuDrop">...</button>
                         <nav class="navLinks">
                             <div class="linksPostMenuDrop">
-                                <a onclick="editModal('<?= $post['id'] ?>', <?= $i ?>, 'perfil')">Editar</a>
+                                <a>Editar</a>
                                 <a href="Controllers/delete_post.php?id=<?= $post['id'] ?>&r=perfil">Excluir</a>
                             </div>
                         </nav>
