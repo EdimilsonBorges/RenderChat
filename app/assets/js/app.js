@@ -309,129 +309,6 @@ function autoResize(element) {
     });
 }
 
-function mostrarCompartilhamentos(postId) {
-    const janela = document.getElementById("arealinksComp");
-    const btnFechar = document.getElementById("btnFecharComp");
-
-    const totalShares = document.querySelector(".totalComp span");
-    const campo = document.querySelector(".campoComp");
-    const imagem = document.querySelector(".campoComp .perfilComp img");
-
-    campo.innerHTML = "";
-
-    let pedidos = new XMLHttpRequest();
-
-    pedidos.open("GET", "Controllers/get_all_shares/index.php?post_id=" + postId);
-    pedidos.send();
-
-    janela.classList.remove("esconderPostModal");
-    janela.classList.add("mostrarPostModal");
-
-    pedidos.onloadend = function () {
-
-        shares = JSON.parse(this.response);
-
-        totalShares.innerText = shares['results'].length;
-
-        shares['results'].forEach((share) => {
-
-            let perfilComp = document.createElement("div");
-            perfilComp.setAttribute("class", "perfilComp");
-
-            let img = document.createElement("img");
-
-            if (share['photo_url'] != null) {
-                img.src = "assets/images/" + share['photo_url'];
-            } else {
-                img.src = "assets/images/sem-foto.jpg";
-            }
-
-            let h5 = document.createElement("h5");
-            h5.innerText = share['first_name'] + " " + share['last_name'];
-
-            let btnAdicionar = document.createElement("button");
-            btnAdicionar.type = "button";
-            btnAdicionar.innerText = "Adicionar";
-
-            let hr = document.createElement("hr");
-
-            perfilComp.appendChild(img);
-            perfilComp.appendChild(h5);
-            perfilComp.appendChild(btnAdicionar);
-
-            campo.appendChild(perfilComp);
-            campo.appendChild(hr);
-        });
-    }
-
-    btnFechar.onclick = function () {
-        campo.innerHTML = "";
-        janela.classList.remove("mostrarPostModal");
-        janela.classList.add("esconderPostModal");
-    }
-}
-
-function mostrarCurtidas(postId) {
-
-    const janela = document.getElementById("arealinksCurtidas");
-    const btnFechar = document.getElementById("btnFecharCurtidas");
-
-    const totalLikes = document.querySelector(".totalCurtidas span");
-    const campo = document.querySelector(".campoCurtidas");
-
-    campo.innerHTML = "";
-
-    let pedidos = new XMLHttpRequest();
-
-    pedidos.open("GET", "Controllers/get_all_likes/index.php?post_id=" + postId);
-    pedidos.send();
-
-    janela.classList.remove("esconderPostModal");
-    janela.classList.add("mostrarPostModal");
-
-    pedidos.onloadend = function () {
-
-        likes = JSON.parse(this.response);
-
-        totalLikes.innerText = likes['results'].length;
-
-        likes['results'].forEach((like) => {
-
-            let perfilCurtidas = document.createElement("div");
-            perfilCurtidas.setAttribute("class", "perfilCurtidas");
-
-            let img = document.createElement("img");
-
-            if (like['photo_url'] != null) {
-                img.src = "assets/images/" + like['photo_url'];
-            } else {
-                img.src = "assets/images/sem-foto.jpg";
-            }
-
-            let h5 = document.createElement("h5");
-            h5.innerText = like['first_name'] + " " + like['last_name'];
-
-            let btnAdicionar = document.createElement("button");
-            btnAdicionar.type = "button";
-            btnAdicionar.innerText = "Adicionar";
-
-            let hr = document.createElement("hr");
-
-            perfilCurtidas.appendChild(img);
-            perfilCurtidas.appendChild(h5);
-            perfilCurtidas.appendChild(btnAdicionar);
-
-            campo.appendChild(perfilCurtidas);
-            campo.appendChild(hr);
-        });
-    }
-
-    btnFechar.onclick = function () {
-        campo.innerHTML = "";
-        janela.classList.remove("mostrarPostModal");
-        janela.classList.add("esconderPostModal");
-    }
-}
 function postModal(pagina) {
 
     const janela = document.getElementById("areaPostModal");
@@ -746,7 +623,7 @@ if (btnPublicarHome != null) {
     });
 }
 
-// exibir o Drop menu do post
+// exibir e ocultar o Drop menu do post
 let btnPostMenuDrop = [...document.getElementsByClassName("btnPostMenuDrop")];
 
 btnPostMenuDrop.map((el) => {
@@ -778,8 +655,6 @@ btnPostMenuDrop.map((el) => {
 const linksPostMenuDrop = [...document.getElementsByClassName("linksPostMenuDrop")];
 linksPostMenuDrop.map((el) => {
     let edit = el.firstElementChild;
-
-    // editar publicação
     edit.addEventListener("click", () => {
 
         const janela = document.getElementById("areaPostModal");
@@ -798,6 +673,143 @@ linksPostMenuDrop.map((el) => {
 
         btnFecharPostModal.onclick = function () {
             document.querySelector("#postForm textarea").value = "";
+            janela.classList.remove("mostrarPostModal");
+            janela.classList.add("esconderPostModal");
+        }
+    });
+});
+
+// mostrar curtidas
+const likesViews = [...document.getElementsByClassName("curtidas")];
+likesViews.map((el) => {
+
+    el.addEventListener("click", (e) => {
+        const postId = el.parentElement.parentElement.dataset.postid;
+
+        const janela = document.getElementById("arealinksCurtidas");
+        const btnFechar = document.getElementById("btnFecharCurtidas");
+
+        const totalLikes = document.querySelector(".totalCurtidas span");
+        const campo = document.querySelector(".campoCurtidas");
+
+        campo.innerHTML = "";
+
+        let pedidos = new XMLHttpRequest();
+
+        pedidos.open("GET", "Controllers/get_all_likes/index.php?post_id=" + postId);
+        pedidos.send();
+
+        janela.classList.remove("esconderPostModal");
+        janela.classList.add("mostrarPostModal");
+
+        pedidos.onloadend = function () {
+
+            likes = JSON.parse(this.response);
+
+            totalLikes.innerText = likes['results'].length;
+
+            likes['results'].forEach((like) => {
+
+                let perfilCurtidas = document.createElement("div");
+                perfilCurtidas.setAttribute("class", "perfilCurtidas");
+
+                let img = document.createElement("img");
+
+                if (like['photo_url'] != null) {
+                    img.src = "assets/images/" + like['photo_url'];
+                } else {
+                    img.src = "assets/images/sem-foto.jpg";
+                }
+
+                let h5 = document.createElement("h5");
+                h5.innerText = like['first_name'] + " " + like['last_name'];
+
+                let btnAdicionar = document.createElement("button");
+                btnAdicionar.type = "button";
+                btnAdicionar.innerText = "Adicionar";
+
+                let hr = document.createElement("hr");
+
+                perfilCurtidas.appendChild(img);
+                perfilCurtidas.appendChild(h5);
+                perfilCurtidas.appendChild(btnAdicionar);
+
+                campo.appendChild(perfilCurtidas);
+                campo.appendChild(hr);
+            });
+        }
+
+        btnFechar.onclick = function () {
+            campo.innerHTML = "";
+            janela.classList.remove("mostrarPostModal");
+            janela.classList.add("esconderPostModal");
+        }
+    });
+});
+
+// mostar compartilhamentos
+const compartView = [...document.getElementsByClassName("compartilhamentos")];
+compartView.map((el) => {
+
+    el.addEventListener("click", (e) => {
+        const postId = el.parentElement.parentElement.dataset.postid;
+
+        const janela = document.getElementById("arealinksComp");
+        const btnFechar = document.getElementById("btnFecharComp");
+
+        const totalShares = document.querySelector(".totalComp span");
+        const campo = document.querySelector(".campoComp");
+        const imagem = document.querySelector(".campoComp .perfilComp img");
+
+        campo.innerHTML = "";
+
+        let pedidos = new XMLHttpRequest();
+
+        pedidos.open("GET", "Controllers/get_all_shares/index.php?post_id=" + postId);
+        pedidos.send();
+
+        janela.classList.remove("esconderPostModal");
+        janela.classList.add("mostrarPostModal");
+
+        pedidos.onloadend = function () {
+
+            shares = JSON.parse(this.response);
+
+            totalShares.innerText = shares['results'].length;
+
+            shares['results'].forEach((share) => {
+
+                let perfilComp = document.createElement("div");
+                perfilComp.setAttribute("class", "perfilComp");
+
+                let img = document.createElement("img");
+
+                if (share['photo_url'] != null) {
+                    img.src = "assets/images/" + share['photo_url'];
+                } else {
+                    img.src = "assets/images/sem-foto.jpg";
+                }
+
+                let h5 = document.createElement("h5");
+                h5.innerText = share['first_name'] + " " + share['last_name'];
+
+                let btnAdicionar = document.createElement("button");
+                btnAdicionar.type = "button";
+                btnAdicionar.innerText = "Adicionar";
+
+                let hr = document.createElement("hr");
+
+                perfilComp.appendChild(img);
+                perfilComp.appendChild(h5);
+                perfilComp.appendChild(btnAdicionar);
+
+                campo.appendChild(perfilComp);
+                campo.appendChild(hr);
+            });
+        }
+
+        btnFechar.onclick = function () {
+            campo.innerHTML = "";
             janela.classList.remove("mostrarPostModal");
             janela.classList.add("esconderPostModal");
         }

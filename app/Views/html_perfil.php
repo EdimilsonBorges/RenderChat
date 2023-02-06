@@ -216,9 +216,9 @@ defined("ROOT") or die("Acesso negado");
                     <div class="curtidas-comentarios">
                         <div class="curtidas">
                             <?php if ($likes > 1) : ?>
-                                <p class="like" onclick="mostrarCurtidas('<?= $post['id'] ?>')"> <?= $likes ?></p><span onclick="mostrarCurtidas('<?= $post['id'] ?>')"> Curtidas</span>
+                                <p class="like"> <?= $likes ?></p><span> Curtidas</span>
                             <?php else : ?>
-                                <p class="like" onclick="mostrarCurtidas('<?= $post['id'] ?>')"> <?= $likes ?></p><span onclick="mostrarCurtidas('<?= $post['id'] ?>')"> Curtida</span>
+                                <p class="like"> <?= $likes ?></p><span> Curtida</span>
                             <?php endif; ?>
                         </div>
                         <div class="comentarios">
@@ -226,9 +226,9 @@ defined("ROOT") or die("Acesso negado");
                         </div>
                         <div class="compartilhamentos">
                             <?php if ($shares > 1) : ?>
-                                <p class="share" onclick="mostrarCompartilhamentos('<?= $post['id'] ?>')"><?= $shares ?></p><span onclick="mostrarCompartilhamentos('<?= $post['id'] ?>')"> Compartilhamentos</span>
+                                <p class="share"><?= $shares ?></p><span> Compartilhamentos</span>
                             <?php else : ?>
-                                <p class="share" onclick="mostrarCompartilhamentos('<?= $post['id'] ?>')"><?= $shares ?></p><span onclick="mostrarCompartilhamentos('<?= $post['id'] ?>')"> Compartilhamento</span>
+                                <p class="share"><?= $shares ?></p><span> Compartilhamento</span>
                             <?php endif; ?>
                         </div>
                     </div>
