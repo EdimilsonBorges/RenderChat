@@ -111,7 +111,7 @@ defined("ROOT") or die("Acesso negado");
                     endif;
                     ?>
                     <div class="postMenuDrop">
-                        <button class="btnPostMenuDrop">...</button>
+                        <button id="<?= $post['user_id'] ?>" class="btnPostMenuDrop">...</button>
                         <nav class="navLinks">
                             <div class="linksPostMenuDrop">
                                 <a onclick="editModal('<?= $post['id'] ?>', <?= $i ?>, 'home')">Editar</a>

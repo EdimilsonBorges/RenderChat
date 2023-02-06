@@ -256,6 +256,7 @@ function commentMenuDrop(commentId, commentUser, user) {
         }
     }
 
+    // ocultar menu se clicar fora do elemento
     window.onclick = function (event) {
         if (!event.target.matches('.btnCommentMenuDrop')) {
 
@@ -655,16 +656,11 @@ function openChat(fromId, nomeCompleto, perfImg, online) {
 
         pedidos.onloadend = function () {
 
-            let indexMesseger = 0;
-
             results = JSON.parse(this.response);
             results['results'].forEach((result) => {
 
-
-
                 if (userId == fromId && result['user_id'] == result['to_user_id']) {
                     // eu enviei para mim mesmo
-                    indexMesseger++;
                     let msg = { // cria um objeto msg
                         'userId': userId,
                         'fromId': fromId,
@@ -676,7 +672,6 @@ function openChat(fromId, nomeCompleto, perfImg, online) {
 
                 if (userId != fromId && userId == result['user_id'] && result['user_id'] != result['to_user_id'] && fromId == result['to_user_id']) {
                     // eu enviei para outra pessoa
-                    indexMesseger++;
                     let msg = { // cria um objeto msg
                         'userId': userId,
                         'fromId': fromId,
@@ -687,7 +682,6 @@ function openChat(fromId, nomeCompleto, perfImg, online) {
                 }
                 if (userId != fromId && result['user_id'] != result['to_user_id'] && fromId == result['user_id']) {
                     // eu recebi de outra pessoa
-                    indexMesseger++;
                     let msg = { // cria um objeto msg
                         'userId': fromId,
                         'fromId': userId,
@@ -717,7 +711,8 @@ function showHint(str) {
     }
 }
 
-function share(post_id, position, pagina) { // compartilhar publicação
+ // compartilhar publicação
+function share(post_id, position, pagina) {
 
     const post = document.getElementById('conteudoPost');
     const publication = document.getElementsByClassName('publicationPost')[position];
@@ -741,7 +736,8 @@ function share(post_id, position, pagina) { // compartilhar publicação
     }
 }
 
-function like(post_id, userId, element, elementLikesPosition) { // curtir ou descurtir publicação
+// curtir ou descurtir publicação
+function like(post_id, userId, element, elementLikesPosition) {
 
     let elementLikes = document.getElementsByClassName('like')[elementLikesPosition];
 
