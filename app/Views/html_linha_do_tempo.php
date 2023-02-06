@@ -188,7 +188,7 @@ defined("ROOT") or die("Acesso negado");
                             <?php endif; ?>
                         </div>
                         <div class="comentarios">
-                            <p class="spanComment" onclick="mostrar(<?= $i ?>)"><?= $comments ?></p><span> Comentários</span>
+                            <p class="spanComment"><?= $comments ?></p><span> Comentários</span>
                         </div>
                         <div class="compartilhamentos">
                             <?php if ($shares > 1) : ?>
