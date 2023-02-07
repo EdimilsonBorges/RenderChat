@@ -564,51 +564,6 @@ function showHint(str) {
     }
 }
 
-// compartilhar publicação
-function share(post_id, position, pagina) {
-
-    const post = document.getElementById('conteudoPost');
-    const publication = document.getElementsByClassName('publicationPost')[position];
-    document.getElementsByClassName('textAreaCompartModal')[0].value = "";
-    const janela = document.getElementById("areaCompartModal");
-    const postIdCompart = document.getElementById("postIdCompart");
-    const btnFechar = document.getElementById("btnFecharCompartModal");
-    document.getElementById("rshare").value = pagina;
-
-    postIdCompart.value = post_id;
-
-    post.innerHTML = publication.innerHTML;
-
-    janela.classList.remove("esconderPostModal");
-    janela.classList.add("mostrarPostModal");
-
-    btnFechar.onclick = function () {
-        document.getElementsByClassName('textAreaCompartModal')[0].value = "";
-        janela.classList.remove("mostrarPostModal");
-        janela.classList.add("esconderPostModal");
-    }
-}
-
-// curtir ou descurtir publicação
-function like(post_id, userId, element, elementLikesPosition) {
-
-    let elementLikes = document.getElementsByClassName('like')[elementLikesPosition];
-
-    let pedido = new XMLHttpRequest();
-
-    pedido.open("GET", "Controllers/curtir_descurtir.php?user_id=" + userId + "&post_id=" + post_id, true);
-    pedido.send();
-
-    pedido.onload = function () {
-        if (element.innerHTML == "Curtir") {
-            elementLikes.innerHTML++
-        } else if (element.innerHTML == "Descurtir") {
-            elementLikes.innerHTML--
-        }
-        element.innerHTML = this.responseText;
-    }
-}
-
 // Publicar um Post (Página Home)
 let btnPublicarHome = document.getElementById("btnPublicarHome");
 if (btnPublicarHome != null) {
@@ -810,6 +765,62 @@ compartView.map((el) => {
 
         btnFechar.onclick = function () {
             campo.innerHTML = "";
+            janela.classList.remove("mostrarPostModal");
+            janela.classList.add("esconderPostModal");
+        }
+    });
+});
+
+// curtir ou descurtir publicação
+const btnPublication = [...document.getElementsByClassName("botoes-publication")];
+
+btnPublication.map((el) => {
+    const btnLike = el.firstElementChild;
+
+    // curtir ou descurtir publicação
+    btnLike.addEventListener("click", (e) => {
+
+        const postId = el.parentElement.dataset.postid;
+        const btnLike = el.firstElementChild;
+        const elementLikes = el.parentElement.children[3].firstElementChild.firstElementChild;
+
+        let pedido = new XMLHttpRequest();
+
+        pedido.open("GET", "Controllers/curtir_descurtir.php?user_id=" + userId + "&post_id=" + postId, true);
+        pedido.send();
+
+        pedido.onload = function () {
+            if (btnLike.innerHTML == "Curtir") {
+                elementLikes.innerHTML++
+            } else if (btnLike.innerHTML == "Descurtir") {
+                elementLikes.innerHTML--
+            }
+            btnLike.innerHTML = this.responseText;
+        }
+    });
+
+    const btnShare = el.lastElementChild;
+
+    // compartilhar publicação
+    btnShare.addEventListener("click", (e) => {
+       
+        const postId = el.parentElement.dataset.postid;
+        const post = document.getElementById('conteudoPost');
+        const publication = el.parentElement.children[2];
+
+        document.getElementsByClassName('textAreaCompartModal')[0].value = "";
+        const janela = document.getElementById("areaCompartModal");
+        const postIdCompart = document.getElementById("postIdCompart");
+        const btnFechar = document.getElementById("btnFecharCompartModal");
+        document.getElementById("rshare").value = "home";
+
+        postIdCompart.value = postId;
+        post.innerHTML = publication.innerHTML;
+        janela.classList.remove("esconderPostModal");
+        janela.classList.add("mostrarPostModal");
+
+        btnFechar.onclick = function () {
+            document.getElementsByClassName('textAreaCompartModal')[0].value = "";
             janela.classList.remove("mostrarPostModal");
             janela.classList.add("esconderPostModal");
         }

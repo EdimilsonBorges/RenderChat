@@ -235,12 +235,12 @@ defined("ROOT") or die("Acesso negado");
                     <hr>
                     <div class="botoes-publication">
                         <?php if (empty($post['li_post_id'])) : ?>
-                            <button type="button" onclick="like('<?= $post['id'] ?>','<?= $_SESSION['user_id'] ?>', this, <?= $i ?>)">Curtir</button>
+                            <button type="button">Curtir</button>
                         <?php else : ?>
-                            <button type="button" onclick="like('<?= $post['id'] ?>','<?= $_SESSION['user_id'] ?>', this, <?= $i ?>)">Descurtir</button>
+                            <button type="button">Descurtir</button>
                         <?php endif; ?>
                         <button class="btnComment" type="button">Comentar</button>
-                        <button type="button" onclick="share('<?= $post['id'] ?>', <?= $i ?>, 'perfil')">Compartilhar</button>
+                        <button type="button">Compartilhar</button>
                     </div>
                     <div class="commentArea">
                         <div class="commentar">
