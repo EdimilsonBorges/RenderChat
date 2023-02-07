@@ -40,7 +40,7 @@ function enviarMessageChat(event, userId, fromId) {
 
     if ((event.keyCode == 13) || (event.keyCode == null)) {
 
-        let chatMessage = document.getElementById("chat" + fromId);
+        let chatMessage = document.getElementById(`chat ${fromId}`);
 
         if (chatMessage.value != "") {
 
@@ -54,7 +54,7 @@ function enviarMessageChat(event, userId, fromId) {
 
             let pedidos = new XMLHttpRequest();
 
-            pedidos.open("GET", "Controllers/create_new_messager_chat?messeger=" + chatMessage.value + "&user_id=" + userId + "&to_user_id=" + fromId);
+            pedidos.open("GET", `Controllers/create_new_messager_chat?messeger=${chatMessage.value}&user_id=${userId}&to_user_id=${fromId}`);
             pedidos.send();
 
             chatMessage.value = "";
@@ -143,7 +143,7 @@ function commentar(el) {
 
         let pedidos = new XMLHttpRequest();
 
-        pedidos.open("GET", "Controllers/get_comments?post_id=" + postId);
+        pedidos.open("GET", `Controllers/get_comments?post_id=${postId}`);
         pedidos.send();
 
         pedidos.onloadend = function () {
@@ -167,7 +167,7 @@ function createComment(postId, result, campo, spanComment) {
 
     let img = document.createElement("img");
     if (result['co_photo_url'] != null) {
-        img.src = "assets/images/" + result['co_photo_url'];
+        img.src = `assets/images/${result['co_photo_url']}`;
     } else {
         img.src = "assets/images/sem-foto.jpg";
     }
@@ -202,7 +202,7 @@ function createComment(postId, result, campo, spanComment) {
 
     let nomePerf = document.createElement("p");
     nomePerf.setAttribute("class", "nomePerf");
-    nomePerf.innerText = result['co_first_name'] + " " + result['co_last_name'];
+    nomePerf.innerText = `${result['co_first_name']} ${result['co_last_name']}`;
 
     let p = document.createElement("p");
     p.innerHTML = result['comment'];
@@ -227,7 +227,7 @@ function deletComment(commentId, postId, campo, spanComment) {
 
     let pedidos = new XMLHttpRequest();
 
-    pedidos.open("GET", "Controllers/delete_comment?id=" + commentId + "&post_id=" + postId);
+    pedidos.open("GET", `Controllers/delete_comment?id=${commentId}&post_id=${postId}`);
     pedidos.send();
 
     pedidos.onloadend = function () {
@@ -287,7 +287,7 @@ btnEnviarComment.map((el) => {
 
         if (menssage != "") {
             spanComment.innerHTML++;
-            pedidos.open("GET", "Controllers/create_new_comment?comment=" + menssage + "&user_id=" + userId + "&post_id=" + postId);
+            pedidos.open("GET", `Controllers/create_new_comment?comment=${menssage}&user_id=${userId}&post_id=${postId}`);
             pedidos.send();
         }
         pedidos.onloadend = function () {
@@ -359,7 +359,7 @@ function carregarUserChat() {
         conversaBatePapo.innerHTML = "";
 
         results['results'].forEach((result) => {
-            let nomeCompleto = result['first_name'] + " " + result['last_name'];
+            let nomeCompleto = `${result['first_name']} ${result['last_name']}`;
             let itemChat = document.createElement("section");
             itemChat.setAttribute("class", "itemChat");
             itemChat.onclick = function () {
@@ -375,7 +375,7 @@ function carregarUserChat() {
 
             let imgPerfil = document.createElement("img");
             if (result['photo_url'] != null) {
-                imgPerfil.src = "assets/images/" + result['photo_url'];
+                imgPerfil.src = `assets/images/${result['photo_url']}`;
             } else {
                 imgPerfil.src = "assets/images/sem-foto.jpg";
             }
@@ -395,8 +395,8 @@ function carregarUserChat() {
             nome.innerText = nomeCompleto;
 
             let historico = document.createElement("p");
-            historico.id = "his" + result['id'];
-            historico.innerText = "his" + result['id'];
+            historico.id = `his${result['id']}`;
+            historico.innerText = `his${result['id']}`;
 
             let hr = document.createElement("hr");
 
@@ -442,7 +442,7 @@ function openChat(fromId, nomeCompleto, perfImg, online) {
 
         let img = document.createElement('img');
         if (perfImg != null) {
-            img.src = "assets/images/" + perfImg;
+            img.src = `assets/images/${perfImg}`;
         } else {
             img.src = "assets/images/sem-foto.jpg";
         }
@@ -480,7 +480,7 @@ function openChat(fromId, nomeCompleto, perfImg, online) {
 
         let input = document.createElement("input");
         input.setAttribute("class", "chatMessage");
-        input.id = "chat" + fromId;
+        input.id = `chat${fromId}`;
         input.type = "text";
         input.onkeydown = function (event) {
             enviarMessageChat(event, userId, fromId);
@@ -489,7 +489,7 @@ function openChat(fromId, nomeCompleto, perfImg, online) {
         let btnchat = document.createElement("button");
         btnchat.setAttribute("class", "btnChat");
         btnchat.type = "button";
-        btnchat.id = "btnChat" + userId;
+        btnchat.id = `btnChat${userId}`;
         btnchat.innerText = "Enviar";
         btnchat.onclick = function (event) {
             enviarMessageChat(event, userId, fromId);
@@ -504,7 +504,7 @@ function openChat(fromId, nomeCompleto, perfImg, online) {
         areaChat.appendChild(batePapoPerfil);
 
         let pedidos = new XMLHttpRequest();
-        pedidos.open("GET", "Controllers/get_messager_chat?user_id=" + userId + "&to_user_id=" + fromId, true);
+        pedidos.open("GET", `Controllers/get_messager_chat?user_id=${userId}&to_user_id=${fromId}`, true);
         pedidos.send();
 
         pedidos.onloadend = function () {
@@ -543,7 +543,6 @@ function openChat(fromId, nomeCompleto, perfImg, online) {
                     msg = JSON.stringify(msg); //converte para json
                     showChatMessage(msg, "other");
                 }
-                document.getElementById(userId + fromId).scrollIntoView({ block: "end" });
             });
         }
     }
@@ -559,7 +558,7 @@ function showHint(str) {
         xmlhttp.onload = function () {
             document.getElementById("txtHint").innerHTML = this.responseText;
         }
-        xmlhttp.open("GET", "../api/pesq_users/index.php?q=" + str, true);
+        xmlhttp.open("GET", `../api/pesq_users/index.php?q=${str}`, true);
         xmlhttp.send();
     }
 }
@@ -651,7 +650,7 @@ likesViews.map((el) => {
 
         let pedidos = new XMLHttpRequest();
 
-        pedidos.open("GET", "Controllers/get_all_likes/index.php?post_id=" + postId);
+        pedidos.open("GET", `Controllers/get_all_likes/index.php?post_id=${postId}`);
         pedidos.send();
 
         janela.classList.remove("esconderPostModal");
@@ -671,13 +670,13 @@ likesViews.map((el) => {
                 let img = document.createElement("img");
 
                 if (like['photo_url'] != null) {
-                    img.src = "assets/images/" + like['photo_url'];
+                    img.src = `assets/images/${like['photo_url']}`;
                 } else {
                     img.src = "assets/images/sem-foto.jpg";
                 }
 
                 let h5 = document.createElement("h5");
-                h5.innerText = like['first_name'] + " " + like['last_name'];
+                h5.innerText = `${like['first_name']} ${like['last_name']}`;
 
                 let btnAdicionar = document.createElement("button");
                 btnAdicionar.type = "button";
@@ -720,7 +719,7 @@ compartView.map((el) => {
 
         let pedidos = new XMLHttpRequest();
 
-        pedidos.open("GET", "Controllers/get_all_shares/index.php?post_id=" + postId);
+        pedidos.open("GET", `Controllers/get_all_shares/index.php?post_id=${postId}`);
         pedidos.send();
 
         janela.classList.remove("esconderPostModal");
@@ -740,13 +739,13 @@ compartView.map((el) => {
                 let img = document.createElement("img");
 
                 if (share['photo_url'] != null) {
-                    img.src = "assets/images/" + share['photo_url'];
+                    img.src = `assets/images/${share['photo_url']}`;
                 } else {
                     img.src = "assets/images/sem-foto.jpg";
                 }
 
                 let h5 = document.createElement("h5");
-                h5.innerText = share['first_name'] + " " + share['last_name'];
+                h5.innerText = `${share['first_name']} ${share['last_name']}`;
 
                 let btnAdicionar = document.createElement("button");
                 btnAdicionar.type = "button";
@@ -786,7 +785,7 @@ btnPublication.map((el) => {
 
         let pedido = new XMLHttpRequest();
 
-        pedido.open("GET", "Controllers/curtir_descurtir.php?user_id=" + userId + "&post_id=" + postId, true);
+        pedido.open("GET", `Controllers/curtir_descurtir.php?user_id=${userId}&post_id=${postId}`, true);
         pedido.send();
 
         pedido.onload = function () {
