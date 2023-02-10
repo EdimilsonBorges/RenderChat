@@ -1,4 +1,14 @@
 /* Área principal ==================================================================================*/
+body{
+--borda-janelas:rgb(192, 191, 191);
+--background-janelas:#fff;
+
+--borda-publicar:#000;
+--texto-publicar:#444;
+--background-hover-publicar:#eee;
+--links-background-publicar:aqua;
+--links-background-publicar-hover:#00f;
+}
 
 .container-corpo {
     width: 100%;
@@ -17,8 +27,8 @@
 }
 
 .posts section {
-    border: 1px solid rgb(192, 191, 191);
-    background-color: #fff;
+    border: 1px solid var(--borda-janelas);
+    background-color: var(--background-janelas);
     border-radius: 15px;
     margin-top: 15px;
     margin-bottom: 15px;
@@ -31,8 +41,8 @@
 }
 
 .esquerda section {
-    border: 1px solid rgb(192, 191, 191);
-    background-color: #fff;
+    border: 1px solid var(--borda-janelas);
+    background-color: var(--background-janelas);
     border-radius: 15px;
     padding: 5%;
     margin-top: 15px;
@@ -46,8 +56,8 @@
 }
 
 .direita section {
-    border: 1px solid rgb(192, 191, 191);
-    background-color: #fff;
+    border: 1px solid var(--borda-janelas);
+    background-color: var(--background-janelas);
     border-radius: 15px;
     padding: 5%;
     margin-bottom: 15px;
@@ -78,17 +88,17 @@
     height: 40px;
     width: 100%;
     border-radius: 20px;
-    border: 1px solid #000;
+    border: 1px solid var(--borda-publicar);
     padding: 5px 15px 5px 15px;
     margin: 13px 15px 0 15px;
-    color: #444;
-    background-color: #fff;
+    color: var(--texto-publicar);
+    background-color: var(--background-janelas);
     text-align: left;
     cursor: pointer;
 }
 
 .publicar .perfil .btnPublicar:hover {
-    background-color: #eee;
+    background-color: var(--background-hover-publicar);
 }
 
 .publicar .links {
@@ -100,7 +110,7 @@
 
 .publicar .links a {
     padding: 8px 3% 8px 3%;
-    background-color: aqua;
+    background-color: var(--links-background-publicar);
     text-decoration: none;
     border-radius: 10px;
     margin-left: 3%;
@@ -108,8 +118,8 @@
 }
 
 .publicar .links a:hover {
-    background-color: #00f;
-    color: #fff;
+    background-color: var(--links-background-publicar-hover);
+    color: var(--backgroud-color-janelas)
 }
 
 /*Área de publicação ================================================================================================*/
@@ -181,7 +191,7 @@
     float: right;
     color: #444;
     border: none;
-    background-color: #fff;
+    background-color: var(--background-janelas);
     font-weight: bold;
 }
 

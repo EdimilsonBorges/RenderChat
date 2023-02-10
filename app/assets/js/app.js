@@ -272,34 +272,6 @@ function commentMenuDrop(commentId, commentUser, user) {
     }
 
 }
-
-let btnEnviarComment = [...document.getElementsByClassName("btnEnviarComment")];
-btnEnviarComment.map((el) => {
-    el.addEventListener("click", () => {
-        let menssage = el.parentNode.firstElementChild.value.replaceAll('\n', '<br/>');
-        el.parentNode.firstElementChild.value = "";
-        el.parentNode.firstElementChild.style.height = "15px";
-        let campo = el.parentNode.parentNode.lastElementChild;
-        let spanComment = el.parentNode.parentNode.parentNode.children[2].children[1].firstElementChild;
-        let postId = el.parentNode.parentNode.parentNode.dataset.postid;
-
-        let pedidos = new XMLHttpRequest();
-
-        if (menssage != "") {
-            spanComment.innerHTML++;
-            pedidos.open("GET", `Controllers/create_new_comment?comment=${menssage}&user_id=${userId}&post_id=${postId}`);
-            pedidos.send();
-        }
-        pedidos.onloadend = function () {
-            results = JSON.parse(this.response);
-            campo.innerHTML = "";
-            results['results'].forEach((result) => {
-                createComment(postId, result, campo, spanComment);
-            });
-        }
-    });
-});
-
 function autoResize(element) {
     textArea = element;
     textArea.addEventListener("keyup", e => {
@@ -822,6 +794,37 @@ btnPublication.map((el) => {
             document.getElementsByClassName('textAreaCompartModal')[0].value = "";
             janela.classList.remove("mostrarPostModal");
             janela.classList.add("esconderPostModal");
+        }
+    });
+});
+
+// comentar publicação
+let btnEnviarComment = [...document.getElementsByClassName("btnEnviarComment")];
+btnEnviarComment.map((el) => {
+    el.addEventListener("click", () => {
+        let menssage = el.parentNode.firstElementChild.value.replaceAll('\n', '<br/>');
+        el.parentNode.firstElementChild.value = "";
+        el.parentNode.firstElementChild.style.height = "15px";
+        let campo = el.parentNode.parentNode.lastElementChild;
+        let spanComment = el.parentNode.parentNode.parentNode.children[2].children[1].firstElementChild;
+        let postId = el.parentNode.parentNode.parentNode.dataset.postid;
+
+        console.log(spanComment);
+        console.log(el.parentElement.parentElement.parentElement);
+
+        let pedidos = new XMLHttpRequest();
+
+        if (menssage != "") {
+            spanComment.innerHTML++;
+            pedidos.open("GET", `Controllers/create_new_comment?comment=${menssage}&user_id=${userId}&post_id=${postId}`);
+            pedidos.send();
+        }
+        pedidos.onloadend = function () {
+            results = JSON.parse(this.response);
+            campo.innerHTML = "";
+            results['results'].forEach((result) => {
+                createComment(postId, result, campo, spanComment);
+            });
         }
     });
 });
