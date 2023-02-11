@@ -583,9 +583,18 @@ linksPostMenuDrop.map((el) => {
     let edit = el.firstElementChild;
     edit.addEventListener("click", () => {
 
+        let post;
+        let perfilshare = el.parentElement.parentElement.parentElement.firstElementChild;
+        let perfil_like = el.parentElement.parentElement.parentElement.firstElementChild;
+
+        if (perfilshare.classList.contains("perfilshare") || perfil_like.classList.contains("perfil_like")) {
+            post = el.parentElement.parentElement.parentElement.children[2].lastElementChild.firstElementChild;
+        } else {
+            post = el.parentElement.parentElement.parentElement.children[1].lastElementChild.firstElementChild;
+        }
+
         const janela = document.getElementById("areaPostModal");
         const btnFecharPostModal = document.getElementById("btnFecharPostModal");
-        const post = el.parentElement.parentElement.parentElement.children[1].lastElementChild.firstElementChild;
         const postId = el.parentElement.parentElement.parentElement.dataset.postid;
 
         document.querySelector('.postModal .cabecalhoPostModal h4').innerText = "Editar publicação";
@@ -774,10 +783,19 @@ btnPublication.map((el) => {
 
     // compartilhar publicação
     btnShare.addEventListener("click", (e) => {
-       
+
         const postId = el.parentElement.dataset.postid;
         const post = document.getElementById('conteudoPost');
-        const publication = el.parentElement.children[2];
+        let publication;
+
+        let perfilshare = el.parentElement.firstElementChild;
+        let perfil_like = el.parentElement.firstElementChild;
+
+        if (perfilshare.classList.contains("perfilshare") || perfil_like.classList.contains("perfil_like")) {
+             publication = el.parentElement.children[2];
+        } else {
+             publication = el.parentElement.children[1];
+        }
 
         document.getElementsByClassName('textAreaCompartModal')[0].value = "";
         const janela = document.getElementById("areaCompartModal");
@@ -802,15 +820,25 @@ btnPublication.map((el) => {
 let btnEnviarComment = [...document.getElementsByClassName("btnEnviarComment")];
 btnEnviarComment.map((el) => {
     el.addEventListener("click", () => {
-        let menssage = el.parentNode.firstElementChild.value.replaceAll('\n', '<br/>');
+        let menssage;
+        let campo;
+        let spanComment;
+        let postId;
+
+        let perfilshare = el.parentElement.parentElement.parentElement.firstElementChild;
+        let perfil_like = el.parentElement.parentElement.parentElement.firstElementChild;
+
+        if (perfilshare.classList.contains("perfilshare") || perfil_like.classList.contains("perfil_like")) {
+            spanComment = el.parentNode.parentNode.parentNode.children[3].children[1].firstElementChild;
+        } else {
+            spanComment = el.parentNode.parentNode.parentNode.children[2].children[1].firstElementChild;
+        }
+
+        postId = el.parentNode.parentNode.parentNode.dataset.postid;
+        campo = el.parentNode.parentNode.lastElementChild;
+        menssage = el.parentNode.firstElementChild.value.replaceAll('\n', '<br/>');
         el.parentNode.firstElementChild.value = "";
         el.parentNode.firstElementChild.style.height = "15px";
-        let campo = el.parentNode.parentNode.lastElementChild;
-        let spanComment = el.parentNode.parentNode.parentNode.children[2].children[1].firstElementChild;
-        let postId = el.parentNode.parentNode.parentNode.dataset.postid;
-
-        console.log(spanComment);
-        console.log(el.parentElement.parentElement.parentElement);
 
         let pedidos = new XMLHttpRequest();
 
