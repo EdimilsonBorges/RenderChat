@@ -4,6 +4,7 @@
 
 require_once('../inc/database.php');
 require_once('../inc/config.php');
+require_once('../inc/api_encript.php');
 
 $db = new database();
 
@@ -21,17 +22,10 @@ if(empty($variables['comment'])){
     error_response("Nada está sendo comentado");
  }
 
-
-//date_default_timezone_set('America/Los_Angeles');
-
-//date("Y-m-d h:i:sa");
-
-//$agora = new DateTime();
-
 $params = [
     ':comment' => nl2br($variables['comment']),
-    ':user_id' => aesDesencriptar($variables['user_id']),
-    ':post_id' => aesDesencriptar($variables['post_id']),
+    ':user_id' => api_encript::aesDesencriptar($variables['user_id']),
+    ':post_id' => api_encript::aesDesencriptar($variables['post_id']),
 ];
 
 
@@ -57,18 +51,6 @@ function error_response($mensage)
         ],
     );
     exit;
-}
-
-function aesEncriptar($valor)
-{
-
-    return bin2hex(openssl_encrypt($valor, "aes-256-cbc", AES_KEY, OPENSSL_RAW_DATA, AES_IV));
-}
-
-function aesDesencriptar($valor)
-{
-
-    return openssl_decrypt(hex2bin($valor), "aes-256-cbc", AES_KEY, OPENSSL_RAW_DATA, AES_IV);
 }
 
 function sucess_response($mensage, $results = [])

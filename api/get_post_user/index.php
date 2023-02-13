@@ -5,6 +5,7 @@
 
 require_once('../inc/database.php');
 require_once('../inc/config.php');
+require_once('../inc/api_encript.php');
 
 $db = new database();
 
@@ -15,7 +16,7 @@ if (empty($variables['user_id'])) {
 }
 
 $param = [
-    ':user_id' => aesDesencriptar($variables['user_id']),
+    ':user_id' => api_encript::aesDesencriptar($variables['user_id']),
 ];
 
 $results = $db->select(
@@ -42,20 +43,20 @@ $resposta = [];
 foreach ($results as $result) {
 
     if($result->lik_user_id != null){
-        $lik_user_id = aesEncriptar($result->lik_user_id);
+        $lik_user_id = api_encript::aesEncriptar($result->lik_user_id);
     }else{
         $lik_user_id = null;
     }
 
     if($result->sh_user_id != null){
-        $sh_user_id = aesEncriptar($result->sh_user_id);
+        $sh_user_id = api_encript::aesEncriptar($result->sh_user_id);
     }else{
         $sh_user_id = null;
     }
     
      array_push($resposta, [
-        'id' => aesEncriptar($result->id),
-        'user_id' => aesEncriptar($result->user_id),
+        'id' => api_encript::aesEncriptar($result->id),
+        'user_id' => api_encript::aesEncriptar($result->user_id),
         'sh_user_id' => $sh_user_id,
         'lik_user_id' => $lik_user_id,
         'post' => $result->post,
@@ -76,19 +77,6 @@ foreach ($results as $result) {
 }
 
 sucess_response("", $resposta);
-
-
-function aesEncriptar($valor)
-{
-
-    return bin2hex(openssl_encrypt($valor, "aes-256-cbc", AES_KEY, OPENSSL_RAW_DATA, AES_IV));
-}
-
-function aesDesencriptar($valor)
-{
-
-    return openssl_decrypt(hex2bin($valor), "aes-256-cbc", AES_KEY, OPENSSL_RAW_DATA, AES_IV);
-}
 
 function sucess_response($mensage, $results = [])
 {

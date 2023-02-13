@@ -1,6 +1,7 @@
 <?php
 
 require_once('../inc/authentication.php');
+require_once('../inc/api_encript.php');
 
 // require_once('../inc/database.php');
 // require_once('../inc/config.php');
@@ -18,8 +19,8 @@ if (
 }
 
 $params = [
-    ':user_id' => aesDesencriptar($variables['user_id']),
-    ':post_id' => aesDesencriptar($variables['post_id']),
+    ':user_id' => api_encript::aesDesencriptar($variables['user_id']),
+    ':post_id' => api_encript::aesDesencriptar($variables['post_id']),
 ];
 
 
@@ -48,18 +49,6 @@ modified_at = NOW()
 WHERE id = :post_id', $params);
 
 resposta("Descurtir");
-
-function aesEncriptar($valor)
-{
-
-    return bin2hex(openssl_encrypt($valor, "aes-256-cbc", AES_KEY, OPENSSL_RAW_DATA, AES_IV));
-}
-
-function aesDesencriptar($valor)
-{
-
-    return openssl_decrypt(hex2bin($valor), "aes-256-cbc", AES_KEY, OPENSSL_RAW_DATA, AES_IV);
-}
 
 function resposta($nome)
 {

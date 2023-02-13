@@ -5,13 +5,14 @@
 
 require_once('../inc/database.php');
 require_once('../inc/config.php');
+require_once('../inc/api_encript.php');
 
 $db = new database();
 
 $variables = $_GET;
 
 $params = [
-    ':post_id'=> aesDesencriptar($variables['post_id']),
+    ':post_id'=> api_encript::aesDesencriptar($variables['post_id']),
 ];
 
 $results = $db->select('SELECT sh.*, usu.first_name, usu.last_name, usu.deleted_at, perf.photo_url FROM shares sh 
@@ -19,18 +20,6 @@ LEFT JOIN users AS usu ON sh.user_id = usu.id AND usu.deleted_at IS NULL
 LEFT JOIN perfil AS perf ON perf.user_id = sh.user_id WHERE sh.post_id = :post_id ORDER BY sh.created_at DESC LIMIT 200 OFFSET 0', $params);
 
 sucess_response("", $results);
-
-function aesEncriptar($valor)
-{
-
-    return bin2hex(openssl_encrypt($valor, "aes-256-cbc", AES_KEY, OPENSSL_RAW_DATA, AES_IV));
-}
-
-function aesDesencriptar($valor)
-{
-
-    return openssl_decrypt(hex2bin($valor), "aes-256-cbc", AES_KEY, OPENSSL_RAW_DATA, AES_IV);
-}
 
 function sucess_response($mensage, $results = [])
 {

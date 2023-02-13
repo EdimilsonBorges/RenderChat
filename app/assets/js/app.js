@@ -1,6 +1,6 @@
 
 let conn = new WebSocket('ws:localhost:8080/wss');
-//let conn = new WebSocket('ws:192.168.0.100:8080/wss');
+//let conn = new WebSocket('ws:192.168.0.103:8080/wss');
 let userId = document.getElementById("userId").value;
 let nameC = document.getElementById("nameC").value;
 let photo = document.getElementById("photo").value;
@@ -40,7 +40,7 @@ function enviarMessageChat(event, userId, fromId) {
 
     if ((event.keyCode == 13) || (event.keyCode == null)) {
 
-        let chatMessage = document.getElementById(`chat ${fromId}`);
+        let chatMessage = document.getElementById(`chat${fromId}`);
 
         if (chatMessage.value != "") {
 
@@ -368,7 +368,7 @@ function carregarUserChat() {
 
             let historico = document.createElement("p");
             historico.id = `his${result['id']}`;
-            historico.innerText = `his${result['id']}`;
+            historico.innerText = "Aqui deve ficar o histórico da última mensagem";
 
             let hr = document.createElement("hr");
 

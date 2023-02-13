@@ -5,13 +5,14 @@
 
 require_once('../inc/database.php');
 require_once('../inc/config.php');
+require_once('../inc/api_encript.php');
 
 $db = new database();
 
 $variables = $_GET;
 
 $params = [
-    ':post_id'=> aesDesencriptar($variables['post_id']),
+    ':post_id'=> api_encript::aesDesencriptar($variables['post_id']),
 ];
 
 $results = $db->select('SELECT co.*, perf.photo_url AS co_photo_url, usu.first_name AS co_first_name, usu.last_name AS co_last_name FROM comments co
@@ -24,8 +25,8 @@ $resposta = [];
 foreach ($results as $result) {
     
      array_push($resposta, [
-        'id' => aesEncriptar($result->id),
-        'user_id' => aesEncriptar($result->user_id),
+        'id' => api_encript::aesEncriptar($result->id),
+        'user_id' => api_encript::aesEncriptar($result->user_id),
         'comment' => $result->comment,
         'co_first_name' => $result->co_first_name,
         'co_last_name' => $result->co_last_name,
@@ -34,19 +35,6 @@ foreach ($results as $result) {
 }
 
 sucess_response("", $resposta);
-
-
-function aesEncriptar($valor)
-{
-
-    return bin2hex(openssl_encrypt($valor, "aes-256-cbc", AES_KEY, OPENSSL_RAW_DATA, AES_IV));
-}
-
-function aesDesencriptar($valor)
-{
-
-    return openssl_decrypt(hex2bin($valor), "aes-256-cbc", AES_KEY, OPENSSL_RAW_DATA, AES_IV);
-}
 
 function sucess_response($mensage, $results = [])
 {

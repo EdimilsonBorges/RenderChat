@@ -4,6 +4,7 @@
 
 require_once('../inc/database.php');
 require_once('../inc/config.php');
+require_once('../inc/api_encript.php');
 
 $db = new database();
 
@@ -30,8 +31,8 @@ if(empty($variables['messeger'])){
 
 $params = [
     ':messeger' => nl2br($variables['messeger']),
-    ':user_id' => aesDesencriptar($variables['user_id']),
-    ':to_user_id' => aesDesencriptar($variables['to_user_id']),
+    ':user_id' => api_encript::aesDesencriptar($variables['user_id']),
+    ':to_user_id' => api_encript::aesDesencriptar($variables['to_user_id']),
 ];
 
 
@@ -56,18 +57,6 @@ function error_response($mensage)
         ],
     );
     exit;
-}
-
-function aesEncriptar($valor)
-{
-
-    return bin2hex(openssl_encrypt($valor, "aes-256-cbc", AES_KEY, OPENSSL_RAW_DATA, AES_IV));
-}
-
-function aesDesencriptar($valor)
-{
-
-    return openssl_decrypt(hex2bin($valor), "aes-256-cbc", AES_KEY, OPENSSL_RAW_DATA, AES_IV);
 }
 
 function sucess_response($mensage, $results = [])

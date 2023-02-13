@@ -53,18 +53,6 @@ $db->insert('INSERT INTO users VALUES(
 
 sucess_response('Cadastro completado com sucesso!!!');
 
-function aesEncriptar($valor)
-{
-
-    return bin2hex(openssl_encrypt($valor, "aes-256-cbc", AES_KEY, OPENSSL_RAW_DATA, AES_IV));
-}
-
-function aesDesencriptar($valor)
-{
-
-    return openssl_decrypt(hex2bin($valor), "aes-256-cbc", AES_KEY, OPENSSL_RAW_DATA, AES_IV);
-}
-
 function error_response($mensage)
 {
     header("Content-Type:application/json");

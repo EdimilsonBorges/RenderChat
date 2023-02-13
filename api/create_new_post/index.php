@@ -1,6 +1,7 @@
 <?php
 
 require_once('../inc/authentication.php');
+require_once('../inc/api_encript.php');
 
  $variables = $_GET;
 
@@ -28,7 +29,7 @@ $params = [
     ':post' => nl2br($variables['post']),
     ':foto_url' => $variables['foto_url'],
     ':video_url' => $variables['video_url'],
-    ':user_id' => aesDesencriptar($variables['user_id']),
+    ':user_id' => api_encript::aesDesencriptar($variables['user_id']),
 ];
 
 
@@ -43,18 +44,6 @@ $db->insert('INSERT INTO posts VALUES(
     NULL)', $params);
 
 sucess_response('Postado com sucesso!!!');
-
-function aesEncriptar($valor)
-{
-
-    return bin2hex(openssl_encrypt($valor, "aes-256-cbc", AES_KEY, OPENSSL_RAW_DATA, AES_IV));
-}
-
-function aesDesencriptar($valor)
-{
-
-    return openssl_decrypt(hex2bin($valor), "aes-256-cbc", AES_KEY, OPENSSL_RAW_DATA, AES_IV);
-}
 
 function error_response($mensage)
 {
