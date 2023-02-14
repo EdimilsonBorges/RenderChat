@@ -51,23 +51,18 @@ defined("ROOT") or die("Acesso negado");
             ];
             $posts = api_request('get_all_posts', 'GET', $variables);
 
-            $i = -1;
             foreach ($posts['results'] as $post) :
-                $i++;
                 $variables = [
                     'post_id' => $post['id'],
                 ];
 
-                $totals = api_request('totals', 'GET', $variables);
-
-                $likes = $totals['results']['0']['totals'];
-                $comments = $totals['results']['1']['totals'];
-                $shares = $totals['results']['2']['totals'];
+                $likes = $post['t_likes'];
+                $comments = $post['t_comments'];
+                $shares = $post['t_shares'];
 
                 $datas_post = $post['created_at'];
 
                 date_default_timezone_set('America/Sao_Paulo');
-                //date_default_timezone_set('America/Los_Angeles');
 
                 $time_post = new DateTime($datas_post);
                 $agora = new DateTime();
@@ -220,9 +215,6 @@ defined("ROOT") or die("Acesso negado");
                 </section>
             <?php endforeach; ?>
     </article>
-
-
-
 
     <nav class="esquerda">
         <section>

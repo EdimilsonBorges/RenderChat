@@ -13,7 +13,7 @@ body {
     display: flex;
     position: fixed;
     justify-content: center;
-    background-color: rgba(141, 0, 0, 0.8);
+    background-color: rgb(133, 22, 22);
     width: 100%;
     height: max-content;
     padding: 15px;

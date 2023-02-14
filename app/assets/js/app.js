@@ -319,7 +319,7 @@ function ocultarDesocultarBatePapo() {
 
 function carregarUserChat() {
     let pedidos = new XMLHttpRequest();
-    
+
     pedidos.open("GET", `Controllers/get_all_status?user_id=${userId}`);
     pedidos.send();
 
@@ -331,11 +331,18 @@ function carregarUserChat() {
         conversaBatePapo.innerHTML = "";
 
         results['results'].forEach((result) => {
-            
+
             let nomeCompleto = `${result['first_name']} ${result['last_name']}`;
             let itemChat = document.createElement("section");
             itemChat.setAttribute("class", "itemChat");
             itemChat.onclick = function () {
+
+                let pe = new XMLHttpRequest();
+                pe.open("GET", `Controllers/update_messeger_chat?from_id=${result['id']}`);
+                pe.send();
+
+                divNunHistory.style = "visibility:hidden; width:37px; font-size: 10pt; color: #fff; height: 21px; padding-top: 5px; background-color:rgb(141 0 0 / 80%); position: relative; right: 10px; top: 20px; border-radius: 50%;text-align: center; font-weight: bold;";
+               
                 if (onlines.includes(result['id'])) {
                     openChat(result['id'], nomeCompleto, result['photo_url'], true);
                 } else {
@@ -369,21 +376,26 @@ function carregarUserChat() {
 
             let historico = document.createElement("p");
             historico.id = `his${result['id']}`;
-            historico.innerText = result['messeger'];
+            if (result['messeger'] != undefined) {
+                historico.innerText = result['messeger'];
+            } else {
+                historico.innerText = "Sem nova mensagem";
+            }
+
 
             let hr = document.createElement("hr");
 
             let divNunHistory = document.createElement('div');
             divNunHistory.setAttribute("class", "divNunHistory");
 
-            if(result['count_nread'] > 0){
+            if (result['count_nread'] > 0) {
                 divNunHistory.style = "width:37px; font-size: 10pt; color: #fff; height: 21px; padding-top: 5px; background-color:rgb(141 0 0 / 80%); position: relative; right: 10px; top: 20px; border-radius: 50%;text-align: center; font-weight: bold;";
-            }else{
+            } else {
                 divNunHistory.style = "visibility:hidden; width:37px; font-size: 10pt; color: #fff; height: 21px; padding-top: 5px; background-color:rgb(141 0 0 / 80%); position: relative; right: 10px; top: 20px; border-radius: 50%;text-align: center; font-weight: bold;";
             }
-            
+
             divNunHistory.innerText = result['count_nread'];
-            
+
             mensagem.appendChild(nome);
             mensagem.appendChild(historico);
             mensagem.appendChild(hr);
@@ -402,14 +414,6 @@ function carregarUserChat() {
 }
 
 function openChat(fromId, nomeCompleto, perfImg, online) {
-
-    let pedidos = new XMLHttpRequest();
-
-    pedidos.open("GET", `Controllers/update_messeger_chat?from_id=${fromId}`);
-    pedidos.send();
-
-    pedidos.onloadend = function () {
-    }
 
     const myElement = document.getElementById(userId + fromId);
 
