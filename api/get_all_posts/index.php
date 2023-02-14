@@ -20,7 +20,7 @@ $param = [
 ];
 
 $results = $db->select(
-    'SELECT pos.*, usu.deleted_at, usu.first_name, usu.last_name, perf.photo_url, li.post_id AS li_post_id, sh.comment AS sh_comment, sh.user_id AS sh_user_id, sh.created_at AS sh_created_at, us.first_name AS sh_first_name, us.last_name AS sh_last_name, per.photo_url AS sh_photo_url, u.first_name AS lik_first_name, u.last_name AS lik_last_name, pe.photo_url AS lik_photo_url, u.id AS lik_user_id /*, COUNT(tolikes.post_id) AS total_likes , COUNT(tocomments.post_id) AS total_comments, COUNT(toshares.post_id) AS total_shares*/ FROM posts pos 
+    'SELECT pos.*, usu.deleted_at, usu.first_name, usu.last_name, perf.photo_url, li.post_id AS li_post_id, sh.comment AS sh_comment, sh.user_id AS sh_user_id, sh.created_at AS sh_created_at, us.first_name AS sh_first_name, us.last_name AS sh_last_name, per.photo_url AS sh_photo_url, u.first_name AS lik_first_name, u.last_name AS lik_last_name, pe.photo_url AS lik_photo_url, u.id AS lik_user_id FROM posts pos 
 INNER JOIN users AS usu ON usu.id = pos.user_id AND usu.deleted_at IS NULL
 LEFT JOIN perfil AS perf ON perf.user_id = pos.user_id
 

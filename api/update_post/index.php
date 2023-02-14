@@ -1,6 +1,7 @@
 <?php
 
 require_once('../inc/authentication.php');
+require_once('../inc/api_encript.php');
 
  $variables = $_GET;
 
@@ -20,7 +21,7 @@ if(empty($variables['post']) && empty($variables['foto_url']) && empty($variable
 
 
 $params = [
-    ':id' => aesDesencriptar($variables['id']),
+    ':id' => api_encript::aesDesencriptar($variables['id']),
     ':post' => nl2br($variables['post']),
     ':foto_url' => $variables['foto_url'],
     ':video_url' => $variables['video_url'],
@@ -46,18 +47,6 @@ function error_response($mensage)
         ],
     );
     exit;
-}
-
-function aesEncriptar($valor)
-{
-
-    return bin2hex(openssl_encrypt($valor, "aes-256-cbc", AES_KEY, OPENSSL_RAW_DATA, AES_IV));
-}
-
-function aesDesencriptar($valor)
-{
-
-    return openssl_decrypt(hex2bin($valor), "aes-256-cbc", AES_KEY, OPENSSL_RAW_DATA, AES_IV);
 }
 
 function sucess_response($mensage, $results = [])

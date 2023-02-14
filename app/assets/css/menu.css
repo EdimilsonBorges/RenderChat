@@ -13,7 +13,7 @@ body {
     display: flex;
     position: fixed;
     justify-content: center;
-    background-color: rgb(255, 94, 0);
+    background-color: rgba(141, 0, 0, 0.8);
     width: 100%;
     height: max-content;
     padding: 15px;
@@ -65,7 +65,7 @@ body {
 
 .active,
 .principal nav li:hover {
-    background-color: rgb(151, 41, 41) !important;
+    background-color: rgb(255 36 36) !important;
 }
 
 .principal nav li a {

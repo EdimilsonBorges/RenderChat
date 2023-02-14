@@ -11,34 +11,18 @@ $db = new database();
  $variables = $_GET;
 
 if (
-    !isset($variables['messeger']) ||
-    !isset($variables['user_id']) ||
-    !isset($variables['to_user_id'])
+    !isset($variables['from_id'])
 ) {
-    error_response('Os dados do comentário estão incompletos');
+    error_response('Os dados do chat estão incompletos');
 }
 
-if(empty($variables['messeger'])){
-    error_response("Nada está sendo enviado");
- }
-
 $params = [
-    ':messeger' => nl2br($variables['messeger']),
-    ':user_id' => api_encript::aesDesencriptar($variables['user_id']),
-    ':to_user_id' => api_encript::aesDesencriptar($variables['to_user_id']),
+    ':from_id' => api_encript::aesDesencriptar($variables['from_id']),
 ];
 
+$db->update('UPDATE chats SET read_at = NOW() WHERE user_id = :from_id', $params);
 
-$db->insert('INSERT INTO chats VALUES(
-    0, 
-    :messeger, 
-    NULL,
-    :user_id, 
-    :to_user_id,
-    NOW(),
-    NULL)', $params);
-
-sucess_response('Enviado com sucesso!!!');
+    sucess_response("Chat editado com sucesso");
 
 function error_response($mensage)
 {

@@ -319,8 +319,8 @@ function ocultarDesocultarBatePapo() {
 
 function carregarUserChat() {
     let pedidos = new XMLHttpRequest();
-
-    pedidos.open("GET", "Controllers/get_all_status");
+    
+    pedidos.open("GET", `Controllers/get_all_status?user_id=${userId}`);
     pedidos.send();
 
     pedidos.onloadend = function () {
@@ -331,6 +331,7 @@ function carregarUserChat() {
         conversaBatePapo.innerHTML = "";
 
         results['results'].forEach((result) => {
+            
             let nomeCompleto = `${result['first_name']} ${result['last_name']}`;
             let itemChat = document.createElement("section");
             itemChat.setAttribute("class", "itemChat");
@@ -368,11 +369,21 @@ function carregarUserChat() {
 
             let historico = document.createElement("p");
             historico.id = `his${result['id']}`;
-            historico.innerText = "Aqui deve ficar o histórico da última mensagem";
+            historico.innerText = result['messeger'];
 
             let hr = document.createElement("hr");
 
+            let divNunHistory = document.createElement('div');
+            divNunHistory.setAttribute("class", "divNunHistory");
 
+            if(result['count_nread'] > 0){
+                divNunHistory.style = "width:37px; font-size: 10pt; color: #fff; height: 21px; padding-top: 5px; background-color:rgb(141 0 0 / 80%); position: relative; right: 10px; top: 20px; border-radius: 50%;text-align: center; font-weight: bold;";
+            }else{
+                divNunHistory.style = "visibility:hidden; width:37px; font-size: 10pt; color: #fff; height: 21px; padding-top: 5px; background-color:rgb(141 0 0 / 80%); position: relative; right: 10px; top: 20px; border-radius: 50%;text-align: center; font-weight: bold;";
+            }
+            
+            divNunHistory.innerText = result['count_nread'];
+            
             mensagem.appendChild(nome);
             mensagem.appendChild(historico);
             mensagem.appendChild(hr);
@@ -382,6 +393,7 @@ function carregarUserChat() {
 
             itemChat.appendChild(div);
             itemChat.appendChild(mensagem);
+            itemChat.appendChild(divNunHistory);
 
             conversaBatePapo.appendChild(itemChat);
 
@@ -390,6 +402,14 @@ function carregarUserChat() {
 }
 
 function openChat(fromId, nomeCompleto, perfImg, online) {
+
+    let pedidos = new XMLHttpRequest();
+
+    pedidos.open("GET", `Controllers/update_messeger_chat?from_id=${fromId}`);
+    pedidos.send();
+
+    pedidos.onloadend = function () {
+    }
 
     const myElement = document.getElementById(userId + fromId);
 
@@ -760,9 +780,18 @@ btnPublication.map((el) => {
     // curtir ou descurtir publicação
     btnLike.addEventListener("click", (e) => {
 
+        let perfilshare = el.parentElement.firstElementChild;
+        let perfil_like = el.parentElement.firstElementChild;
+        let elementLikes;
+
+        if (perfilshare.classList.contains("perfilshare") || perfil_like.classList.contains("perfil_like")) {
+            elementLikes = el.parentElement.children[3].firstElementChild.firstElementChild;
+        } else {
+            elementLikes = el.parentElement.children[2].firstElementChild.firstElementChild;
+        }
+
         const postId = el.parentElement.dataset.postid;
         const btnLike = el.firstElementChild;
-        const elementLikes = el.parentElement.children[3].firstElementChild.firstElementChild;
 
         let pedido = new XMLHttpRequest();
 
@@ -792,9 +821,9 @@ btnPublication.map((el) => {
         let perfil_like = el.parentElement.firstElementChild;
 
         if (perfilshare.classList.contains("perfilshare") || perfil_like.classList.contains("perfil_like")) {
-             publication = el.parentElement.children[2];
+            publication = el.parentElement.children[2];
         } else {
-             publication = el.parentElement.children[1];
+            publication = el.parentElement.children[1];
         }
 
         document.getElementsByClassName('textAreaCompartModal')[0].value = "";

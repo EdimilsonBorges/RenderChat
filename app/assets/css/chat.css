@@ -111,8 +111,8 @@
 }
 
 .mensagem p {
-    font-size: 10pt;
     margin-right: 5px;
+    word-break: break-all;
 }
 
 .mensagem hr {
