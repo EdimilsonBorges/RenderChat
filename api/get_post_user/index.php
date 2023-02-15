@@ -42,6 +42,14 @@ $resposta = [];
 
 foreach ($results as $result) {
 
+    $params = [
+        ':post_id' => $result->id,
+    ];
+    
+    $totals = $db->select("SELECT post_id, COUNT(*) totals FROM likes WHERE post_id = :post_id UNION ALL 
+                            SELECT post_id, COUNT(*)  FROM comments WHERE post_id = :post_id UNION ALL 
+                            SELECT post_id, COUNT(*)  FROM shares WHERE post_id = :post_id", $params);
+
     if($result->lik_user_id != null){
         $lik_user_id = api_encript::aesEncriptar($result->lik_user_id);
     }else{
@@ -73,6 +81,9 @@ foreach ($results as $result) {
         'last_name' => $result->last_name,
         'photo_url' => $result->photo_url,
         'created_at' => $result->created_at,
+        't_likes' => $totals[0]->totals,
+        't_comments' => $totals[1]->totals,
+        't_shares' => $totals[2]->totals,
     ]);
 }
 

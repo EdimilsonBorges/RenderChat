@@ -17,11 +17,12 @@ foreach ($results as $result) {
         ':user_id' => api_encript::aesDesencriptar($variables['user_id']),
     ];
 
-    $counts = $db->select('SELECT COUNT(ch.id) AS count_nread, ch.messeger AS messeger 
-                           FROM chats ch WHERE :id = ch.user_id AND :user_id = ch.to_user_id AND ch.read_at IS NULL', $params);
+   $counts = $db->select('SELECT COUNT(ch.id) AS count_nread, ch.messeger AS messeger, ch.to_user_id AS to_user_id 
+                            FROM chats ch WHERE :id = ch.user_id AND :user_id = ch.to_user_id AND ch.read_at IS NULL', $params);
 
     array_push($resposta, [
         'id' => api_encript::aesEncriptar($result->usu_id),
+        'to_user_id' => api_encript::aesEncriptar($counts[0]->to_user_id),
         'count_nread' => $counts[0]->count_nread,
         'first_name' => $result->first_name,
         'last_name' => $result->last_name,

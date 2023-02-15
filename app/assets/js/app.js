@@ -306,6 +306,14 @@ document.getElementById("cabecalhoBatePapo").onclick = function () {
     ocultarDesocultarBatePapo();
 }
 
+function marcarChatComoLido(fromId) {
+
+        let pedidos = new XMLHttpRequest();
+        pedidos.open("GET", `Controllers/update_messeger_chat?from_id=${fromId}&user_id=${userId}`);
+        pedidos.send();
+
+}
+
 function ocultarDesocultarBatePapo() {
 
     const batepapo = document.getElementById("batePapo");
@@ -337,12 +345,7 @@ function carregarUserChat() {
             itemChat.setAttribute("class", "itemChat");
             itemChat.onclick = function () {
 
-                let pe = new XMLHttpRequest();
-                pe.open("GET", `Controllers/update_messeger_chat?from_id=${result['id']}`);
-                pe.send();
-
                 divNunHistory.style = "visibility:hidden; width:37px; font-size: 10pt; color: #fff; height: 21px; padding-top: 5px; background-color:rgb(141 0 0 / 80%); position: relative; right: 10px; top: 20px; border-radius: 50%;text-align: center; font-weight: bold;";
-               
                 if (onlines.includes(result['id'])) {
                     openChat(result['id'], nomeCompleto, result['photo_url'], true);
                 } else {
@@ -415,8 +418,9 @@ function carregarUserChat() {
 
 function openChat(fromId, nomeCompleto, perfImg, online) {
 
-    const myElement = document.getElementById(userId + fromId);
+    marcarChatComoLido(fromId);
 
+    const myElement = document.getElementById(userId + fromId);
 
     if (myElement == null) {
 

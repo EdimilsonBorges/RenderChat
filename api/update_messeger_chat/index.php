@@ -11,16 +11,18 @@ $db = new database();
  $variables = $_GET;
 
 if (
-    !isset($variables['from_id'])
+    !isset($variables['from_id'])||
+    !isset($variables['user_id'])
 ) {
     error_response('Os dados do chat estão incompletos');
 }
 
 $params = [
     ':from_id' => api_encript::aesDesencriptar($variables['from_id']),
+    ':user_id' => api_encript::aesDesencriptar($variables['user_id']),
 ];
 
-$db->update('UPDATE chats SET read_at = NOW() WHERE user_id = :from_id', $params);
+$db->update('UPDATE chats SET read_at = NOW() WHERE user_id = :from_id AND to_user_id = :user_id', $params);
 
     sucess_response("Chat editado com sucesso");
 
