@@ -301,16 +301,16 @@ function postModal(pagina) {
     }
 }
 
-document.getElementById("cabecalhoBatePapo").onclick = function () {
+document.getElementById("cabecalhoBatePapoPrincipal").onclick = function () {
 
     ocultarDesocultarBatePapo();
 }
 
 function marcarChatComoLido(fromId) {
 
-        let pedidos = new XMLHttpRequest();
-        pedidos.open("GET", `Controllers/update_messeger_chat?from_id=${fromId}&user_id=${userId}`);
-        pedidos.send();
+    let pedidos = new XMLHttpRequest();
+    pedidos.open("GET", `Controllers/update_messeger_chat?from_id=${fromId}&user_id=${userId}`);
+    pedidos.send();
 
 }
 
@@ -335,10 +335,15 @@ function carregarUserChat() {
 
         results = JSON.parse(this.response);
 
-        let conversaBatePapo = document.getElementById("conversa-bate-papo");
+        const conversaBatePapo = document.getElementById("conversa-bate-papo");
         conversaBatePapo.innerHTML = "";
 
+        const divTotalHistory = document.querySelector('#divTotalHistory');
+        let total_nread = 0;
+
         results['results'].forEach((result) => {
+
+            total_nread += parseInt(result['count_nread']);
 
             let nomeCompleto = `${result['first_name']} ${result['last_name']}`;
             let itemChat = document.createElement("section");
@@ -346,6 +351,7 @@ function carregarUserChat() {
             itemChat.onclick = function () {
 
                 divNunHistory.style = "visibility:hidden; width:37px; font-size: 10pt; color: #fff; height: 21px; padding-top: 5px; background-color:rgb(141 0 0 / 80%); position: relative; right: 10px; top: 20px; border-radius: 50%;text-align: center; font-weight: bold;";
+                divTotalHistory.innerHTML -= divNunHistory.innerHTML;
                 if (onlines.includes(result['id'])) {
                     openChat(result['id'], nomeCompleto, result['photo_url'], true);
                 } else {
@@ -411,7 +417,7 @@ function carregarUserChat() {
             itemChat.appendChild(divNunHistory);
 
             conversaBatePapo.appendChild(itemChat);
-
+            divTotalHistory.innerHTML = total_nread;
         });
     }
 }
