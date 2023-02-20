@@ -103,7 +103,7 @@ function showChatMessage(msg, user) {
     }
 }
 
-function receberMensagemChat(msg) {
+const receberMensagemChat = (msg) => {
 
     let areaMenssage = document.getElementById(msg.fromId + msg.userId);
 
