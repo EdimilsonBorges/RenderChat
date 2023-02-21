@@ -5,7 +5,7 @@
 require_once('../inc/config.php');
 require_once('../inc/api_functions.php');
 
-$variables = $_GET;
+$variables = filter_input_array(INPUT_GET, FILTER_DEFAULT);
 
 api_request('delete_comment', 'GET', $variables);
 $resultado = api_request('get_all_comments', 'GET', $variables);

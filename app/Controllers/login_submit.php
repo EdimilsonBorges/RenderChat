@@ -5,8 +5,8 @@ if ($_SERVER['REQUEST_METHOD'] != 'POST') {
     die('Acesso inválido');
 }
 
-$usuario = $_POST['e-mail'];
-$senha = $_POST['senha'];
+$usuario = filter_input(INPUT_POST, "e-mail", FILTER_SANITIZE_EMAIL);
+$senha = filter_input(INPUT_POST, "senha", FILTER_SANITIZE_EMAIL);
 
 if (empty($usuario) || empty($senha)) {
     $_SESSION['error'] = 'Dados de login insuficientes';

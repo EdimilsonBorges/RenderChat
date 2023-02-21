@@ -5,13 +5,13 @@
 require_once('../inc/config.php');
 require_once('../inc/api_functions.php');
 
-$variables = $_GET;
+$variables = filter_input_array(INPUT_GET, FILTER_DEFAULT);
 
 $resultado = api_request('update_post', 'GET', $variables);
 
-if(isset($_GET['r'])){
+if(isset($variables['r'])){
 
-    if($_GET['r'] == 'perfil'){
+    if($variables['r'] == 'perfil'){
       header('Location: /upper/app?r=perfil');
       die();
     }
