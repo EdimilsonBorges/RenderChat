@@ -16,10 +16,10 @@ $api_response->set_method($_SERVER['REQUEST_METHOD']);
 
 $params = null;
 if ($api_response->get_method() == 'GET') {
-    $api_response->set_endpoint($_GET['endpoint']);
+    $api_response->set_endpoint(filter_input(INPUT_GET, "endpoint", FILTER_DEFAULT));
     $params = $_GET;
 } elseif ($api_response->get_method() == 'POST') {
-    $api_response->set_endpoint($_POST['endpoint']);
+    $api_response->set_endpoint(filter_input(INPUT_POST, "endpoint", FILTER_DEFAULT));
     $params = $_POST;
 }
 

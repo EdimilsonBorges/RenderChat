@@ -8,10 +8,11 @@ require_once('../inc/config.php');
 
 $db = new database();
 
-$variables = $_GET;
+$pass = filter_input(INPUT_GET,"pass",FILTER_DEFAULT);
+$email = filter_input(INPUT_GET,"email",FILTER_SANITIZE_EMAIL);
 
 $params = [
-    ':email' => $variables['email'],
+    ':email' => $email,
 ];
 
 $results = $db->select('SELECT usu.id, usu.first_name, usu.last_name, usu.email, usu.pass, perf.photo_url FROM users usu
@@ -33,7 +34,7 @@ $results = [
 ];
 
 
-if (!password_verify($variables['pass'], $results['pass'])) {
+if (!password_verify($pass, $results['pass'])) {
     error_response("Login Inválido");
 }
 

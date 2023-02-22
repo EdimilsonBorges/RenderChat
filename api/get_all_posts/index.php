@@ -9,7 +9,7 @@ require_once('../inc/api_encript.php');
 
 $db = new database();
 
-$variables = $_GET;
+$variables = filter_input_array(INPUT_GET, FILTER_DEFAULT);
 
 if (empty($variables['user_id'])) {
     error_response("Não existe nenhum usuário logado");

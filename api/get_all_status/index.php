@@ -3,7 +3,7 @@
 require_once('../inc/authentication.php');
 require_once('../inc/api_encript.php');
 
-$variables = $_GET;
+$variables = filter_input_array(INPUT_GET, FILTER_DEFAULT);
 
 $results = $db->select('SELECT usu.deleted_at, usu.id AS usu_id, usu.first_name, usu.last_name, per.id AS per_id, per.photo_url FROM users usu
                         LEFT JOIN perfil AS per ON usu.id = per.user_id

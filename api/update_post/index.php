@@ -3,7 +3,7 @@
 require_once('../inc/authentication.php');
 require_once('../inc/api_encript.php');
 
- $variables = $_GET;
+$variables = filter_input_array(INPUT_GET, FILTER_DEFAULT);
 
 if (
     !isset($variables['id']) ||

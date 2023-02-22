@@ -9,7 +9,7 @@ require_once('../inc/api_encript.php');
 
 $db = new database();
 
-$variables = $_GET;
+$variables = filter_input_array(INPUT_GET, FILTER_DEFAULT);
 
 $params = [
     ':user_id' => api_encript::aesDesencriptar($variables['user_id']),
