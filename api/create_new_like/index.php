@@ -41,7 +41,7 @@ $db->insert('INSERT INTO likes VALUES(
     NULL)', $params);
 
 $params = [
-    ':post_id' => $variables['post_id'],
+    ':post_id' => api_encript::aesDesencriptar($variables['post_id']),
 ];
 
 $db->update('UPDATE posts SET

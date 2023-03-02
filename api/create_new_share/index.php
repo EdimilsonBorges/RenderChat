@@ -20,7 +20,7 @@ if (
 }
 
 $params = [
-    ':id' => $variables['post_id'],
+    ':id' => api_encript::aesDesencriptar($variables['post_id']),
 ];
 
 $db->update('UPDATE posts SET
@@ -40,7 +40,6 @@ $db->insert('INSERT INTO shares VALUES(
     :post_id, 
     NOW(),
     NULL)', $params);
-
 
 resposta("Compartilhado com sucesso");
 

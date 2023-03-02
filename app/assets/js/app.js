@@ -525,6 +525,7 @@ function openChat(fromId, nomeCompleto, perfImg, online) {
                         'fromId': fromId,
                         'message': result['messeger']
                     }
+                    read(result['read_at']);
                     msg = JSON.stringify(msg); //converte para json
                     showChatMessage(msg, "me");
                 }
@@ -534,8 +535,9 @@ function openChat(fromId, nomeCompleto, perfImg, online) {
                     let msg = { // cria um objeto msg
                         'userId': userId,
                         'fromId': fromId,
-                        'message': result['messeger']
+                        'message': result['messeger'],
                     }
+                    read(result['read_at']);
                     msg = JSON.stringify(msg); //converte para json
                     showChatMessage(msg, "me");
                 }
@@ -546,11 +548,19 @@ function openChat(fromId, nomeCompleto, perfImg, online) {
                         'fromId': userId,
                         'message': result['messeger']
                     }
+                    read(result['read_at']);
                     msg = JSON.stringify(msg); //converte para json
                     showChatMessage(msg, "other");
                 }
             });
         }
+    }
+
+}
+
+function read(read_at){
+    if(read_at != null){
+
     }
 
 }

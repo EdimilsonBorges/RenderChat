@@ -20,21 +20,25 @@ $param = [
 ];
 
 $results = $db->select(
-    'SELECT pos.*, usu.deleted_at, usu.first_name, usu.last_name, perf.photo_url, li.post_id AS li_post_id, sh.comment AS sh_comment, sh.user_id AS sh_user_id, sh.created_at AS sh_created_at, us.first_name AS sh_first_name, us.last_name AS sh_last_name, per.photo_url AS sh_photo_url, u.first_name AS lik_first_name, u.last_name AS lik_last_name, pe.photo_url AS lik_photo_url, u.id AS lik_user_id FROM posts pos 
-INNER JOIN users AS usu ON usu.id = pos.user_id AND usu.deleted_at IS NULL
-LEFT JOIN perfil AS perf ON perf.user_id = pos.user_id
-
-LEFT JOIN likes AS li ON li.post_id = pos.id AND li.user_id = :user_id
-
-LEFT JOIN shares AS sh ON sh.post_id = pos.id AND sh.created_at >= pos.modified_at
-LEFT JOIN users AS us ON us.id = sh.user_id AND usu.deleted_at IS NULL
-LEFT JOIN perfil AS per ON per.user_id = sh.user_id
-
-LEFT JOIN likes AS lik ON lik.post_id = pos.id AND lik.created_at >= pos.modified_at
-LEFT JOIN users AS u ON u.id = lik.user_id
-LEFT JOIN perfil AS pe ON pe.user_id = lik.user_id
-
-GROUP BY pos.id ORDER BY pos.modified_at DESC LIMIT 200 OFFSET 0',
+    'SELECT pos.*, usu.deleted_at, usu.first_name, usu.last_name, perf.photo_url, li.post_id AS li_post_id, sh.user_id AS sh_user_id, us.first_name AS sh_first_name, us.last_name AS sh_last_name, per.photo_url AS sh_photo_url, u.first_name AS lik_first_name, u.last_name AS lik_last_name, pe.photo_url AS lik_photo_url, u.id AS lik_user_id, sh.created_at AS sh_created_at,
+    (SELECT hs.comment FROM shares hs WHERE hs.post_id = pos.id AND hs.user_id = sh_user_id ORDER BY hs.created_at DESC LIMIT 1) AS sh_comment
+    FROM posts pos 
+    INNER JOIN users AS usu ON usu.id = pos.user_id AND usu.deleted_at IS NULL
+    LEFT JOIN perfil AS perf ON perf.user_id = pos.user_id
+    
+    LEFT JOIN likes AS li ON li.post_id = pos.id AND li.user_id = 1
+    
+    LEFT JOIN shares AS sh ON sh.post_id = pos.id AND sh.created_at >= pos.modified_at
+    LEFT JOIN users AS us ON us.id = sh.user_id AND usu.deleted_at IS NULL
+    LEFT JOIN perfil AS per ON per.user_id = sh.user_id
+    
+    LEFT JOIN likes AS lik ON lik.post_id = pos.id AND lik.created_at >= pos.modified_at
+    LEFT JOIN users AS u ON u.id = lik.user_id
+    LEFT JOIN perfil AS pe ON pe.user_id = lik.user_id
+    
+    GROUP BY pos.id
+    ORDER BY pos.modified_at DESC
+    LIMIT 200 OFFSET 0',
     $param
 );
 
