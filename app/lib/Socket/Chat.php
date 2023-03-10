@@ -56,13 +56,11 @@ class Chat implements MessageComponentInterface
                     }
                 }
             }
-        } else {
+        } else if(isset($msg['userId']) && !isset($msg['read_at'])){
 
             $this->users += [
                 $this->userIdChat => $msg['userId']
             ];
-
-
 
             if (!in_array($msg['userId'], $this->onlines)) {
                 array_push($this->onlines, $msg['userId']);
@@ -74,6 +72,16 @@ class Chat implements MessageComponentInterface
             foreach ($this->clients as $client) {
                 $client->send(json_encode($this->onlines, true));
             }
+        }else{
+                 $reads = [
+                    'userId'=> $msg['userId'],
+                    'fromId'=> $msg['fromId'],
+                    'read_at' => $msg['read_at'],
+            ];
+            foreach ($this->clients as $client) {
+                $client->send(json_encode($reads, true));
+            }
+
         }
     }
 

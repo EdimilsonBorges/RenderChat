@@ -25,8 +25,14 @@ conn.onmessage = function (e) {
     let data = JSON.parse(e.data);
 
     if (data.message == null) {
-        onlines = JSON.stringify(data);
-        carregarUserChat();
+        if (data.read_at == null) {
+            onlines = JSON.stringify(data);
+            carregarUserChat();
+        } else {
+           // let dados = JSON.stringify(data);
+           // showChatMessage(dados, "me", userId);
+           // console.log(dados);
+        }
     } else if (data.userId != userId) {
         let dados = JSON.stringify(data);
         showChatMessage(dados, "other", userId);
@@ -84,8 +90,22 @@ function showChatMessage(msg, user) {
         let mensagemEup = document.createElement('p');
         mensagemEup.textContent = msg.message;
 
+        let visto = document.createElement('div');
+        visto.setAttribute("class", "visto");
+        visto.style = "width: 10px; height: 10px; background-color: #0f0; border-radius: 50%; margin-top: 16px; margin-left: -18px;";
+
+        let nVisto = document.createElement('div');
+        nVisto.setAttribute("class", "nvisto");
+        nVisto.style = "width: 10px; height: 10px; background-color: #bbb; border-radius: 50%; margin-top: 16px; margin-left: -18px;";
+
         mensagemEu.appendChild(mensagemEup);
         caixaEu.appendChild(mensagemEu);
+        if (msg.read_at != null) {
+            caixaEu.appendChild(visto);
+        } else {
+            caixaEu.appendChild(nVisto);
+        }
+
         areaMenssage.appendChild(caixaEu);
 
         areaMenssage.scrollTop = areaMenssage.scrollHeight;
@@ -312,6 +332,15 @@ function marcarChatComoLido(fromId) {
     pedidos.open("GET", `Controllers/update_messeger_chat?from_id=${fromId}&user_id=${userId}`);
     pedidos.send();
 
+    // atualiza para visto em tempo real
+    let read = { // cria um objeto msg
+        'userId': userId,
+        'fromId': fromId,
+        'read_at': Date(),
+    }
+
+    read = JSON.stringify(read); //converte para json
+    conn.send(read);
 }
 
 function ocultarDesocultarBatePapo() {
@@ -326,6 +355,7 @@ function ocultarDesocultarBatePapo() {
 }
 
 function carregarUserChat() {
+
     let pedidos = new XMLHttpRequest();
 
     pedidos.open("GET", `Controllers/get_all_status?user_id=${userId}`);
@@ -523,9 +553,9 @@ function openChat(fromId, nomeCompleto, perfImg, online) {
                     let msg = { // cria um objeto msg
                         'userId': userId,
                         'fromId': fromId,
-                        'message': result['messeger']
+                        'message': result['messeger'],
+                        'read_at': result['read_at']
                     }
-                    read(result['read_at']);
                     msg = JSON.stringify(msg); //converte para json
                     showChatMessage(msg, "me");
                 }
@@ -536,8 +566,8 @@ function openChat(fromId, nomeCompleto, perfImg, online) {
                         'userId': userId,
                         'fromId': fromId,
                         'message': result['messeger'],
+                        'read_at': result['read_at']
                     }
-                    read(result['read_at']);
                     msg = JSON.stringify(msg); //converte para json
                     showChatMessage(msg, "me");
                 }
@@ -546,21 +576,14 @@ function openChat(fromId, nomeCompleto, perfImg, online) {
                     let msg = { // cria um objeto msg
                         'userId': fromId,
                         'fromId': userId,
-                        'message': result['messeger']
+                        'message': result['messeger'],
+                        'read_at': result['read_at']
                     }
-                    read(result['read_at']);
                     msg = JSON.stringify(msg); //converte para json
                     showChatMessage(msg, "other");
                 }
             });
         }
-    }
-
-}
-
-function read(read_at){
-    if(read_at != null){
-
     }
 
 }

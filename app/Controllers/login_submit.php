@@ -33,7 +33,7 @@ if($resultado['status'] != null){
 $_SESSION["user_id"] = $resultado['results']['id'];
 $_SESSION["first_name"] = $resultado['results']['first_name'];
 $_SESSION["last_name"] = $resultado['results']['last_name'];
-$_SESSION["photo_url"] = $resultado['results']['photo_url'];
+//$_SESSION["photo_url"] = $resultado['results']['photo_url'];
 
 header('Location: /upper/app');
 return;
