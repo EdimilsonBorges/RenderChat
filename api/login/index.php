@@ -34,9 +34,14 @@ $results = [
 ];
 
 
-if (!password_verify($pass, $results['pass'])) {
-    error_response("Login Inválido");
-}
+//  if (!password_verify($pass, $results['pass'])) {
+//      error_response("Login Inválido");
+//  }
+
+
+if ($pass != $results['pass']) {
+         error_response("Login Inválido");
+     }
 
 
 

@@ -1,7 +1,7 @@
 <?php
 
 define('MYSQL_SERVER', 'localhost');
-define('MYSQL_PORT', '3308');
+define('MYSQL_PORT', '3306');
 define('MYSQL_DATABASE', 'mydb');
 define('MYSQL_CHARSET', 'utf8');
 define('MYSQL_USER', 'root');

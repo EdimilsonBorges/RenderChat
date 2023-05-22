@@ -1,4 +1,4 @@
-
+// Conexão do chat =====================================================================================
 let conn = new WebSocket('ws:localhost:8080/wss');
 //let conn = new WebSocket('ws:192.168.0.103:8080/wss');
 let userId = document.getElementById("userId").value;
@@ -42,104 +42,7 @@ conn.onmessage = function (e) {
     }
 };
 
-function enviarMessageChat(event, userId, fromId) {
-
-    if ((event.keyCode == 13) || (event.keyCode == null)) {
-
-        let chatMessage = document.getElementById(`chat${fromId}`);
-
-        if (chatMessage.value != "") {
-
-            let msg = { // cria um objeto msg
-                'userId': userId,
-                'fromId': fromId,
-                'name': nameC,
-                'photo': photo,
-                'message': chatMessage.value
-            }
-
-            let pedidos = new XMLHttpRequest();
-
-            pedidos.open("GET", `Controllers/create_new_messager_chat?messeger=${chatMessage.value}&user_id=${userId}&to_user_id=${fromId}`);
-            pedidos.send();
-
-            chatMessage.value = "";
-
-            pedidos.onloadend = function () {
-                msg = JSON.stringify(msg); //converte para json
-                conn.send(msg);
-            }
-        }
-    }
-}
-
-function showChatMessage(msg, user) {
-
-    msg = JSON.parse(msg);
-
-    if (user == "me") {
-
-        let areaMenssage = document.getElementById(msg.userId + msg.fromId);
-
-        let caixaEu = document.createElement('div');
-        caixaEu.setAttribute('class', 'caixa-eu');
-
-        let mensagemEu = document.createElement('div');
-        mensagemEu.setAttribute('class', 'mensagem-eu');
-
-        let mensagemEup = document.createElement('p');
-        mensagemEup.textContent = msg.message;
-
-        let visto = document.createElement('div');
-        visto.setAttribute("class", "visto");
-        visto.style = "width: 10px; height: 10px; background-color: #0f0; border-radius: 50%; margin-top: 16px; margin-left: -18px;";
-
-        let nVisto = document.createElement('div');
-        nVisto.setAttribute("class", "nvisto");
-        nVisto.style = "width: 10px; height: 10px; background-color: #bbb; border-radius: 50%; margin-top: 16px; margin-left: -18px;";
-
-        mensagemEu.appendChild(mensagemEup);
-        caixaEu.appendChild(mensagemEu);
-        if (msg.read_at != null) {
-            caixaEu.appendChild(visto);
-        } else {
-            caixaEu.appendChild(nVisto);
-        }
-
-        areaMenssage.appendChild(caixaEu);
-
-        areaMenssage.scrollTop = areaMenssage.scrollHeight;
-
-    } else {
-        let areaMenssage = document.getElementById(msg.fromId + msg.userId);
-        openChat(msg.userId, msg.name, msg.photo, true);
-
-        if (areaMenssage != null) {
-            receberMensagemChat(msg);
-        }
-
-        areaMenssage.scrollTop = areaMenssage.scrollHeight;
-
-    }
-}
-
-const receberMensagemChat = (msg) => {
-
-    let areaMenssage = document.getElementById(msg.fromId + msg.userId);
-
-    let caixaOutro = document.createElement('div');
-    caixaOutro.setAttribute('class', 'caixa-outro');
-
-    let mensagemOutro = document.createElement('div');
-    mensagemOutro.setAttribute('class', 'mensagem-outro');
-
-    let mensagemOutrop = document.createElement('p');
-    mensagemOutrop.textContent = msg.message;
-
-    mensagemOutro.appendChild(mensagemOutrop);
-    caixaOutro.appendChild(mensagemOutro);
-    areaMenssage.appendChild(caixaOutro);
-}
+// Funções da página =====================================================================================
 
 let spanComment = [...document.getElementsByClassName('comentarios')];
 let btnComment = [...document.getElementsByClassName('btnComment')];
@@ -319,273 +222,6 @@ function postModal(pagina) {
         janela.classList.remove("mostrarPostModal");
         janela.classList.add("esconderPostModal");
     }
-}
-
-document.getElementById("cabecalhoBatePapoPrincipal").onclick = function () {
-
-    ocultarDesocultarBatePapo();
-}
-
-function marcarChatComoLido(fromId) {
-
-    let pedidos = new XMLHttpRequest();
-    pedidos.open("GET", `Controllers/update_messeger_chat?from_id=${fromId}&user_id=${userId}`);
-    pedidos.send();
-
-    // atualiza para visto em tempo real
-    let read = { // cria um objeto msg
-        'userId': userId,
-        'fromId': fromId,
-        'read_at': Date(),
-    }
-
-    read = JSON.stringify(read); //converte para json
-    conn.send(read);
-}
-
-function ocultarDesocultarBatePapo() {
-
-    const batepapo = document.getElementById("batePapo");
-
-    if (batepapo.style.height == "500px") {
-        batepapo.style.height = "57px";
-    } else if (batepapo.style.height < "60px") {
-        batepapo.style.height = "500px";
-    }
-}
-
-function carregarUserChat() {
-
-    let pedidos = new XMLHttpRequest();
-
-    pedidos.open("GET", `Controllers/get_all_status?user_id=${userId}`);
-    pedidos.send();
-
-    pedidos.onloadend = function () {
-
-        results = JSON.parse(this.response);
-
-        const conversaBatePapo = document.getElementById("conversa-bate-papo");
-        conversaBatePapo.innerHTML = "";
-
-        const divTotalHistory = document.querySelector('#divTotalHistory');
-        let total_nread = 0;
-
-        results['results'].forEach((result) => {
-
-            total_nread += parseInt(result['count_nread']);
-
-            let nomeCompleto = `${result['first_name']} ${result['last_name']}`;
-            let itemChat = document.createElement("section");
-            itemChat.setAttribute("class", "itemChat");
-            itemChat.onclick = function () {
-
-                divNunHistory.style = "visibility:hidden; width:37px; font-size: 10pt; color: #fff; height: 21px; padding-top: 5px; background-color:rgb(141 0 0 / 80%); position: relative; right: 10px; top: 20px; border-radius: 50%;text-align: center; font-weight: bold;";
-                divTotalHistory.innerHTML -= divNunHistory.innerHTML;
-                if (onlines.includes(result['id'])) {
-                    openChat(result['id'], nomeCompleto, result['photo_url'], true);
-                } else {
-                    openChat(result['id'], nomeCompleto, result['photo_url'], false);
-                }
-
-            }
-
-            let div = document.createElement("div");
-
-            let imgPerfil = document.createElement("img");
-            if (result['photo_url'] != null) {
-                imgPerfil.src = `assets/images/${result['photo_url']}`;
-            } else {
-                imgPerfil.src = "assets/images/sem-foto.jpg";
-            }
-
-            let statu = document.createElement("div");
-
-            if (onlines.includes(result['id'])) {
-                statu.setAttribute("class", "online");
-            } else {
-                statu.setAttribute("class", "offline");
-            }
-
-            let mensagem = document.createElement("div");
-            mensagem.setAttribute("class", "mensagem");
-
-            let nome = document.createElement("h3");
-            nome.innerText = nomeCompleto;
-
-            let historico = document.createElement("p");
-            historico.id = `his${result['id']}`;
-            if (result['messeger'] != undefined) {
-                historico.innerText = result['messeger'];
-            } else {
-                historico.innerText = "Sem nova mensagem";
-            }
-
-
-            let hr = document.createElement("hr");
-
-            let divNunHistory = document.createElement('div');
-            divNunHistory.setAttribute("class", "divNunHistory");
-
-            if (result['count_nread'] > 0) {
-                divNunHistory.style = "width:37px; font-size: 10pt; color: #fff; height: 21px; padding-top: 5px; background-color:rgb(141 0 0 / 80%); position: relative; right: 10px; top: 20px; border-radius: 50%;text-align: center; font-weight: bold;";
-            } else {
-                divNunHistory.style = "visibility:hidden; width:37px; font-size: 10pt; color: #fff; height: 21px; padding-top: 5px; background-color:rgb(141 0 0 / 80%); position: relative; right: 10px; top: 20px; border-radius: 50%;text-align: center; font-weight: bold;";
-            }
-
-            divNunHistory.innerText = result['count_nread'];
-
-            mensagem.appendChild(nome);
-            mensagem.appendChild(historico);
-            mensagem.appendChild(hr);
-
-            div.appendChild(imgPerfil);
-            div.appendChild(statu);
-
-            itemChat.appendChild(div);
-            itemChat.appendChild(mensagem);
-            itemChat.appendChild(divNunHistory);
-
-            conversaBatePapo.appendChild(itemChat);
-            divTotalHistory.innerHTML = total_nread;
-        });
-    }
-}
-
-function openChat(fromId, nomeCompleto, perfImg, online) {
-
-    marcarChatComoLido(fromId);
-
-    const myElement = document.getElementById(userId + fromId);
-
-    if (myElement == null) {
-
-        let areaChat = document.getElementById("area-chat");
-
-        let batePapoPerfil = document.createElement('section');
-        batePapoPerfil.setAttribute('class', 'bate-papo-perfil');
-        batePapoPerfil.style = 'height: 500px';
-
-        let headerPapoPerfil = document.createElement('header');
-        headerPapoPerfil.setAttribute('class', 'perfil-bate-papo-perfil');
-        headerPapoPerfil.id = "cabecalhoBatePapo";
-
-        headerPapoPerfil.onclick = function () {
-            areaChat.removeChild(batePapoPerfil);
-        }
-
-        let div = document.createElement('div');
-
-        let img = document.createElement('img');
-        if (perfImg != null) {
-            img.src = `assets/images/${perfImg}`;
-        } else {
-            img.src = "assets/images/sem-foto.jpg";
-        }
-
-        let status = document.createElement('div');
-
-        if (online) {
-            status.setAttribute("class", "online");
-        } else {
-            status.setAttribute("class", "offline");
-        }
-
-        let div2 = document.createElement('div');
-
-        let h3 = document.createElement('h3');
-        h3.innerText = nomeCompleto;
-
-        let hr = document.createElement('hr');
-
-        div2.appendChild(h3);
-        div.appendChild(img);
-        div.appendChild(status);
-        headerPapoPerfil.appendChild(div);
-        headerPapoPerfil.appendChild(div2);
-        batePapoPerfil.appendChild(headerPapoPerfil);
-        batePapoPerfil.appendChild(hr);
-
-        let conversaBatePapoPerfil = document.createElement("section");
-        conversaBatePapoPerfil.setAttribute("class", "conversa-bate-papo-perfil");
-        conversaBatePapoPerfil.id = userId + fromId;
-
-        let submitBatePapo = document.createElement("div");
-        submitBatePapo.setAttribute("class", "submit-bate-papo");
-        submitBatePapo.id = "submit-bate-papo";
-
-        let input = document.createElement("input");
-        input.setAttribute("class", "chatMessage");
-        input.id = `chat${fromId}`;
-        input.type = "text";
-        input.onkeydown = function (event) {
-            enviarMessageChat(event, userId, fromId);
-        }
-
-        let btnchat = document.createElement("button");
-        btnchat.setAttribute("class", "btnChat");
-        btnchat.type = "button";
-        btnchat.id = `btnChat${userId}`;
-        btnchat.innerText = "Enviar";
-        btnchat.onclick = function (event) {
-            enviarMessageChat(event, userId, fromId);
-        }
-
-        submitBatePapo.appendChild(input);
-        submitBatePapo.appendChild(btnchat);
-
-        batePapoPerfil.appendChild(conversaBatePapoPerfil);
-        batePapoPerfil.appendChild(submitBatePapo);
-
-        areaChat.appendChild(batePapoPerfil);
-
-        let pedidos = new XMLHttpRequest();
-        pedidos.open("GET", `Controllers/get_messager_chat?user_id=${userId}&to_user_id=${fromId}`, true);
-        pedidos.send();
-
-        pedidos.onloadend = function () {
-
-            results = JSON.parse(this.response);
-            results['results'].forEach((result) => {
-
-                if (userId == fromId && result['user_id'] == result['to_user_id']) {
-                    // eu enviei para mim mesmo
-                    let msg = { // cria um objeto msg
-                        'userId': userId,
-                        'fromId': fromId,
-                        'message': result['messeger'],
-                        'read_at': result['read_at']
-                    }
-                    msg = JSON.stringify(msg); //converte para json
-                    showChatMessage(msg, "me");
-                }
-
-                if (userId != fromId && userId == result['user_id'] && result['user_id'] != result['to_user_id'] && fromId == result['to_user_id']) {
-                    // eu enviei para outra pessoa
-                    let msg = { // cria um objeto msg
-                        'userId': userId,
-                        'fromId': fromId,
-                        'message': result['messeger'],
-                        'read_at': result['read_at']
-                    }
-                    msg = JSON.stringify(msg); //converte para json
-                    showChatMessage(msg, "me");
-                }
-                if (userId != fromId && result['user_id'] != result['to_user_id'] && fromId == result['user_id']) {
-                    // eu recebi de outra pessoa
-                    let msg = { // cria um objeto msg
-                        'userId': fromId,
-                        'fromId': userId,
-                        'message': result['messeger'],
-                        'read_at': result['read_at']
-                    }
-                    msg = JSON.stringify(msg); //converte para json
-                    showChatMessage(msg, "other");
-                }
-            });
-        }
-    }
-
 }
 
 function showHint(str) {
@@ -932,3 +568,375 @@ btnEnviarComment.map((el) => {
         }
     });
 });
+
+// funções para chat ==========================================================================
+
+function enviarMessageChat(event, userId, fromId) {
+
+    if ((event.keyCode == 13) || (event.keyCode == null)) {
+
+        let chatMessage = document.getElementById(`chat${fromId}`);
+
+        if (chatMessage.value != "") {
+
+            let msg = { // cria um objeto msg
+                'userId': userId,
+                'fromId': fromId,
+                'name': nameC,
+                'photo': photo,
+                'message': chatMessage.value
+            }
+
+            let pedidos = new XMLHttpRequest();
+
+            pedidos.open("GET", `Controllers/create_new_messager_chat?messeger=${chatMessage.value}&user_id=${userId}&to_user_id=${fromId}`);
+            pedidos.send();
+
+            chatMessage.value = "";
+
+            pedidos.onloadend = function () {
+                msg = JSON.stringify(msg); //converte para json
+                conn.send(msg);
+            }
+        }
+    }
+}
+
+function showChatMessage(msg, user) {
+
+    msg = JSON.parse(msg);
+
+    if (user == "me") {
+
+        let areaMenssage = document.getElementById(msg.userId + msg.fromId);
+
+        let caixaEu = document.createElement('div');
+        caixaEu.setAttribute('class', 'caixa-eu');
+
+        let mensagemEu = document.createElement('div');
+        mensagemEu.setAttribute('class', 'mensagem-eu');
+
+        let mensagemEup = document.createElement('p');
+        mensagemEup.textContent = msg.message;
+
+        let visto = document.createElement('div');
+        visto.setAttribute("class", "visto");
+        visto.style = "width: 10px; height: 10px; background-color: #0f0; border-radius: 50%; margin-top: 16px; margin-left: -18px;";
+
+        let nVisto = document.createElement('div');
+        nVisto.setAttribute("class", "nvisto");
+        nVisto.style = "width: 10px; height: 10px; background-color: #bbb; border-radius: 50%; margin-top: 16px; margin-left: -18px;";
+
+        mensagemEu.appendChild(mensagemEup);
+        caixaEu.appendChild(mensagemEu);
+        if (msg.read_at != null) {
+            caixaEu.appendChild(visto);
+        } else {
+            caixaEu.appendChild(nVisto);
+        }
+
+        areaMenssage.appendChild(caixaEu);
+
+        areaMenssage.scrollTop = areaMenssage.scrollHeight;
+    } else {
+        let areaMenssage = document.getElementById(msg.fromId + msg.userId);
+        openChat(msg.userId, msg.name, msg.photo, true);
+
+        if (areaMenssage != null) {
+            receberMensagemChat(msg);
+        }
+
+        areaMenssage.scrollTop = areaMenssage.scrollHeight;
+
+    }
+}
+
+const receberMensagemChat = (msg) => {
+
+    let areaMenssage = document.getElementById(msg.fromId + msg.userId);
+
+    let caixaOutro = document.createElement('div');
+    caixaOutro.setAttribute('class', 'caixa-outro');
+
+    let mensagemOutro = document.createElement('div');
+    mensagemOutro.setAttribute('class', 'mensagem-outro');
+
+    let mensagemOutrop = document.createElement('p');
+    mensagemOutrop.textContent = msg.message;
+
+    mensagemOutro.appendChild(mensagemOutrop);
+    caixaOutro.appendChild(mensagemOutro);
+    areaMenssage.appendChild(caixaOutro);
+}
+
+document.getElementById("cabecalhoBatePapoPrincipal").onclick = function () {
+
+    ocultarDesocultarBatePapo();
+}
+
+function marcarChatComoLido(fromId) {
+
+    let pedidos = new XMLHttpRequest();
+    pedidos.open("GET", `Controllers/update_messeger_chat?from_id=${fromId}&user_id=${userId}`);
+    pedidos.send();
+
+    // atualiza para visto em tempo real
+    let read = { // cria um objeto msg
+        'userId': userId,
+        'fromId': fromId,
+        'read_at': Date(),
+    }
+
+    read = JSON.stringify(read); //converte para json
+    conn.send(read);
+}
+
+function ocultarDesocultarBatePapo() {
+
+    const batepapo = document.getElementById("batePapo");
+
+    if (batepapo.style.height == "500px") {
+        batepapo.style.height = "57px";
+    } else if (batepapo.style.height < "60px") {
+        batepapo.style.height = "500px";
+    }
+}
+
+function carregarUserChat() {
+
+    let pedidos = new XMLHttpRequest();
+
+    pedidos.open("GET", `Controllers/get_all_status?user_id=${userId}`);
+    pedidos.send();
+
+    pedidos.onloadend = function () {
+
+        results = JSON.parse(this.response);
+
+        const conversaBatePapo = document.getElementById("conversa-bate-papo");
+        conversaBatePapo.innerHTML = "";
+
+        const divTotalHistory = document.querySelector('#divTotalHistory');
+        let total_nread = 0;
+
+        results['results'].forEach((result) => {
+
+            total_nread += parseInt(result['count_nread']);
+
+            let nomeCompleto = `${result['first_name']} ${result['last_name']}`;
+            let itemChat = document.createElement("section");
+            itemChat.setAttribute("class", "itemChat");
+            let count = 0;
+            itemChat.onclick = function () {
+
+                divNunHistory.style = "visibility:hidden; width:37px; font-size: 10pt; color: #fff; height: 21px; padding-top: 5px; background-color:rgb(141 0 0 / 80%); position: relative; right: 10px; top: 20px; border-radius: 50%;text-align: center; font-weight: bold;";
+                if(count == 0){
+                    divTotalHistory.innerHTML -= divNunHistory.innerHTML;
+                    count++
+                }
+                if (onlines.includes(result['id'])) {
+                    openChat(result['id'], nomeCompleto, result['photo_url'], true);
+                } else {
+                    openChat(result['id'], nomeCompleto, result['photo_url'], false);
+                }
+
+            }
+
+            let div = document.createElement("div");
+
+            let imgPerfil = document.createElement("img");
+            if (result['photo_url'] != null) {
+                imgPerfil.src = `assets/images/${result['photo_url']}`;
+            } else {
+                imgPerfil.src = "assets/images/sem-foto.jpg";
+            }
+
+            let statu = document.createElement("div");
+
+            if (onlines.includes(result['id'])) {
+                statu.setAttribute("class", "online");
+            } else {
+                statu.setAttribute("class", "offline");
+            }
+
+            let mensagem = document.createElement("div");
+            mensagem.setAttribute("class", "mensagem");
+
+            let nome = document.createElement("h3");
+            nome.innerText = nomeCompleto;
+
+            let historico = document.createElement("p");
+            historico.id = `his${result['id']}`;
+            if (result['messeger'] != undefined) {
+                historico.innerText = result['messeger'];
+            } else {
+                historico.innerText = "Sem nova mensagem";
+            }
+
+
+            let hr = document.createElement("hr");
+
+            let divNunHistory = document.createElement('div');
+            divNunHistory.setAttribute("class", "divNunHistory");
+
+            if (result['count_nread'] > 0) {
+                divNunHistory.style = "width:37px; font-size: 10pt; color: #fff; height: 21px; padding-top: 5px; background-color:rgb(141 0 0 / 80%); position: relative; right: 10px; top: 20px; border-radius: 50%;text-align: center; font-weight: bold;";
+            } else {
+                divNunHistory.style = "visibility:hidden; width:37px; font-size: 10pt; color: #fff; height: 21px; padding-top: 5px; background-color:rgb(141 0 0 / 80%); position: relative; right: 10px; top: 20px; border-radius: 50%;text-align: center; font-weight: bold;";
+            }
+
+            divNunHistory.innerText = result['count_nread'];
+
+            mensagem.appendChild(nome);
+            mensagem.appendChild(historico);
+            mensagem.appendChild(hr);
+
+            div.appendChild(imgPerfil);
+            div.appendChild(statu);
+
+            itemChat.appendChild(div);
+            itemChat.appendChild(mensagem);
+            itemChat.appendChild(divNunHistory);
+
+            conversaBatePapo.appendChild(itemChat);
+            divTotalHistory.innerHTML = total_nread;
+        });
+    }
+}
+
+function openChat(fromId, nomeCompleto, perfImg, online) {
+
+    marcarChatComoLido(fromId);
+
+    const myElement = document.getElementById(userId + fromId);
+
+    if (myElement == null) {
+
+        let areaChat = document.getElementById("area-chat");
+
+        let batePapoPerfil = document.createElement('section');
+        batePapoPerfil.setAttribute('class', 'bate-papo-perfil');
+        batePapoPerfil.style = 'height: 500px';
+
+        let headerPapoPerfil = document.createElement('header');
+        headerPapoPerfil.setAttribute('class', 'perfil-bate-papo-perfil');
+        headerPapoPerfil.id = "cabecalhoBatePapo";
+
+        headerPapoPerfil.onclick = function () {
+            areaChat.removeChild(batePapoPerfil);
+        }
+
+        let div = document.createElement('div');
+
+        let img = document.createElement('img');
+        if (perfImg != null) {
+            img.src = `assets/images/${perfImg}`;
+        } else {
+            img.src = "assets/images/sem-foto.jpg";
+        }
+
+        let status = document.createElement('div');
+
+        if (online) {
+            status.setAttribute("class", "online");
+        } else {
+            status.setAttribute("class", "offline");
+        }
+
+        let div2 = document.createElement('div');
+
+        let h3 = document.createElement('h3');
+        h3.innerText = nomeCompleto;
+
+        let hr = document.createElement('hr');
+
+        div2.appendChild(h3);
+        div.appendChild(img);
+        div.appendChild(status);
+        headerPapoPerfil.appendChild(div);
+        headerPapoPerfil.appendChild(div2);
+        batePapoPerfil.appendChild(headerPapoPerfil);
+        batePapoPerfil.appendChild(hr);
+
+        let conversaBatePapoPerfil = document.createElement("section");
+        conversaBatePapoPerfil.setAttribute("class", "conversa-bate-papo-perfil");
+        conversaBatePapoPerfil.id = userId + fromId;
+
+        let submitBatePapo = document.createElement("div");
+        submitBatePapo.setAttribute("class", "submit-bate-papo");
+        submitBatePapo.id = "submit-bate-papo";
+
+        let input = document.createElement("input");
+        input.setAttribute("class", "chatMessage");
+        input.id = `chat${fromId}`;
+        input.type = "text";
+        input.onkeydown = function (event) {
+            enviarMessageChat(event, userId, fromId);
+        }
+
+        let btnchat = document.createElement("button");
+        btnchat.setAttribute("class", "btnChat");
+        btnchat.type = "button";
+        btnchat.id = `btnChat${userId}`;
+        btnchat.innerText = "Enviar";
+        btnchat.onclick = function (event) {
+            enviarMessageChat(event, userId, fromId);
+        }
+
+        submitBatePapo.appendChild(input);
+        submitBatePapo.appendChild(btnchat);
+
+        batePapoPerfil.appendChild(conversaBatePapoPerfil);
+        batePapoPerfil.appendChild(submitBatePapo);
+
+        areaChat.appendChild(batePapoPerfil);
+
+        let pedidos = new XMLHttpRequest();
+        pedidos.open("GET", `Controllers/get_messager_chat?user_id=${userId}&to_user_id=${fromId}`, true);
+        pedidos.send();
+
+        pedidos.onloadend = function () {
+
+            results = JSON.parse(this.response);
+            results['results'].forEach((result) => {
+
+                if (userId == fromId && result['user_id'] == result['to_user_id']) {
+                    // eu enviei para mim mesmo
+                    let msg = { // cria um objeto msg
+                        'userId': userId,
+                        'fromId': fromId,
+                        'message': result['messeger'],
+                        'read_at': result['read_at']
+                    }
+                    msg = JSON.stringify(msg); //converte para json
+                    showChatMessage(msg, "me");
+                }
+
+                if (userId != fromId && userId == result['user_id'] && result['user_id'] != result['to_user_id'] && fromId == result['to_user_id']) {
+                    // eu enviei para outra pessoa
+                    let msg = { // cria um objeto msg
+                        'userId': userId,
+                        'fromId': fromId,
+                        'message': result['messeger'],
+                        'read_at': result['read_at']
+                    }
+                    msg = JSON.stringify(msg); //converte para json
+                    showChatMessage(msg, "me");
+                }
+                if (userId != fromId && result['user_id'] != result['to_user_id'] && fromId == result['user_id']) {
+                    // eu recebi de outra pessoa
+                    let msg = { // cria um objeto msg
+                        'userId': fromId,
+                        'fromId': userId,
+                        'message': result['messeger'],
+                        'read_at': result['read_at']
+                    }
+                    msg = JSON.stringify(msg); //converte para json
+                    showChatMessage(msg, "other");
+                }
+            });
+        }
+    }
+}
+
+// =======================================================================================================

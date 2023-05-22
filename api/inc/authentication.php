@@ -17,17 +17,24 @@ $params = [
     ':user_name' => $_SERVER['PHP_AUTH_USER'],
 ];
 
-$results = $db->select('SELECT * FROM `authentication` WHERE user_name = :user_name', $params);
+$results = $db->select('SELECT * FROM authentications WHERE user_name = :user_name', $params);
 
 if(count($results) > 0){
    
     $usuario = $results[0];
 
-    if(password_verify($_SERVER['PHP_AUTH_PW'], $usuario->pass)){
+    // if(password_verify($_SERVER['PHP_AUTH_PW'], $usuario->pass)){
+    //     $valid_authentication = true;
+    // }else{
+    //     $valid_authentication = false;
+    // }
+
+     if( $_SERVER['PHP_AUTH_PW'] == $usuario->pass){
         $valid_authentication = true;
     }else{
         $valid_authentication = false;
     }
+
 }else{
     $valid_authentication = false;
 }
