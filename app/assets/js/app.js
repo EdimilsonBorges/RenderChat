@@ -29,9 +29,9 @@ conn.onmessage = function (e) {
             onlines = JSON.stringify(data);
             carregarUserChat();
         } else {
-           // let dados = JSON.stringify(data);
-           // showChatMessage(dados, "me", userId);
-           // console.log(dados);
+            // let dados = JSON.stringify(data);
+            // showChatMessage(dados, "me", userId);
+            // console.log(dados);
         }
     } else if (data.userId != userId) {
         let dados = JSON.stringify(data);
@@ -64,18 +64,40 @@ function commentar(el) {
 
         janela.classList.toggle("most");
 
-        let pedidos = new XMLHttpRequest();
+        // const dados = {
+        //     post_id: postId
+        // }
 
-        pedidos.open("GET", `Controllers/get_comments?post_id=${postId}`);
-        pedidos.send();
+        // const cabecalho = {
+        //     headers: {
+        //         'Content-Type': 'application/json'
+        //       },
+        //     method: 'POST',
+        //     body: JSON.stringify(dados)
+        // }
+        let endPoint = `Controllers/get_comments?post_id=${postId}`;
+       // const endPoint = `Controllers/get_comments`;
+       // fetch(endPoint,cabecalho)
+        fetch(endPoint)
+            .then(res => res.json())
+            .then(results => {
+                console.log(results);
+                if (results.status == "SUCESS") {
+                    campo.innerHTML = "";
+                    results['results'].forEach((result) => {
+                        createComment(postId, result, campo, spanComment);
+                    });
 
-        pedidos.onloadend = function () {
-            results = JSON.parse(this.response);
-            campo.innerHTML = "";
-            results['results'].forEach((result) => {
-                createComment(postId, result, campo, spanComment);
-            });
-        }
+                } else {
+                    "Error";
+                }
+            }).catch(error => {
+                // Lidar com erros
+                console.error('Erro:', error);
+              });
+
+
+
     });
 }
 
@@ -148,20 +170,23 @@ function createComment(postId, result, campo, spanComment) {
 
 function deletComment(commentId, postId, campo, spanComment) {
 
-    let pedidos = new XMLHttpRequest();
+    let endPoint = `Controllers/delete_comment?id=${commentId}&post_id=${postId}`
 
-    pedidos.open("GET", `Controllers/delete_comment?id=${commentId}&post_id=${postId}`);
-    pedidos.send();
+    fetch(endPoint)
+        .then(res => res.json())
+        .then(results => {
+            if (results.status == "SUCESS") {
+                spanComment.innerHTML--;
+                campo.innerHTML = "";
+                results['results'].forEach((resul) => {
+                    createComment(postId, resul, campo, spanComment);
+                });
 
-    pedidos.onloadend = function () {
-
-        results = JSON.parse(this.response);
-        spanComment.innerHTML--;
-        campo.innerHTML = "";
-        results['results'].forEach((result) => {
-            createComment(postId, result, campo, spanComment);
+            } else {
+                "erro"
+            }
         });
-    }
+
 }
 
 function commentMenuDrop(commentId, commentUser, user) {
@@ -332,50 +357,52 @@ likesViews.map((el) => {
 
         campo.innerHTML = "";
 
-        let pedidos = new XMLHttpRequest();
+        let endPoint = `Controllers/get_all_likes/index.php?post_id=${postId}`;
 
-        pedidos.open("GET", `Controllers/get_all_likes/index.php?post_id=${postId}`);
-        pedidos.send();
+        fetch(endPoint)
+            .then(res => res.json())
+            .then(results => {
+                if (results.status == "SUCESS") {
+
+                    totalLikes.innerText = results['results'].length;
+
+                    results['results'].forEach((like) => {
+
+                        let perfilCurtidas = document.createElement("div");
+                        perfilCurtidas.setAttribute("class", "perfilCurtidas");
+
+                        let img = document.createElement("img");
+
+                        if (like['photo_url'] != null) {
+                            img.src = `assets/images/${like['photo_url']}`;
+                        } else {
+                            img.src = "assets/images/sem-foto.jpg";
+                        }
+
+                        let h5 = document.createElement("h5");
+                        h5.innerText = `${like['first_name']} ${like['last_name']}`;
+
+                        let btnAdicionar = document.createElement("button");
+                        btnAdicionar.type = "button";
+                        btnAdicionar.innerText = "Adicionar";
+
+                        let hr = document.createElement("hr");
+
+                        perfilCurtidas.appendChild(img);
+                        perfilCurtidas.appendChild(h5);
+                        perfilCurtidas.appendChild(btnAdicionar);
+
+                        campo.appendChild(perfilCurtidas);
+                        campo.appendChild(hr);
+                    });
+                } else {
+                    "Error";
+                }
+            });
 
         janela.classList.remove("esconderPostModal");
         janela.classList.add("mostrarPostModal");
 
-        pedidos.onloadend = function () {
-
-            likes = JSON.parse(this.response);
-
-            totalLikes.innerText = likes['results'].length;
-
-            likes['results'].forEach((like) => {
-
-                let perfilCurtidas = document.createElement("div");
-                perfilCurtidas.setAttribute("class", "perfilCurtidas");
-
-                let img = document.createElement("img");
-
-                if (like['photo_url'] != null) {
-                    img.src = `assets/images/${like['photo_url']}`;
-                } else {
-                    img.src = "assets/images/sem-foto.jpg";
-                }
-
-                let h5 = document.createElement("h5");
-                h5.innerText = `${like['first_name']} ${like['last_name']}`;
-
-                let btnAdicionar = document.createElement("button");
-                btnAdicionar.type = "button";
-                btnAdicionar.innerText = "Adicionar";
-
-                let hr = document.createElement("hr");
-
-                perfilCurtidas.appendChild(img);
-                perfilCurtidas.appendChild(h5);
-                perfilCurtidas.appendChild(btnAdicionar);
-
-                campo.appendChild(perfilCurtidas);
-                campo.appendChild(hr);
-            });
-        }
 
         btnFechar.onclick = function () {
             campo.innerHTML = "";
@@ -401,50 +428,51 @@ compartView.map((el) => {
 
         campo.innerHTML = "";
 
-        let pedidos = new XMLHttpRequest();
+        let endPoint = `Controllers/get_all_shares/index.php?post_id=${postId}`;
 
-        pedidos.open("GET", `Controllers/get_all_shares/index.php?post_id=${postId}`);
-        pedidos.send();
+        fetch(endPoint)
+            .then(res => res.json())
+            .then(results => {
+                if (results.status == "SUCESS") {
+
+                    totalShares.innerText = results['results'].length;
+
+                    results['results'].forEach((share) => {
+
+                        let perfilComp = document.createElement("div");
+                        perfilComp.setAttribute("class", "perfilComp");
+
+                        let img = document.createElement("img");
+
+                        if (share['photo_url'] != null) {
+                            img.src = `assets/images/${share['photo_url']}`;
+                        } else {
+                            img.src = "assets/images/sem-foto.jpg";
+                        }
+
+                        let h5 = document.createElement("h5");
+                        h5.innerText = `${share['first_name']} ${share['last_name']}`;
+
+                        let btnAdicionar = document.createElement("button");
+                        btnAdicionar.type = "button";
+                        btnAdicionar.innerText = "Adicionar";
+
+                        let hr = document.createElement("hr");
+
+                        perfilComp.appendChild(img);
+                        perfilComp.appendChild(h5);
+                        perfilComp.appendChild(btnAdicionar);
+
+                        campo.appendChild(perfilComp);
+                        campo.appendChild(hr);
+                    });
+                } else {
+                    "Error";
+                }
+            });
 
         janela.classList.remove("esconderPostModal");
         janela.classList.add("mostrarPostModal");
-
-        pedidos.onloadend = function () {
-
-            shares = JSON.parse(this.response);
-
-            totalShares.innerText = shares['results'].length;
-
-            shares['results'].forEach((share) => {
-
-                let perfilComp = document.createElement("div");
-                perfilComp.setAttribute("class", "perfilComp");
-
-                let img = document.createElement("img");
-
-                if (share['photo_url'] != null) {
-                    img.src = `assets/images/${share['photo_url']}`;
-                } else {
-                    img.src = "assets/images/sem-foto.jpg";
-                }
-
-                let h5 = document.createElement("h5");
-                h5.innerText = `${share['first_name']} ${share['last_name']}`;
-
-                let btnAdicionar = document.createElement("button");
-                btnAdicionar.type = "button";
-                btnAdicionar.innerText = "Adicionar";
-
-                let hr = document.createElement("hr");
-
-                perfilComp.appendChild(img);
-                perfilComp.appendChild(h5);
-                perfilComp.appendChild(btnAdicionar);
-
-                campo.appendChild(perfilComp);
-                campo.appendChild(hr);
-            });
-        }
 
         btnFechar.onclick = function () {
             campo.innerHTML = "";
@@ -476,21 +504,28 @@ btnPublication.map((el) => {
         const postId = el.parentElement.dataset.postid;
         const btnLike = el.firstElementChild;
 
-        let pedido = new XMLHttpRequest();
+        let endPoint = `Controllers/curtir_descurtir.php?user_id=${userId}&post_id=${postId}`;
 
-        pedido.open("GET", `Controllers/curtir_descurtir.php?user_id=${userId}&post_id=${postId}`, true);
-        pedido.send();
+        fetch(endPoint)
+            .then(res => res.json())
+            .then(results => {
 
-        pedido.onload = function () {
-            if (btnLike.innerHTML == "Curtir") {
-                elementLikes.innerHTML++
-            } else if (btnLike.innerHTML == "Descurtir") {
-                elementLikes.innerHTML--
-            }
-            btnLike.innerHTML = this.responseText;
-        }
+                console.log(results);
+
+                if (results.status == "SUCESS") {
+
+                    if (btnLike.innerHTML == "Curtir") {
+                        elementLikes.innerHTML++;
+                    } else if (btnLike.innerHTML == "Descurtir") {
+                        elementLikes.innerHTML--;
+                    }
+                    btnLike.innerHTML = results["results"];
+
+                } else {
+                    "Error";
+                }
+            });
     });
-
     const btnShare = el.lastElementChild;
 
     // compartilhar publicação
@@ -552,19 +587,23 @@ btnEnviarComment.map((el) => {
         el.parentNode.firstElementChild.value = "";
         el.parentNode.firstElementChild.style.height = "15px";
 
-        let pedidos = new XMLHttpRequest();
+        let endPoint = `Controllers/create_new_comment?comment=${menssage}&user_id=${userId}&post_id=${postId}`;
 
         if (menssage != "") {
             spanComment.innerHTML++;
-            pedidos.open("GET", `Controllers/create_new_comment?comment=${menssage}&user_id=${userId}&post_id=${postId}`);
-            pedidos.send();
-        }
-        pedidos.onloadend = function () {
-            results = JSON.parse(this.response);
-            campo.innerHTML = "";
-            results['results'].forEach((result) => {
-                createComment(postId, result, campo, spanComment);
-            });
+
+            fetch(endPoint)
+                .then(res => res.json())
+                .then(results => {
+                    if (results.status == "SUCESS") {
+                        campo.innerHTML = "";
+                        results['results'].forEach((result) => {
+                            createComment(postId, result, campo, spanComment);
+                        });
+                    } else {
+                        "Error";
+                    }
+                });
         }
     });
 });
@@ -587,17 +626,20 @@ function enviarMessageChat(event, userId, fromId) {
                 'message': chatMessage.value
             }
 
-            let pedidos = new XMLHttpRequest();
-
-            pedidos.open("GET", `Controllers/create_new_messager_chat?messeger=${chatMessage.value}&user_id=${userId}&to_user_id=${fromId}`);
-            pedidos.send();
+            let endPoint = `Controllers/create_new_messager_chat?messeger=${chatMessage.value}&user_id=${userId}&to_user_id=${fromId}`;
 
             chatMessage.value = "";
 
-            pedidos.onloadend = function () {
-                msg = JSON.stringify(msg); //converte para json
-                conn.send(msg);
-            }
+            fetch(endPoint)
+                .then(res => res.json())
+                .then(results => {
+                    if (results.status == "SUCESS") {
+                        msg = JSON.stringify(msg); //converte para json
+                        conn.send(msg);
+                    } else {
+                        "Error";
+                    }
+                });
         }
     }
 }
@@ -676,9 +718,8 @@ document.getElementById("cabecalhoBatePapoPrincipal").onclick = function () {
 
 function marcarChatComoLido(fromId) {
 
-    let pedidos = new XMLHttpRequest();
-    pedidos.open("GET", `Controllers/update_messeger_chat?from_id=${fromId}&user_id=${userId}`);
-    pedidos.send();
+    let endPoint = `Controllers/update_messeger_chat?from_id=${fromId}&user_id=${userId}`;
+    fetch(endPoint);
 
     // atualiza para visto em tempo real
     let read = { // cria um objeto msg
@@ -704,104 +745,104 @@ function ocultarDesocultarBatePapo() {
 
 function carregarUserChat() {
 
-    let pedidos = new XMLHttpRequest();
+    let endPoint = `Controllers/get_all_status?user_id=${userId}`;
 
-    pedidos.open("GET", `Controllers/get_all_status?user_id=${userId}`);
-    pedidos.send();
+    fetch(endPoint)
+        .then(res => res.json())
+        .then(results => {
+            if (results.status == "SUCESS") {
+                const conversaBatePapo = document.getElementById("conversa-bate-papo");
+                conversaBatePapo.innerHTML = "";
 
-    pedidos.onloadend = function () {
+                const divTotalHistory = document.querySelector('#divTotalHistory');
+                let total_nread = 0;
 
-        results = JSON.parse(this.response);
+                results['results'].forEach((result) => {
 
-        const conversaBatePapo = document.getElementById("conversa-bate-papo");
-        conversaBatePapo.innerHTML = "";
+                    total_nread += parseInt(result['count_nread']);
 
-        const divTotalHistory = document.querySelector('#divTotalHistory');
-        let total_nread = 0;
+                    let nomeCompleto = `${result['first_name']} ${result['last_name']}`;
+                    let itemChat = document.createElement("section");
+                    itemChat.setAttribute("class", "itemChat");
+                    let count = 0;
+                    itemChat.onclick = function () {
 
-        results['results'].forEach((result) => {
+                        divNunHistory.style = "visibility:hidden; width:37px; font-size: 10pt; color: #fff; height: 21px; padding-top: 5px; background-color:rgb(141 0 0 / 80%); position: relative; right: 10px; top: 20px; border-radius: 50%;text-align: center; font-weight: bold;";
+                        if (count == 0) {
+                            divTotalHistory.innerHTML -= divNunHistory.innerHTML;
+                            count++
+                        }
+                        if (onlines.includes(result['id'])) {
+                            openChat(result['id'], nomeCompleto, result['photo_url'], true);
+                        } else {
+                            openChat(result['id'], nomeCompleto, result['photo_url'], false);
+                        }
 
-            total_nread += parseInt(result['count_nread']);
+                    }
 
-            let nomeCompleto = `${result['first_name']} ${result['last_name']}`;
-            let itemChat = document.createElement("section");
-            itemChat.setAttribute("class", "itemChat");
-            let count = 0;
-            itemChat.onclick = function () {
+                    let div = document.createElement("div");
 
-                divNunHistory.style = "visibility:hidden; width:37px; font-size: 10pt; color: #fff; height: 21px; padding-top: 5px; background-color:rgb(141 0 0 / 80%); position: relative; right: 10px; top: 20px; border-radius: 50%;text-align: center; font-weight: bold;";
-                if(count == 0){
-                    divTotalHistory.innerHTML -= divNunHistory.innerHTML;
-                    count++
-                }
-                if (onlines.includes(result['id'])) {
-                    openChat(result['id'], nomeCompleto, result['photo_url'], true);
-                } else {
-                    openChat(result['id'], nomeCompleto, result['photo_url'], false);
-                }
+                    let imgPerfil = document.createElement("img");
+                    if (result['photo_url'] != null) {
+                        imgPerfil.src = `assets/images/${result['photo_url']}`;
+                    } else {
+                        imgPerfil.src = "assets/images/sem-foto.jpg";
+                    }
 
-            }
+                    let statu = document.createElement("div");
 
-            let div = document.createElement("div");
+                    if (onlines.includes(result['id'])) {
+                        statu.setAttribute("class", "online");
+                    } else {
+                        statu.setAttribute("class", "offline");
+                    }
 
-            let imgPerfil = document.createElement("img");
-            if (result['photo_url'] != null) {
-                imgPerfil.src = `assets/images/${result['photo_url']}`;
+                    let mensagem = document.createElement("div");
+                    mensagem.setAttribute("class", "mensagem");
+
+                    let nome = document.createElement("h3");
+                    nome.innerText = nomeCompleto;
+
+                    let historico = document.createElement("p");
+                    historico.id = `his${result['id']}`;
+                    if (result['messeger'] != undefined) {
+                        historico.innerText = result['messeger'];
+                    } else {
+                        historico.innerText = "Sem nova mensagem";
+                    }
+
+
+                    let hr = document.createElement("hr");
+
+                    let divNunHistory = document.createElement('div');
+                    divNunHistory.setAttribute("class", "divNunHistory");
+
+                    if (result['count_nread'] > 0) {
+                        divNunHistory.style = "width:37px; font-size: 10pt; color: #fff; height: 21px; padding-top: 5px; background-color:rgb(141 0 0 / 80%); position: relative; right: 10px; top: 20px; border-radius: 50%;text-align: center; font-weight: bold;";
+                    } else {
+                        divNunHistory.style = "visibility:hidden; width:37px; font-size: 10pt; color: #fff; height: 21px; padding-top: 5px; background-color:rgb(141 0 0 / 80%); position: relative; right: 10px; top: 20px; border-radius: 50%;text-align: center; font-weight: bold;";
+                    }
+
+                    divNunHistory.innerText = result['count_nread'];
+
+                    mensagem.appendChild(nome);
+                    mensagem.appendChild(historico);
+                    mensagem.appendChild(hr);
+
+                    div.appendChild(imgPerfil);
+                    div.appendChild(statu);
+
+                    itemChat.appendChild(div);
+                    itemChat.appendChild(mensagem);
+                    itemChat.appendChild(divNunHistory);
+
+                    conversaBatePapo.appendChild(itemChat);
+                    divTotalHistory.innerHTML = total_nread;
+                });
             } else {
-                imgPerfil.src = "assets/images/sem-foto.jpg";
+                "Error";
             }
-
-            let statu = document.createElement("div");
-
-            if (onlines.includes(result['id'])) {
-                statu.setAttribute("class", "online");
-            } else {
-                statu.setAttribute("class", "offline");
-            }
-
-            let mensagem = document.createElement("div");
-            mensagem.setAttribute("class", "mensagem");
-
-            let nome = document.createElement("h3");
-            nome.innerText = nomeCompleto;
-
-            let historico = document.createElement("p");
-            historico.id = `his${result['id']}`;
-            if (result['messeger'] != undefined) {
-                historico.innerText = result['messeger'];
-            } else {
-                historico.innerText = "Sem nova mensagem";
-            }
-
-
-            let hr = document.createElement("hr");
-
-            let divNunHistory = document.createElement('div');
-            divNunHistory.setAttribute("class", "divNunHistory");
-
-            if (result['count_nread'] > 0) {
-                divNunHistory.style = "width:37px; font-size: 10pt; color: #fff; height: 21px; padding-top: 5px; background-color:rgb(141 0 0 / 80%); position: relative; right: 10px; top: 20px; border-radius: 50%;text-align: center; font-weight: bold;";
-            } else {
-                divNunHistory.style = "visibility:hidden; width:37px; font-size: 10pt; color: #fff; height: 21px; padding-top: 5px; background-color:rgb(141 0 0 / 80%); position: relative; right: 10px; top: 20px; border-radius: 50%;text-align: center; font-weight: bold;";
-            }
-
-            divNunHistory.innerText = result['count_nread'];
-
-            mensagem.appendChild(nome);
-            mensagem.appendChild(historico);
-            mensagem.appendChild(hr);
-
-            div.appendChild(imgPerfil);
-            div.appendChild(statu);
-
-            itemChat.appendChild(div);
-            itemChat.appendChild(mensagem);
-            itemChat.appendChild(divNunHistory);
-
-            conversaBatePapo.appendChild(itemChat);
-            divTotalHistory.innerHTML = total_nread;
         });
-    }
 }
 
 function openChat(fromId, nomeCompleto, perfImg, online) {
@@ -891,51 +932,53 @@ function openChat(fromId, nomeCompleto, perfImg, online) {
 
         areaChat.appendChild(batePapoPerfil);
 
-        let pedidos = new XMLHttpRequest();
-        pedidos.open("GET", `Controllers/get_messager_chat?user_id=${userId}&to_user_id=${fromId}`, true);
-        pedidos.send();
+        let endPoint = `Controllers/get_messager_chat?user_id=${userId}&to_user_id=${fromId}`;
 
-        pedidos.onloadend = function () {
+        fetch(endPoint)
+            .then(res => res.json())
+            .then(results => {
+                if (results.status == "SUCESS") {
+                    results['results'].forEach((result) => {
 
-            results = JSON.parse(this.response);
-            results['results'].forEach((result) => {
+                        if (userId == fromId && result['user_id'] == result['to_user_id']) {
+                            // eu enviei para mim mesmo
+                            let msg = { // cria um objeto msg
+                                'userId': userId,
+                                'fromId': fromId,
+                                'message': result['messeger'],
+                                'read_at': result['read_at']
+                            }
+                            msg = JSON.stringify(msg); //converte para json
+                            showChatMessage(msg, "me");
+                        }
 
-                if (userId == fromId && result['user_id'] == result['to_user_id']) {
-                    // eu enviei para mim mesmo
-                    let msg = { // cria um objeto msg
-                        'userId': userId,
-                        'fromId': fromId,
-                        'message': result['messeger'],
-                        'read_at': result['read_at']
-                    }
-                    msg = JSON.stringify(msg); //converte para json
-                    showChatMessage(msg, "me");
-                }
-
-                if (userId != fromId && userId == result['user_id'] && result['user_id'] != result['to_user_id'] && fromId == result['to_user_id']) {
-                    // eu enviei para outra pessoa
-                    let msg = { // cria um objeto msg
-                        'userId': userId,
-                        'fromId': fromId,
-                        'message': result['messeger'],
-                        'read_at': result['read_at']
-                    }
-                    msg = JSON.stringify(msg); //converte para json
-                    showChatMessage(msg, "me");
-                }
-                if (userId != fromId && result['user_id'] != result['to_user_id'] && fromId == result['user_id']) {
-                    // eu recebi de outra pessoa
-                    let msg = { // cria um objeto msg
-                        'userId': fromId,
-                        'fromId': userId,
-                        'message': result['messeger'],
-                        'read_at': result['read_at']
-                    }
-                    msg = JSON.stringify(msg); //converte para json
-                    showChatMessage(msg, "other");
+                        if (userId != fromId && userId == result['user_id'] && result['user_id'] != result['to_user_id'] && fromId == result['to_user_id']) {
+                            // eu enviei para outra pessoa
+                            let msg = { // cria um objeto msg
+                                'userId': userId,
+                                'fromId': fromId,
+                                'message': result['messeger'],
+                                'read_at': result['read_at']
+                            }
+                            msg = JSON.stringify(msg); //converte para json
+                            showChatMessage(msg, "me");
+                        }
+                        if (userId != fromId && result['user_id'] != result['to_user_id'] && fromId == result['user_id']) {
+                            // eu recebi de outra pessoa
+                            let msg = { // cria um objeto msg
+                                'userId': fromId,
+                                'fromId': userId,
+                                'message': result['messeger'],
+                                'read_at': result['read_at']
+                            }
+                            msg = JSON.stringify(msg); //converte para json
+                            showChatMessage(msg, "other");
+                        }
+                    });
+                } else {
+                    "Error";
                 }
             });
-        }
     }
 }
 

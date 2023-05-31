@@ -29,7 +29,7 @@ $results = $db->select('SELECT id FROM likes WHERE user_id = :user_id AND post_i
 if (count($results) != 0) {
     
     $db->delete('DELETE FROM likes WHERE id = :id', [':id' => $results['0']->id]);
-    resposta("Curtir");
+    sucess_response("", "Curtir");
 }
 
 
@@ -48,10 +48,17 @@ $db->update('UPDATE posts SET
 modified_at = NOW()
 WHERE id = :post_id', $params);
 
-resposta("Descurtir");
+sucess_response("", "Descurtir");
 
-function resposta($nome)
+function sucess_response($mensage, $results = [])
 {
-   echo json_encode($nome);
+    header("Content-Type:application/json");
+    echo json_encode(
+        [
+            'status' => 'SUCESS',
+            'message' => $mensage,
+            'results' => $results,
+        ],
+    );
     exit;
 }

@@ -12,6 +12,6 @@ $variables = [
 
 $curtir = api_request('create_new_like', 'GET', $variables);
 
-echo '</pre>';
-print_r($curtir);
+header("Content-Type:application/json");
+echo json_encode($curtir);
 exit;
