@@ -48,14 +48,14 @@ let spanComment = [...document.getElementsByClassName('comentarios')];
 let btnComment = [...document.getElementsByClassName('btnComment')];
 
 btnComment.map((el) => {
-    commentar(el);
+    viewComments(el);
 });
 
 spanComment.map((el) => {
-    commentar(el);
+    viewComments(el);
 });
 
-function commentar(el) {
+function viewComments(el) {
     el.addEventListener("click", () => {
         let janela = el.parentNode.parentNode.lastElementChild;
         let postId = el.parentNode.parentNode.dataset.postid;
@@ -75,13 +75,12 @@ function commentar(el) {
         //     method: 'POST',
         //     body: JSON.stringify(dados)
         // }
-        let endPoint = `Controllers/get_comments?post_id=${postId}`;
-       // const endPoint = `Controllers/get_comments`;
-       // fetch(endPoint,cabecalho)
+        const endPoint = `Controllers/get_comments?post_id=${postId}`;
+        //const endPoint = `Controllers/get_comments`;
+       //fetch(endPoint,cabecalho)
         fetch(endPoint)
             .then(res => res.json())
             .then(results => {
-                console.log(results);
                 if (results.status == "SUCESS") {
                     campo.innerHTML = "";
                     results['results'].forEach((result) => {
@@ -89,7 +88,7 @@ function commentar(el) {
                     });
 
                 } else {
-                    "Error";
+                    console.log(results['message']);
                 }
             }).catch(error => {
                 // Lidar com erros
@@ -100,6 +99,10 @@ function commentar(el) {
 
     });
 }
+
+// function createPost(){
+    
+// }
 
 function createComment(postId, result, campo, spanComment) {
     let commentUserId = result['user_id'];
@@ -183,7 +186,7 @@ function deletComment(commentId, postId, campo, spanComment) {
                 });
 
             } else {
-                "erro"
+                console.log(results['message']);
             }
         });
 
@@ -236,7 +239,7 @@ function postModal(pagina) {
 
     document.querySelector('.postModal .cabecalhoPostModal h4').innerText = "Criar nova publicação";
     document.querySelector("#postForm button").innerHTML = "Publicar";
-    document.querySelector("#postForm").action = "Controllers/postar.php";
+    document.querySelector("#postForm").action = "Controllers/create_new_post.php";
     document.getElementById("rpost").value = pagina;
 
     janela.classList.remove("esconderPostModal");
@@ -327,7 +330,7 @@ linksPostMenuDrop.map((el) => {
 
         document.querySelector('.postModal .cabecalhoPostModal h4').innerText = "Editar publicação";
         document.querySelector("#postForm button").innerHTML = "Salvar";
-        document.querySelector("#postForm").action = "Controllers/postUpdate.php";
+        document.querySelector("#postForm").action = "Controllers/update_post.php";
         document.getElementById("postId").value = postId;
         document.querySelector("#postForm textarea").value = post.innerText;
 
@@ -396,7 +399,7 @@ likesViews.map((el) => {
                         campo.appendChild(hr);
                     });
                 } else {
-                    "Error";
+                    console.log(results['message']);
                 }
             });
 
@@ -467,7 +470,7 @@ compartView.map((el) => {
                         campo.appendChild(hr);
                     });
                 } else {
-                    "Error";
+                    console.log(results['message']);
                 }
             });
 
@@ -509,9 +512,6 @@ btnPublication.map((el) => {
         fetch(endPoint)
             .then(res => res.json())
             .then(results => {
-
-                console.log(results);
-
                 if (results.status == "SUCESS") {
 
                     if (btnLike.innerHTML == "Curtir") {
@@ -522,7 +522,7 @@ btnPublication.map((el) => {
                     btnLike.innerHTML = results["results"];
 
                 } else {
-                    "Error";
+                    console.log(results['message']);
                 }
             });
     });
@@ -601,7 +601,7 @@ btnEnviarComment.map((el) => {
                             createComment(postId, result, campo, spanComment);
                         });
                     } else {
-                        "Error";
+                        console.log(results['message']);
                     }
                 });
         }
@@ -637,7 +637,7 @@ function enviarMessageChat(event, userId, fromId) {
                         msg = JSON.stringify(msg); //converte para json
                         conn.send(msg);
                     } else {
-                        "Error";
+                        console.log(results['message']);
                     }
                 });
         }
@@ -840,7 +840,7 @@ function carregarUserChat() {
                     divTotalHistory.innerHTML = total_nread;
                 });
             } else {
-                "Error";
+                console.log(results['message']);
             }
         });
 }
@@ -976,7 +976,7 @@ function openChat(fromId, nomeCompleto, perfImg, online) {
                         }
                     });
                 } else {
-                    "Error";
+                    console.log(results['message']);
                 }
             });
     }

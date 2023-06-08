@@ -18,16 +18,36 @@ $params = [
 $results = $db->select('SELECT id FROM posts WHERE id = :id', $params);
 
 if (count($results) == 0) {
-    resposta('O post não foi encontrado');
+    error_response('O post não foi encontrado');
 }
 
 
 $db->delete('DELETE FROM posts WHERE id = :id', $params);
 
-resposta('O post foi eliminado com sucesso!!!');
+sucess_response('O post foi eliminado com sucesso!!!');
 
-function resposta($nome)
+function error_response($mensage)
 {
-   echo json_encode($nome);
+    header("Content-Type:application/json");
+    echo json_encode(
+        [
+            'status' => 'ERROR',
+            'message' => $mensage,
+            'results' => [],
+        ],
+    );
+    exit;
+}
+
+function sucess_response($mensage, $results = [])
+{
+    header("Content-Type:application/json");
+    echo json_encode(
+        [
+            'status' => 'SUCESS',
+            'message' => $mensage,
+            'results' => $results,
+        ],
+    );
     exit;
 }

@@ -1,21 +1,36 @@
 <?php
 
-// deletar um post fisicamente
-
 require_once('../inc/config.php');
 require_once('../inc/api_functions.php');
 
-$variables = filter_input_array(INPUT_GET, FILTER_DEFAULT);
+$resultado = "Erro desconhecido!!!";
 
-$resultado = api_request('delete_post', 'GET', $variables);
+if (!empty($_GET)) {
+  $variables = filter_input_array(INPUT_GET, FILTER_DEFAULT);
+
+  $resultado = api_request('delete_post', 'GET', $variables);
+
+  if($resultado["status"] != "SUCESS"){
+    $resultado = array('message' => 'Erro da api ao excluir post');
+    header("Content-Type:application/json");
+    echo json_encode($resultado);
+    exit;
+  }
+  
+} else {
+  $resultado = array('message' => 'Nenhum dado do app foi recebido');
+  header("Content-Type:application/json");
+  echo json_encode($resultado);
+  exit;
+}
 
 if(isset($variables['r'])){
 
-    if($variables['r'] == 'perfil'){
-      header('Location: /upper/app?r=perfil');
-      die();
-    }
-  
+  if($variables['r'] == 'perfil'){
+    header('Location: /upper/app?r=perfil');
+    die();
+  }else{
+    header('Location: /upper/app');
+    die();
   }
-  header('Location: /upper/app');
-  die();
+}

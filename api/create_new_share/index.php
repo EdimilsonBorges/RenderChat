@@ -15,8 +15,7 @@ if (
     !isset($variables['user_id']) ||
     !isset($variables['post_id'])
 ) {
-   // echo "Dados insuficientes";
-    exit;
+    error_response('Dados insuficientes');
 }
 
 $params = [
@@ -41,10 +40,30 @@ $db->insert('INSERT INTO shares VALUES(
     NOW(),
     NULL)', $params);
 
-resposta("Compartilhado com sucesso");
+sucess_response("Compartilhado com sucesso");
 
-function resposta($nome)
+function error_response($mensage)
 {
-   echo json_encode($nome);
+    header("Content-Type:application/json");
+    echo json_encode(
+        [
+            'status' => 'ERROR',
+            'message' => $mensage,
+            'results' => [],
+        ],
+    );
+    exit;
+}
+
+function sucess_response($mensage, $results = [])
+{
+    header("Content-Type:application/json");
+    echo json_encode(
+        [
+            'status' => 'SUCESS',
+            'message' => $mensage,
+            'results' => $results,
+        ],
+    );
     exit;
 }

@@ -27,7 +27,7 @@ foreach ($results as $result) {
 
     array_push($resposta, [
         'id' => api_encript::aesEncriptar($result->usu_id),
-        'to_user_id' => api_encript::aesEncriptar($result->to_user_id),
+        //'to_user_id' => api_encript::aesEncriptar($result->to_user_id),
         'count_nread' => $result->count_nread,
         'first_name' => $result->first_name,
         'last_name' => $result->last_name,
@@ -48,4 +48,5 @@ function sucess_response($mensage, $results = [])
             'results' => $results,
         ],
     );
+    exit;
 }
