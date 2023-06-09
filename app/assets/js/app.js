@@ -44,67 +44,303 @@ conn.onmessage = function (e) {
 
 // Funções da página =====================================================================================
 
-let spanComment = [...document.getElementsByClassName('comentarios')];
-let btnComment = [...document.getElementsByClassName('btnComment')];
+// ocultar menu se clicar fora do elemento
+window.onclick = function (event) {
+    if (!event.target.matches('.btnPostMenuDrop')) {
+        let elements = document.getElementsByClassName("linksPostMenuDrop");
 
-btnComment.map((el) => {
-    viewComments(el);
-});
-
-spanComment.map((el) => {
-    viewComments(el);
-});
-
-function viewComments(el) {
-    el.addEventListener("click", () => {
-        let janela = el.parentNode.parentNode.lastElementChild;
-        let postId = el.parentNode.parentNode.dataset.postid;
-        let campo = el.parentNode.parentNode.lastElementChild.lastElementChild;
-        let spanComment = el.parentNode.parentNode.children[2].children[1].firstElementChild;
-
-        janela.classList.toggle("most");
-
-        // const dados = {
-        //     post_id: postId
-        // }
-
-        // const cabecalho = {
-        //     headers: {
-        //         'Content-Type': 'application/json'
-        //       },
-        //     method: 'POST',
-        //     body: JSON.stringify(dados)
-        // }
-        const endPoint = `Controllers/get_comments?post_id=${postId}`;
-        //const endPoint = `Controllers/get_comments`;
-       //fetch(endPoint,cabecalho)
-        fetch(endPoint)
-            .then(res => res.json())
-            .then(results => {
-                if (results.status == "SUCESS") {
-                    campo.innerHTML = "";
-                    results['results'].forEach((result) => {
-                        createComment(postId, result, campo, spanComment);
-                    });
-
-                } else {
-                    console.log(results['message']);
-                }
-            }).catch(error => {
-                // Lidar com erros
-                console.error('Erro:', error);
-              });
-
-
-
-    });
+        for (let i = 0; i < elements.length; i++) {
+            let aberto = elements[i];
+            if (aberto.classList.contains("visivel")) {
+                aberto.classList.remove("visivel");
+            }
+        }
+    }
 }
 
-// function createPost(){
-    
-// }
+getAllUsers();
 
-function createComment(postId, result, campo, spanComment) {
+function getAllUsers(){
+
+    const posts = document.getElementById("posts");
+
+    let areaPost = document.createElement("div");
+    areaPost.setAttribute("class","areaPost");
+    areaPost.setAttribute("id","areaPost");
+
+    posts.appendChild(areaPost);
+
+    const endPoint = `Controllers/get_all_posts?user_id=${userId}`;
+    fetch(endPoint)
+        .then(res => res.json())
+        .then(results => {
+            if (results.status == "SUCESS") {
+                results['results'].forEach((result) => {
+                    createPost(result);
+                });
+    
+            } else {
+                console.log(results['message']);
+            }
+        }).catch(error => {
+            // Lidar com erros
+            console.error('Erro:', error);
+        });
+}
+
+function createPost(result) {
+
+    const areaPost = document.getElementById("areaPost");;
+
+    let publication = document.createElement("section");
+    publication.setAttribute("class", "publication");
+
+    if (result.sh_user_id != null) {
+
+        let perfil_share = document.createElement("header");
+        perfil_share.setAttribute("class", "perfilshare");
+        let div = document.createElement("div");
+
+        let imgShare = document.createElement("img");
+        imgShare.setAttribute("src", "assets/images/sem-foto.jpg");
+
+        let pMensagemShare = document.createElement("p");
+        pMensagemShare.innerHTML = `${result.sh_first_name} ${result.sh_last_name} compartilhou isso!`;
+
+        div.appendChild(imgShare);
+        div.appendChild(pMensagemShare);
+        perfil_share.appendChild(div);
+        publication.appendChild(perfil_share);
+
+    } else if (result.lik_user_id != null) {
+
+        let perfil_like = document.createElement("header");
+        perfil_like.setAttribute("class", "perfil_like");
+        let div = document.createElement("div");
+
+        let imgLike = document.createElement("img");
+        imgLike.setAttribute("src", "assets/images/sem-foto.jpg");
+
+        let pMensagemLike = document.createElement("p");
+
+        if (result.t_likes <= 1) {
+            pMensagemLike.innerHTML = `${result.lik_first_name} ${result.lik_last_name} curtiu isso!`;
+        } else {
+            pMensagemLike.innerHTML = `${result.lik_first_name} ${result.lik_last_name} e outras ${result.t_likes}  pessoas curtiu isso!`;
+        }
+
+        div.appendChild(imgLike);
+        div.appendChild(pMensagemLike);
+        perfil_like.appendChild(div);
+        publication.appendChild(perfil_like);
+    }
+
+    let postMenuDrop = document.createElement("div");
+    postMenuDrop.setAttribute("class", "postMenuDrop");
+
+    let btnPostMenuDrop = document.createElement("button");
+    btnPostMenuDrop.setAttribute("class", "btnPostMenuDrop");
+    btnPostMenuDrop.innerHTML = "...";
+    btnPostMenuDrop.onclick = () => {
+        if (userId == result.user_id) {
+            linksPostMenuDrop.classList.toggle("visivel");
+        }
+    }
+
+    let navLinks = document.createElement("nav");
+    navLinks.setAttribute("class", "navLinks");
+
+    let linksPostMenuDrop = document.createElement("div");
+    linksPostMenuDrop.setAttribute("class", "linksPostMenuDrop");
+
+    let linkEditar = document.createElement("a");
+    linkEditar.innerHTML = "Editar";
+    linkEditar.onclick = () => {
+        editarPost(linkEditar, result);
+    }
+
+    let linkExcluir = document.createElement("a");
+    linkExcluir.innerHTML = "Excluir";
+    linkExcluir.onclick = () => {
+        excluirPost(publication, result);
+    }
+
+    linksPostMenuDrop.appendChild(linkEditar);
+    linksPostMenuDrop.appendChild(linkExcluir);
+    navLinks.appendChild(linksPostMenuDrop);
+    postMenuDrop.appendChild(btnPostMenuDrop);
+    postMenuDrop.appendChild(navLinks);
+    publication.appendChild(postMenuDrop);
+
+    publicationPost = document.createElement("div");
+    publicationPost.setAttribute("class", "publicationPost");
+
+    perfil = document.createElement("header");
+    perfil.setAttribute("class", "perfil");
+
+    let div = document.createElement("div");
+
+    let imgPerf = document.createElement("img");
+    imgPerf.setAttribute("src", "assets/images/sem-foto.jpg");
+
+    div.appendChild(imgPerf);
+    perfil.appendChild(div);
+
+    cabecalho = document.createElement("div");
+    cabecalho.setAttribute("class", "cabecalho");
+
+    postCabecalho = document.createElement("div");
+    postCabecalho.setAttribute("class", "postCabecalho");
+
+    h3 = document.createElement("h3");
+    h3.innerHTML = `${result.first_name} ${result.last_name}`;
+
+    h5 = document.createElement("h5");
+    h5.innerHTML = result.created_at;
+
+    postCabecalho.appendChild(h3);
+    cabecalho.appendChild(postCabecalho);
+    cabecalho.appendChild(h5);
+    perfil.appendChild(cabecalho);
+
+    divPost = document.createElement("div");
+    pPost = document.createElement("p");
+    pPost.setAttribute("class", "pPost");
+    pPost.setAttribute("id", "post");
+    pPost.innerHTML = result.post;
+
+    divPost.appendChild(pPost);
+    publicationPost.appendChild(perfil);
+    publicationPost.appendChild(divPost);
+
+    let curtidasComentarios = document.createElement("div");
+    curtidasComentarios.setAttribute("class", "curtidas-comentarios");
+
+    let curtidas = document.createElement("div");
+    curtidas.setAttribute("class", "curtidas");
+    curtidas.onclick = () => {
+        showLikes(result);
+    }
+
+    let pLike = document.createElement("p");
+    pLike.setAttribute("class", "like");
+    pLike.innerHTML = result.t_likes;
+
+    let spanLike = document.createElement("span");
+    spanLike.innerHTML = "Curtidas"
+
+    curtidas.appendChild(pLike);
+    curtidas.appendChild(spanLike);
+    curtidasComentarios.appendChild(curtidas);
+
+    let comentarios = document.createElement("div");
+    comentarios.setAttribute("class", "comentarios");
+    comentarios.onclick = () => {
+        showComments(comentarios, result);
+    }
+
+    let pComment = document.createElement("p");
+    pComment.setAttribute("class", "spanComment");
+    pComment.innerHTML = result.t_comments;
+
+    let spanComment = document.createElement("span");
+    spanComment.innerHTML = "Comentários"
+
+    comentarios.appendChild(pComment);
+    comentarios.appendChild(spanComment);
+    curtidasComentarios.appendChild(comentarios);
+
+    let compartilhamentos = document.createElement("div");
+    compartilhamentos.setAttribute("class", "compartilhamentos");
+    compartilhamentos.onclick = () => {
+        showShares(result);
+    }
+
+    let pShares = document.createElement("p");
+    pShares.setAttribute("class", "share");
+    pShares.innerHTML = result.t_shares;
+
+    let spanShare = document.createElement("span");
+    spanShare.innerHTML = "Compartilhamentos"
+
+    compartilhamentos.appendChild(pShares);
+    compartilhamentos.appendChild(spanShare);
+    curtidasComentarios.appendChild(compartilhamentos);
+
+    let hr = document.createElement("hr");
+
+    let botoesPublication = document.createElement("div");
+    botoesPublication.setAttribute("class", "botoes-publication");
+
+    let buttonLike = document.createElement("button");
+    buttonLike.setAttribute("type", "button");
+    if (result.li_post_id == null) {
+        buttonLike.innerHTML = "Curtir";
+    } else {
+        buttonLike.innerHTML = "Descurtir";
+    }
+    buttonLike.onclick = () => {
+        likeDeslike(buttonLike, result);
+    }
+
+    let btnComment = document.createElement("button");
+    btnComment.setAttribute("type", "button");
+    btnComment.setAttribute("class", "btnComment");
+    btnComment.innerHTML = "Comentar";
+    btnComment.onclick = () => {
+        showComments(btnComment, result);
+    }
+
+    let btnShare = document.createElement("button");
+    btnShare.setAttribute("type", "button");
+    btnShare.innerHTML = "Compartilhar";
+    btnShare.onclick = () => {
+        sharePost(btnShare, result);
+    }
+
+    botoesPublication.appendChild(buttonLike);
+    botoesPublication.appendChild(btnComment);
+    botoesPublication.appendChild(btnShare);
+
+    let commentArea = document.createElement("div");
+    commentArea.setAttribute("class", "commentArea");
+
+    let commentar = document.createElement("div");
+    commentar.setAttribute("class", "commentar");
+
+    let txtTextAreaComment = document.createElement("textarea");
+    txtTextAreaComment.setAttribute("class", "txtTextAreaComment");
+    txtTextAreaComment.placeholder = "Escreva um comentário";
+    txtTextAreaComment.onkeyup = () => {
+        autoResize(txtTextAreaComment)
+    }
+
+    let btnEnviarComment = document.createElement("button");
+    btnEnviarComment.setAttribute("class", "btnEnviarComment");
+    btnEnviarComment.setAttribute("type", "button");
+    btnEnviarComment.innerHTML = "Enviar";
+    btnEnviarComment.onclick = () => {
+        commentPost(btnEnviarComment, result);
+    }
+
+    let area = document.createElement("div");
+    area.setAttribute("class", "area");
+
+    commentar.appendChild(txtTextAreaComment);
+    commentar.appendChild(btnEnviarComment);
+    commentArea.appendChild(commentar);
+    commentArea.appendChild(area);
+
+    publication.appendChild(publicationPost);
+    publication.appendChild(curtidasComentarios);
+    publication.appendChild(hr);
+    publication.appendChild(botoesPublication);
+    publication.appendChild(commentArea);
+
+    areaPost.appendChild(publication);
+}
+
+function createComment(result, area) {
     let commentUserId = result['user_id'];
     let commentId = result['id'];
 
@@ -142,7 +378,27 @@ function createComment(postId, result, campo, spanComment) {
     delet.id = "delet";
     delet.innerText = "Excluir";
     delet.onclick = function () {
-        deletComment(commentId, postId, campo, spanComment);
+
+        let perfil_like_share = delet.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.firstElementChild;
+        let spanComment;
+
+        if (perfil_like_share.classList.contains("perfilshare") || perfil_like_share.classList.contains("perfil_like")) {
+            spanComment = delet.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.children[3].children[1].firstChild;
+        } else {
+            spanComment = delet.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.children[2].children[1].firstChild;
+        }
+
+        let endPoints = `Controllers/delete_comment?id=${commentId}`
+        fetch(endPoints)
+            .then(res => res.json())
+            .then(results => {
+                if (results.status == "SUCESS") {
+                    spanComment.innerHTML--;
+                    itemComment.remove();
+                } else {
+                    console.log(results['message']);
+                }
+            });
     }
 
     let corpoComment = document.createElement("div");
@@ -166,30 +422,14 @@ function createComment(postId, result, campo, spanComment) {
     corpoComment.appendChild(nomePerf);
     corpoComment.appendChild(p);
 
-    campo.appendChild(perfilComment);
-    campo.appendChild(ccommentMenuDrop);
-    campo.appendChild(corpoComment);
-}
+    let itemComment = document.createElement("div");
+    itemComment.setAttribute("class","itemComment");
 
-function deletComment(commentId, postId, campo, spanComment) {
+    itemComment.appendChild(perfilComment);
+    itemComment.appendChild(ccommentMenuDrop);
+    itemComment.appendChild(corpoComment);
 
-    let endPoint = `Controllers/delete_comment?id=${commentId}&post_id=${postId}`
-
-    fetch(endPoint)
-        .then(res => res.json())
-        .then(results => {
-            if (results.status == "SUCESS") {
-                spanComment.innerHTML--;
-                campo.innerHTML = "";
-                results['results'].forEach((resul) => {
-                    createComment(postId, resul, campo, spanComment);
-                });
-
-            } else {
-                console.log(results['message']);
-            }
-        });
-
+    area.appendChild(itemComment);
 }
 
 function commentMenuDrop(commentId, commentUser, user) {
@@ -232,18 +472,38 @@ function autoResize(element) {
     });
 }
 
-function postModal(pagina) {
+function postModal() {
 
     const janela = document.getElementById("areaPostModal");
     const btnFechar = document.getElementById("btnFecharPostModal");
+    const btnPublicarPost = document.getElementById("btnPublicarPost");
 
     document.querySelector('.postModal .cabecalhoPostModal h4').innerText = "Criar nova publicação";
-    document.querySelector("#postForm button").innerHTML = "Publicar";
-    document.querySelector("#postForm").action = "Controllers/create_new_post.php";
-    document.getElementById("rpost").value = pagina;
+    btnPublicarPost.innerHTML = "Publicar";
 
     janela.classList.remove("esconderPostModal");
-    janela.classList.add("mostrarPostModal");
+
+    btnPublicarPost.onclick = () =>{
+        const userId = document.querySelector("#postForm .userId").value;
+        const post = document.querySelector("#postForm textarea").value;
+        const fotoUrl = document.querySelector("#postForm .fotoUrl").value;
+        const videoUrl = document.querySelector("#postForm .videoUrl").value;
+        const endPoint = `Controllers/create_new_post?post=${post}&foto_url=${fotoUrl}&video_url=${videoUrl}&user_id=${userId}`;
+    fetch(endPoint)
+        .then(res => res.json())
+        .then(results => {
+            if (results.status == "SUCESS") {
+                janela.classList.add("esconderPostModal");
+                areaPost.remove();
+                getAllUsers();
+            } else {
+                console.log(results['message']);
+            }
+        }).catch(error => {
+            // Lidar com erros
+            console.error('Erro:', error);
+        });
+    }
 
     btnFechar.onclick = function () {
         document.querySelector("#postForm textarea").value = "";
@@ -280,333 +540,298 @@ if (btnPublicarHome != null) {
     });
 }
 
-// exibir e ocultar o Drop menu do post
-let btnPostMenuDrop = [...document.getElementsByClassName("btnPostMenuDrop")];
+function editarPost(element, result) {
+    let post;
+    let perfil_like_share = element.parentElement.parentElement.parentElement.parentElement.firstChild;
 
-btnPostMenuDrop.map((el) => {
-    el.addEventListener("click", () => {
-        let item = el.parentElement.children[1].firstElementChild;
-        let postUserId = el.parentElement.parentElement.dataset.postuserid;
+    if (perfil_like_share.classList.contains("perfilshare") || perfil_like_share.classList.contains("perfil_like")) {
+        post = element.parentElement.parentElement.parentElement.parentElement.children[2].children[1];
+    } else {
+        post = element.parentElement.parentElement.parentElement.parentElement.children[1].children[1];
+    }
 
-        if (userId == postUserId) {
-            item.classList.toggle("visivel");
-        }
+    const janela = document.getElementById("areaPostModal");
+    const btnFecharPostModal = document.getElementById("btnFecharPostModal");
 
-        // ocultar menu se clicar fora do elemento
-        window.onclick = function (event) {
-            if (!event.target.matches('.btnPostMenuDrop')) {
-                let elements = document.getElementsByClassName("linksPostMenuDrop");
+    document.querySelector('.postModal .cabecalhoPostModal h4').innerText = "Editar publicação";
+    document.querySelector("#postForm button").innerHTML = "Salvar";
+    document.querySelector("#postForm").action = "Controllers/update_post.php";
+    document.getElementById("postId").value = result.id;
+    document.querySelector("#postForm textarea").value = post.innerText;
 
-                for (let i = 0; i < elements.length; i++) {
-                    let aberto = elements[i];
-                    if (aberto.classList.contains("visivel")) {
-                        aberto.classList.remove("visivel");
-                    }
-                }
+    janela.classList.remove("esconderPostModal");
+    janela.classList.add("mostrarPostModal");
+
+    btnFecharPostModal.onclick = function () {
+        document.querySelector("#postForm textarea").value = "";
+        janela.classList.remove("mostrarPostModal");
+        janela.classList.add("esconderPostModal");
+    }
+}
+
+function excluirPost(publication, result) {
+    let endPoint = `Controllers/delete_post.php?id=${result.id}`;
+    fetch(endPoint)
+        .then(res => res.json())
+        .then(results => {
+            if (results.status == "SUCESS") {
+                publication.remove();
+            } else {
+                console.log(results['message']);
             }
-        }
-    });
-});
+        }).catch(error => {
+            // Lidar com erros
+            console.error('Erro:', error);
+        });
+}
 
-// editar publicação
-const linksPostMenuDrop = [...document.getElementsByClassName("linksPostMenuDrop")];
-linksPostMenuDrop.map((el) => {
-    let edit = el.firstElementChild;
-    edit.addEventListener("click", () => {
+function showLikes(result) {
+    const janela = document.getElementById("arealinksCurtidas");
+    const btnFechar = document.getElementById("btnFecharCurtidas");
 
-        let post;
-        let perfilshare = el.parentElement.parentElement.parentElement.firstElementChild;
-        let perfil_like = el.parentElement.parentElement.parentElement.firstElementChild;
+    const totalLikes = document.querySelector(".totalCurtidas span");
+    const campo = document.querySelector(".campoCurtidas");
 
-        if (perfilshare.classList.contains("perfilshare") || perfil_like.classList.contains("perfil_like")) {
-            post = el.parentElement.parentElement.parentElement.children[2].lastElementChild.firstElementChild;
-        } else {
-            post = el.parentElement.parentElement.parentElement.children[1].lastElementChild.firstElementChild;
-        }
+    campo.innerHTML = "";
 
-        const janela = document.getElementById("areaPostModal");
-        const btnFecharPostModal = document.getElementById("btnFecharPostModal");
-        const postId = el.parentElement.parentElement.parentElement.dataset.postid;
+    let endPoint = `Controllers/get_all_likes/index.php?post_id=${result.id}`;
 
-        document.querySelector('.postModal .cabecalhoPostModal h4').innerText = "Editar publicação";
-        document.querySelector("#postForm button").innerHTML = "Salvar";
-        document.querySelector("#postForm").action = "Controllers/update_post.php";
-        document.getElementById("postId").value = postId;
-        document.querySelector("#postForm textarea").value = post.innerText;
+    fetch(endPoint)
+        .then(res => res.json())
+        .then(results => {
+            if (results.status == "SUCESS") {
 
-        janela.classList.remove("esconderPostModal");
-        janela.classList.add("mostrarPostModal");
+                totalLikes.innerText = results['results'].length;
 
-        btnFecharPostModal.onclick = function () {
-            document.querySelector("#postForm textarea").value = "";
-            janela.classList.remove("mostrarPostModal");
-            janela.classList.add("esconderPostModal");
-        }
-    });
-});
+                results['results'].forEach((like) => {
 
-// mostrar curtidas
-const likesViews = [...document.getElementsByClassName("curtidas")];
-likesViews.map((el) => {
+                    let perfilCurtidas = document.createElement("div");
+                    perfilCurtidas.setAttribute("class", "perfilCurtidas");
 
-    el.addEventListener("click", (e) => {
-        const postId = el.parentElement.parentElement.dataset.postid;
+                    let img = document.createElement("img");
 
-        const janela = document.getElementById("arealinksCurtidas");
-        const btnFechar = document.getElementById("btnFecharCurtidas");
-
-        const totalLikes = document.querySelector(".totalCurtidas span");
-        const campo = document.querySelector(".campoCurtidas");
-
-        campo.innerHTML = "";
-
-        let endPoint = `Controllers/get_all_likes/index.php?post_id=${postId}`;
-
-        fetch(endPoint)
-            .then(res => res.json())
-            .then(results => {
-                if (results.status == "SUCESS") {
-
-                    totalLikes.innerText = results['results'].length;
-
-                    results['results'].forEach((like) => {
-
-                        let perfilCurtidas = document.createElement("div");
-                        perfilCurtidas.setAttribute("class", "perfilCurtidas");
-
-                        let img = document.createElement("img");
-
-                        if (like['photo_url'] != null) {
-                            img.src = `assets/images/${like['photo_url']}`;
-                        } else {
-                            img.src = "assets/images/sem-foto.jpg";
-                        }
-
-                        let h5 = document.createElement("h5");
-                        h5.innerText = `${like['first_name']} ${like['last_name']}`;
-
-                        let btnAdicionar = document.createElement("button");
-                        btnAdicionar.type = "button";
-                        btnAdicionar.innerText = "Adicionar";
-
-                        let hr = document.createElement("hr");
-
-                        perfilCurtidas.appendChild(img);
-                        perfilCurtidas.appendChild(h5);
-                        perfilCurtidas.appendChild(btnAdicionar);
-
-                        campo.appendChild(perfilCurtidas);
-                        campo.appendChild(hr);
-                    });
-                } else {
-                    console.log(results['message']);
-                }
-            });
-
-        janela.classList.remove("esconderPostModal");
-        janela.classList.add("mostrarPostModal");
-
-
-        btnFechar.onclick = function () {
-            campo.innerHTML = "";
-            janela.classList.remove("mostrarPostModal");
-            janela.classList.add("esconderPostModal");
-        }
-    });
-});
-
-// mostar compartilhamentos
-const compartView = [...document.getElementsByClassName("compartilhamentos")];
-compartView.map((el) => {
-
-    el.addEventListener("click", (e) => {
-        const postId = el.parentElement.parentElement.dataset.postid;
-
-        const janela = document.getElementById("arealinksComp");
-        const btnFechar = document.getElementById("btnFecharComp");
-
-        const totalShares = document.querySelector(".totalComp span");
-        const campo = document.querySelector(".campoComp");
-        const imagem = document.querySelector(".campoComp .perfilComp img");
-
-        campo.innerHTML = "";
-
-        let endPoint = `Controllers/get_all_shares/index.php?post_id=${postId}`;
-
-        fetch(endPoint)
-            .then(res => res.json())
-            .then(results => {
-                if (results.status == "SUCESS") {
-
-                    totalShares.innerText = results['results'].length;
-
-                    results['results'].forEach((share) => {
-
-                        let perfilComp = document.createElement("div");
-                        perfilComp.setAttribute("class", "perfilComp");
-
-                        let img = document.createElement("img");
-
-                        if (share['photo_url'] != null) {
-                            img.src = `assets/images/${share['photo_url']}`;
-                        } else {
-                            img.src = "assets/images/sem-foto.jpg";
-                        }
-
-                        let h5 = document.createElement("h5");
-                        h5.innerText = `${share['first_name']} ${share['last_name']}`;
-
-                        let btnAdicionar = document.createElement("button");
-                        btnAdicionar.type = "button";
-                        btnAdicionar.innerText = "Adicionar";
-
-                        let hr = document.createElement("hr");
-
-                        perfilComp.appendChild(img);
-                        perfilComp.appendChild(h5);
-                        perfilComp.appendChild(btnAdicionar);
-
-                        campo.appendChild(perfilComp);
-                        campo.appendChild(hr);
-                    });
-                } else {
-                    console.log(results['message']);
-                }
-            });
-
-        janela.classList.remove("esconderPostModal");
-        janela.classList.add("mostrarPostModal");
-
-        btnFechar.onclick = function () {
-            campo.innerHTML = "";
-            janela.classList.remove("mostrarPostModal");
-            janela.classList.add("esconderPostModal");
-        }
-    });
-});
-
-// curtir ou descurtir publicação
-const btnPublication = [...document.getElementsByClassName("botoes-publication")];
-
-btnPublication.map((el) => {
-    const btnLike = el.firstElementChild;
-
-    // curtir ou descurtir publicação
-    btnLike.addEventListener("click", (e) => {
-
-        let perfilshare = el.parentElement.firstElementChild;
-        let perfil_like = el.parentElement.firstElementChild;
-        let elementLikes;
-
-        if (perfilshare.classList.contains("perfilshare") || perfil_like.classList.contains("perfil_like")) {
-            elementLikes = el.parentElement.children[3].firstElementChild.firstElementChild;
-        } else {
-            elementLikes = el.parentElement.children[2].firstElementChild.firstElementChild;
-        }
-
-        const postId = el.parentElement.dataset.postid;
-        const btnLike = el.firstElementChild;
-
-        let endPoint = `Controllers/curtir_descurtir.php?user_id=${userId}&post_id=${postId}`;
-
-        fetch(endPoint)
-            .then(res => res.json())
-            .then(results => {
-                if (results.status == "SUCESS") {
-
-                    if (btnLike.innerHTML == "Curtir") {
-                        elementLikes.innerHTML++;
-                    } else if (btnLike.innerHTML == "Descurtir") {
-                        elementLikes.innerHTML--;
-                    }
-                    btnLike.innerHTML = results["results"];
-
-                } else {
-                    console.log(results['message']);
-                }
-            });
-    });
-    const btnShare = el.lastElementChild;
-
-    // compartilhar publicação
-    btnShare.addEventListener("click", (e) => {
-
-        const postId = el.parentElement.dataset.postid;
-        const post = document.getElementById('conteudoPost');
-        let publication;
-
-        let perfilshare = el.parentElement.firstElementChild;
-        let perfil_like = el.parentElement.firstElementChild;
-
-        if (perfilshare.classList.contains("perfilshare") || perfil_like.classList.contains("perfil_like")) {
-            publication = el.parentElement.children[2];
-        } else {
-            publication = el.parentElement.children[1];
-        }
-
-        document.getElementsByClassName('textAreaCompartModal')[0].value = "";
-        const janela = document.getElementById("areaCompartModal");
-        const postIdCompart = document.getElementById("postIdCompart");
-        const btnFechar = document.getElementById("btnFecharCompartModal");
-        document.getElementById("rshare").value = "home";
-
-        postIdCompart.value = postId;
-        post.innerHTML = publication.innerHTML;
-        janela.classList.remove("esconderPostModal");
-        janela.classList.add("mostrarPostModal");
-
-        btnFechar.onclick = function () {
-            document.getElementsByClassName('textAreaCompartModal')[0].value = "";
-            janela.classList.remove("mostrarPostModal");
-            janela.classList.add("esconderPostModal");
-        }
-    });
-});
-
-// comentar publicação
-let btnEnviarComment = [...document.getElementsByClassName("btnEnviarComment")];
-btnEnviarComment.map((el) => {
-    el.addEventListener("click", () => {
-        let menssage;
-        let campo;
-        let spanComment;
-        let postId;
-
-        let perfilshare = el.parentElement.parentElement.parentElement.firstElementChild;
-        let perfil_like = el.parentElement.parentElement.parentElement.firstElementChild;
-
-        if (perfilshare.classList.contains("perfilshare") || perfil_like.classList.contains("perfil_like")) {
-            spanComment = el.parentNode.parentNode.parentNode.children[3].children[1].firstElementChild;
-        } else {
-            spanComment = el.parentNode.parentNode.parentNode.children[2].children[1].firstElementChild;
-        }
-
-        postId = el.parentNode.parentNode.parentNode.dataset.postid;
-        campo = el.parentNode.parentNode.lastElementChild;
-        menssage = el.parentNode.firstElementChild.value.replaceAll('\n', '<br/>');
-        el.parentNode.firstElementChild.value = "";
-        el.parentNode.firstElementChild.style.height = "15px";
-
-        let endPoint = `Controllers/create_new_comment?comment=${menssage}&user_id=${userId}&post_id=${postId}`;
-
-        if (menssage != "") {
-            spanComment.innerHTML++;
-
-            fetch(endPoint)
-                .then(res => res.json())
-                .then(results => {
-                    if (results.status == "SUCESS") {
-                        campo.innerHTML = "";
-                        results['results'].forEach((result) => {
-                            createComment(postId, result, campo, spanComment);
-                        });
+                    if (like['photo_url'] != null) {
+                        img.src = `assets/images/${like['photo_url']}`;
                     } else {
-                        console.log(results['message']);
+                        img.src = "assets/images/sem-foto.jpg";
                     }
+
+                    let h5 = document.createElement("h5");
+                    h5.innerText = `${like['first_name']} ${like['last_name']}`;
+
+                    let btnAdicionar = document.createElement("button");
+                    btnAdicionar.type = "button";
+                    btnAdicionar.innerText = "Adicionar";
+
+                    let hr = document.createElement("hr");
+
+                    perfilCurtidas.appendChild(img);
+                    perfilCurtidas.appendChild(h5);
+                    perfilCurtidas.appendChild(btnAdicionar);
+
+                    campo.appendChild(perfilCurtidas);
+                    campo.appendChild(hr);
                 });
-        }
-    });
-});
+            } else {
+                console.log(results['message']);
+            }
+        });
+
+    janela.classList.remove("esconderPostModal");
+    janela.classList.add("mostrarPostModal");
+
+
+    btnFechar.onclick = function () {
+        campo.innerHTML = "";
+        janela.classList.remove("mostrarPostModal");
+        janela.classList.add("esconderPostModal");
+    }
+}
+
+function showComments(element, result) {
+    let janela = element.parentNode.parentNode.lastElementChild;
+    let area = element.parentNode.parentNode.lastElementChild.lastElementChild;
+    let spanComment = element.parentNode.parentNode.children[2].children[1].firstElementChild;
+
+    janela.classList.toggle("most");
+
+    const endPoint = `Controllers/get_comments?post_id=${result.id}`;
+    fetch(endPoint)
+        .then(res => res.json())
+        .then(results => {
+            if (results.status == "SUCESS") {
+                area.innerHTML = "";
+                results['results'].forEach((result) => {
+                    createComment(result, area);
+                });
+
+            } else {
+                console.log(results['message']);
+            }
+        }).catch(error => {
+            // Lidar com erros
+            console.error('Erro:', error);
+        });
+}
+
+function showShares(result) {
+    const janela = document.getElementById("arealinksComp");
+    const btnFechar = document.getElementById("btnFecharComp");
+
+    const totalShares = document.querySelector(".totalComp span");
+    const campo = document.querySelector(".campoComp");
+    const imagem = document.querySelector(".campoComp .perfilComp img");
+
+    campo.innerHTML = "";
+
+    let endPoint = `Controllers/get_all_shares/index.php?post_id=${result.id}`;
+
+    fetch(endPoint)
+        .then(res => res.json())
+        .then(results => {
+            if (results.status == "SUCESS") {
+
+                totalShares.innerText = results['results'].length;
+
+                results['results'].forEach((share) => {
+
+                    let perfilComp = document.createElement("div");
+                    perfilComp.setAttribute("class", "perfilComp");
+
+                    let img = document.createElement("img");
+
+                    if (share['photo_url'] != null) {
+                        img.src = `assets/images/${share['photo_url']}`;
+                    } else {
+                        img.src = "assets/images/sem-foto.jpg";
+                    }
+
+                    let h5 = document.createElement("h5");
+                    h5.innerText = `${share['first_name']} ${share['last_name']}`;
+
+                    let btnAdicionar = document.createElement("button");
+                    btnAdicionar.type = "button";
+                    btnAdicionar.innerText = "Adicionar";
+
+                    let hr = document.createElement("hr");
+
+                    perfilComp.appendChild(img);
+                    perfilComp.appendChild(h5);
+                    perfilComp.appendChild(btnAdicionar);
+
+                    campo.appendChild(perfilComp);
+                    campo.appendChild(hr);
+                });
+            } else {
+                console.log(results['message']);
+            }
+        });
+
+    janela.classList.remove("esconderPostModal");
+    janela.classList.add("mostrarPostModal");
+
+    btnFechar.onclick = function () {
+        campo.innerHTML = "";
+        janela.classList.remove("mostrarPostModal");
+        janela.classList.add("esconderPostModal");
+    }
+}
+
+function likeDeslike(element, result) {
+    let perfil_share_like = element.parentElement.parentElement.firstElementChild;
+    let elementLikes;
+
+    if (perfil_share_like.classList.contains("perfilshare") || perfil_share_like.classList.contains("perfil_like")) {
+        elementLikes = element.parentElement.parentElement.children[3].firstElementChild.firstElementChild;
+    } else {
+        elementLikes = element.parentElement.parentElement.children[2].firstElementChild.firstElementChild;
+    }
+
+    let endPoint = `Controllers/curtir_descurtir.php?user_id=${result.user_id}&post_id=${result.id}`;
+
+    fetch(endPoint)
+        .then(res => res.json())
+        .then(results => {
+            if (results.status == "SUCESS") {
+
+                if (element.innerHTML == "Curtir") {
+                    elementLikes.innerHTML++;
+                } else if (element.innerHTML == "Descurtir") {
+                    elementLikes.innerHTML--;
+                }
+                element.innerHTML = results["results"];
+
+            } else {
+                console.log(results['message']);
+            }
+        });
+}
+
+function sharePost(element, result) {
+    const post = document.getElementById('conteudoPost');
+    let publication;
+    let perfil_like_share = element.parentElement.parentElement.firstElementChild;
+
+    if (perfil_like_share.classList.contains("perfilshare") || perfil_like_share.classList.contains("perfil_like")) {
+        publication = element.parentElement.parentElement.children[2];
+    } else {
+        publication = element.parentElement.parentElement.children[1];
+    }
+
+    document.getElementsByClassName('textAreaCompartModal')[0].value = "";
+    const janela = document.getElementById("areaCompartModal");
+    const postIdCompart = document.getElementById("postIdCompart");
+    const btnFechar = document.getElementById("btnFecharCompartModal");
+    document.getElementById("rshare").value = "home";
+
+    postIdCompart.value = result.id;
+    post.innerHTML = publication.innerHTML;
+    janela.classList.remove("esconderPostModal");
+    janela.classList.add("mostrarPostModal");
+
+    btnFechar.onclick = function () {
+        document.getElementsByClassName('textAreaCompartModal')[0].value = "";
+        janela.classList.remove("mostrarPostModal");
+        janela.classList.add("esconderPostModal");
+    }
+}
+
+function commentPost(element, result) {
+    let menssage;
+    let spanComment;
+
+    let perfil_like_share = element.parentElement.parentElement.parentElement.firstElementChild;
+
+    if (perfil_like_share.classList.contains("perfilshare") || perfil_like_share.classList.contains("perfil_like")) {
+        spanComment = element.parentNode.parentNode.parentNode.children[3].children[1].firstElementChild;
+    } else {
+        spanComment = element.parentNode.parentNode.parentNode.children[2].children[1].firstElementChild;
+    }
+
+    area = element.parentNode.parentNode.lastElementChild;
+    menssage = element.parentNode.firstElementChild.value.replaceAll('\n', '<br/>');
+    element.parentNode.firstElementChild.value = "";
+    element.parentNode.firstElementChild.style.height = "15px";
+
+    let endPoint = `Controllers/create_new_comment?comment=${menssage}&user_id=${userId}&post_id=${result.id}`;
+
+    if (menssage != "") {
+        spanComment.innerHTML++;
+
+        fetch(endPoint)
+            .then(res => res.json())
+            .then(results => {
+                if (results.status == "SUCESS") {
+                    area.innerHTML = "";
+                    results['results'].forEach((result) => {
+                        createComment(result, area);
+                    });
+                } else {
+                    console.log(results['message']);
+                }
+            });
+    }
+}
 
 // funções para chat ==========================================================================
 

@@ -49,6 +49,68 @@ $resposta = [];
 
 foreach ($results as $result) {
 
+
+$dataDaCriacao = $result->created_at;
+
+// Configura a zona de tempo para o horário brasileiro
+date_default_timezone_set('America/Sao_Paulo');
+
+// Obtém a data e hora atual
+$dataAtual = new DateTime();
+
+// Converte a data fornecida em um objeto DateTime
+$dataDaCriacaoObj = DateTime::createFromFormat('Y-m-d H:i:s', $dataDaCriacao);
+
+// Calcula a diferença entre as duas datas
+$diferenca = $dataAtual->diff($dataDaCriacaoObj);
+
+// Obtém os componentes da diferença
+$anos = $diferenca->y;
+$meses = $diferenca->m;
+$dias = $diferenca->d;
+$horas = $diferenca->h;
+$minutos = $diferenca->i;
+$segundos = $diferenca->s;
+
+// Exibe o resultado
+    if($anos > 0){
+        if($anos > 1){
+        $tempo = $anos." Anos atrás";
+        }else{
+        $tempo = $anos." Ano atrás";
+        }
+    }else if($meses > 0){
+        if($meses > 1){
+            $tempo = $meses." Meses atrás";
+        }else{
+            $tempo = $meses." Mês atrás";
+        }
+    }else if($dias > 0){
+        if($dias > 1){
+            $tempo = $dias." Dias atrás";
+        }else{
+            $tempo = $dias." Dia atrás";
+        }
+    }else if($horas > 0){
+        if($horas > 1){
+            $tempo = $horas." Horas atrás";
+        }else{
+            $tempo = $horas." Hora atrás";
+        }
+    }else if($minutos > 0){
+        if($minutos > 1){
+            $tempo = $minutos." Minutos atrás";
+        }else{
+            $tempo = $minutos." Minuto atrás";
+        }
+    }else{
+        if($segundos > 1){
+            $tempo = $segundos." Segundos atrás";
+        }else{
+            $tempo = $segundos." Segundo atrás";
+        }
+    }
+
     if($result->lik_user_id != null){
         $lik_user_id = api_encript::aesEncriptar($result->lik_user_id);
     }else{
@@ -79,7 +141,7 @@ foreach ($results as $result) {
         'first_name' => $result->first_name,
         'last_name' => $result->last_name,
         'photo_url' => $result->photo_url,
-        'created_at' => $result->created_at,
+        'created_at' => $tempo,
         't_likes' => $result->t_likes,
         't_comments' => $result->t_comments,
         't_shares' => $result->t_shares,

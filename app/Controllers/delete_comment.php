@@ -7,15 +7,12 @@ $resultado = "Erro desconhecido!!!";
 header("Content-Type:application/json");
 
 if (!empty($_GET)) {
+
     $variables = filter_input_array(INPUT_GET, FILTER_DEFAULT);
     
     $resultado = api_request('delete_comment', 'GET', $variables);
-    if($resultado["status"] == "SUCESS"){
-        $resultado = api_request('get_all_comments', 'GET', $variables);
-        if($resultado["status"] != "SUCESS"){
-            $resultado = array('message' => 'Erro da api ao buscar os comentários');
-        }
-    }else{
+    if($resultado["status"] != "SUCESS"){
+        
         $resultado = array('message' => 'Erro da api ao excluir comentário');
     }
     

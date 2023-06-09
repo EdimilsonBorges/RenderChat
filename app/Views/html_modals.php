@@ -18,14 +18,13 @@ defined("ROOT") or die("Acesso negado");
                 <?php endif; ?>
                 <h5><?= $_SESSION['first_name'] ?> <?= $_SESSION['last_name'] ?></h5>
             </div>
-            <form id="postForm" action="" method="GET">
+            <form id="postForm">
                 <textarea name="post" class="textAreaPostModal" rows="500" placeholder="No que você está pensando?"></textarea>
-                <input id="rpost" type="hidden" name="r" value="">
-                <input type="hidden" name="user_id" value="<?= $_SESSION['user_id'] ?>">
+                <input class="userId" type="hidden" name="user_id" value="<?= $_SESSION['user_id'] ?>">
                 <input id="postId" type="hidden" name="id">
-                <input type="hidden" name="foto_url" value="">
-                <input type="hidden" name="video_url" value="">
-                <button type="submit"></button>
+                <input class="fotoUrl" type="hidden" name="foto_url" value="fotoUrl">
+                <input class="videoUrl" type="hidden" name="video_url" value="videoUrl">
+                <button id="btnPublicarPost"type="button"></button>
             </form>
         </div>
     </div>
