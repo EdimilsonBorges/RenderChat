@@ -58,27 +58,62 @@ window.onclick = function (event) {
     }
 }
 
-getAllUsers();
+function limitDefault(){
+    return 10;
+}
 
-function getAllUsers(){
+let carregando = false;
+let postPosition = -1;
+let limit = limitDefault();
+let offset = 0;
+let fim = false;
+
+getAllUsers(limit, offset);
+
+if (!fim) {
+    window.addEventListener('scroll', () => {
+
+        let elemento = document.getElementsByClassName("publication")[postPosition];
+        if (elemento != null) {
+            let rect = elemento.getBoundingClientRect();
+            if (rect.top < window.innerHeight) {
+                if (!carregando) {
+                    carregando = true;
+                    offset += limit;
+                    getAllUsers(limit, offset);
+                } else {
+
+                }
+            }
+        }
+    });
+}
+
+function getAllUsers(limit, offset) {
 
     const posts = document.getElementById("posts");
 
     let areaPost = document.createElement("div");
-    areaPost.setAttribute("class","areaPost");
-    areaPost.setAttribute("id","areaPost");
+    areaPost.setAttribute("class", "areaPost");
+    areaPost.setAttribute("id", "areaPost");
+
 
     posts.appendChild(areaPost);
 
-    const endPoint = `Controllers/get_all_posts?user_id=${userId}`;
+    const endPoint = `Controllers/get_all_posts?user_id=${userId}&limit=${limit}&offset=${offset}`;
     fetch(endPoint)
         .then(res => res.json())
         .then(results => {
             if (results.status == "SUCESS") {
                 results['results'].forEach((result) => {
                     createPost(result);
+                    postPosition++;
+                    carregando = false;
+                    if (results['results'].length < limit) {
+                        fim = true;
+                    }
                 });
-    
+
             } else {
                 console.log(results['message']);
             }
@@ -98,18 +133,28 @@ function createPost(result) {
     if (result.sh_user_id != null) {
 
         let perfil_share = document.createElement("header");
-        perfil_share.setAttribute("class", "perfilshare");
+        perfil_share.setAttribute("class", "perfil_share");
+        perfil_share.onclick = () => {
+            showShares(result);
+        }
         let div = document.createElement("div");
 
         let imgShare = document.createElement("img");
-        if(result.sh_photo_url != null){
+        if (result.sh_photo_url != null) {
             imgShare.setAttribute("src", `assets/images/${result.sh_photo_url}`);
-        }else{
+        } else {
             imgShare.setAttribute("src", `assets/images/sem-foto.jpg`);
         }
 
         let pMensagemShare = document.createElement("p");
-        pMensagemShare.innerHTML = `${result.sh_first_name} ${result.sh_last_name} compartilhou isso!`;
+
+        if (result.t_shares <= 1) {
+            pMensagemShare.innerHTML = `${result.sh_first_name} ${result.sh_last_name} compartilhou isso!`;
+        } else if (result.t_shares <= 2) {
+            pMensagemShare.innerHTML = `${result.sh_first_name} ${result.sh_last_name} e outras ${result.t_shares - 1}  pessoa compartilhou isso!`;
+        } else {
+            pMensagemShare.innerHTML = `${result.sh_first_name} ${result.sh_last_name} e outras ${result.t_shares - 1}  pessoas compartilhou isso!`;
+        }
 
         div.appendChild(imgShare);
         div.appendChild(pMensagemShare);
@@ -120,13 +165,16 @@ function createPost(result) {
 
         let perfil_like = document.createElement("header");
         perfil_like.setAttribute("class", "perfil_like");
+        perfil_like.onclick = () => {
+            showLikes(result);
+        }
         let div = document.createElement("div");
 
         let imgLike = document.createElement("img");
 
-        if(result.lik_photo_url != null){
+        if (result.lik_photo_url != null) {
             imgLike.setAttribute("src", `assets/images/${result.lik_photo_url}`);
-        }else{
+        } else {
             imgLike.setAttribute("src", `assets/images/sem-foto.jpg`);
         }
 
@@ -134,8 +182,10 @@ function createPost(result) {
 
         if (result.t_likes <= 1) {
             pMensagemLike.innerHTML = `${result.lik_first_name} ${result.lik_last_name} curtiu isso!`;
+        } else if (result.t_likes <= 2) {
+            pMensagemLike.innerHTML = `${result.lik_first_name} ${result.lik_last_name} e outras ${result.t_likes - 1}  pessoa curtiu isso!`;
         } else {
-            pMensagemLike.innerHTML = `${result.lik_first_name} ${result.lik_last_name} e outras ${result.t_likes}  pessoas curtiu isso!`;
+            pMensagemLike.innerHTML = `${result.lik_first_name} ${result.lik_last_name} e outras ${result.t_likes - 1}  pessoas curtiu isso!`;
         }
 
         div.appendChild(imgLike);
@@ -191,9 +241,9 @@ function createPost(result) {
 
     let imgPerf = document.createElement("img");
 
-    if(result.photo_url != null){
+    if (result.photo_url != null) {
         imgPerf.setAttribute("src", `assets/images/${result.photo_url}`);
-    }else{
+    } else {
         imgPerf.setAttribute("src", `assets/images/sem-foto.jpg`);
     }
 
@@ -324,10 +374,15 @@ function createPost(result) {
 
     let txtTextAreaComment = document.createElement("textarea");
     txtTextAreaComment.setAttribute("class", "txtTextAreaComment");
+    txtTextAreaComment.setAttribute("id", `${result.id}comment`);
     txtTextAreaComment.placeholder = "Escreva um comentário";
-    txtTextAreaComment.onkeyup = () => {
-        autoResize(txtTextAreaComment)
-    }
+
+    txtTextAreaComment.addEventListener("input", e => {
+        txtTextAreaComment.style.height = "1px";
+        let scHeight = e.target.scrollHeight;
+        console.log(scHeight);
+        txtTextAreaComment.style.height = `${scHeight - 20}px`;
+    });
 
     let btnEnviarComment = document.createElement("button");
     btnEnviarComment.setAttribute("class", "btnEnviarComment");
@@ -396,7 +451,7 @@ function createComment(result, area) {
         let perfil_like_share = delet.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.firstElementChild;
         let spanComment;
 
-        if (perfil_like_share.classList.contains("perfilshare") || perfil_like_share.classList.contains("perfil_like")) {
+        if (perfil_like_share.classList.contains("perfil_share") || perfil_like_share.classList.contains("perfil_like")) {
             spanComment = delet.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.children[3].children[1].firstChild;
         } else {
             spanComment = delet.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.children[2].children[1].firstChild;
@@ -437,7 +492,7 @@ function createComment(result, area) {
     corpoComment.appendChild(p);
 
     let itemComment = document.createElement("div");
-    itemComment.setAttribute("class","itemComment");
+    itemComment.setAttribute("class", "itemComment");
 
     itemComment.appendChild(perfilComment);
     itemComment.appendChild(ccommentMenuDrop);
@@ -475,15 +530,6 @@ function commentMenuDrop(commentId, commentUser, user) {
 
         }
     }
-
-}
-function autoResize(element) {
-    textArea = element;
-    textArea.addEventListener("keyup", e => {
-        textArea.style.height = "1px";
-        let scHeight = e.target.scrollHeight;
-        textArea.style.height = `${scHeight}px`;
-    });
 }
 
 function postModal() {
@@ -491,32 +537,37 @@ function postModal() {
     const janela = document.getElementById("areaPostModal");
     const btnFechar = document.getElementById("btnFecharPostModal");
     const btnPublicarPost = document.getElementById("btnPublicarPost");
+    const areaPost = document.getElementById("areaPost");
 
     document.querySelector('.postModal .cabecalhoPostModal h4').innerText = "Criar nova publicação";
     btnPublicarPost.innerHTML = "Publicar";
 
     janela.classList.remove("esconderPostModal");
 
-    btnPublicarPost.onclick = () =>{
+    btnPublicarPost.onclick = () => {
         const userId = document.querySelector("#postForm .userId").value;
         const post = document.querySelector("#postForm textarea").value;
         const fotoUrl = document.querySelector("#postForm .fotoUrl").value;
         const videoUrl = document.querySelector("#postForm .videoUrl").value;
         const endPoint = `Controllers/create_new_post?post=${post}&foto_url=${fotoUrl}&video_url=${videoUrl}&user_id=${userId}`;
-    fetch(endPoint)
-        .then(res => res.json())
-        .then(results => {
-            if (results.status == "SUCESS") {
-                janela.classList.add("esconderPostModal");
-                areaPost.remove();
-                getAllUsers();
-            } else {
-                console.log(results['message']);
-            }
-        }).catch(error => {
-            // Lidar com erros
-            console.error('Erro:', error);
-        });
+        fetch(endPoint)
+            .then(res => res.json())
+            .then(results => {
+                if (results.status == "SUCESS") {
+                    janela.classList.add("esconderPostModal");
+                    areaPost.remove();
+                    postPosition = 0;
+                    carregando = true;
+                    limit = limitDefault();
+                    offset = 0;
+                    getAllUsers(limit, offset);
+                } else {
+                    console.log(results['message']);
+                }
+            }).catch(error => {
+                // Lidar com erros
+                console.error('Erro:', error);
+            });
     }
 
     btnFechar.onclick = function () {
@@ -544,13 +595,13 @@ function showHint(str) {
 let btnPublicarHome = document.getElementById("btnPublicarHome");
 if (btnPublicarHome != null) {
     btnPublicarHome.addEventListener("click", () => {
-        postModal("home");
+        postModal();
     });
 } else {
     // Publicar um Post (Página Perfil)
     let btnPublicarPerfil = document.getElementById("btnPublicarPerfil");
     btnPublicarPerfil.addEventListener("click", () => {
-        postModal("perfil");
+        postModal();
     });
 }
 
@@ -558,7 +609,7 @@ function editarPost(element, result) {
     let post;
     let perfil_like_share = element.parentElement.parentElement.parentElement.parentElement.firstChild;
 
-    if (perfil_like_share.classList.contains("perfilshare") || perfil_like_share.classList.contains("perfil_like")) {
+    if (perfil_like_share.classList.contains("perfil_share") || perfil_like_share.classList.contains("perfil_like")) {
         post = element.parentElement.parentElement.parentElement.parentElement.children[2].children[1];
     } else {
         post = element.parentElement.parentElement.parentElement.parentElement.children[1].children[1];
@@ -590,6 +641,7 @@ function excluirPost(publication, result) {
         .then(results => {
             if (results.status == "SUCESS") {
                 publication.remove();
+                 postPosition -= 1;
             } else {
                 console.log(results['message']);
             }
@@ -618,6 +670,8 @@ function showLikes(result) {
                 totalLikes.innerText = results['results'].length;
 
                 results['results'].forEach((like) => {
+
+                    console.log(like);
 
                     let perfilCurtidas = document.createElement("div");
                     perfilCurtidas.setAttribute("class", "perfilCurtidas");
@@ -755,13 +809,13 @@ function likeDeslike(element, result) {
     let perfil_share_like = element.parentElement.parentElement.firstElementChild;
     let elementLikes;
 
-    if (perfil_share_like.classList.contains("perfilshare") || perfil_share_like.classList.contains("perfil_like")) {
+    if (perfil_share_like.classList.contains("perfil_share") || perfil_share_like.classList.contains("perfil_like")) {
         elementLikes = element.parentElement.parentElement.children[3].firstElementChild.firstElementChild;
     } else {
         elementLikes = element.parentElement.parentElement.children[2].firstElementChild.firstElementChild;
     }
 
-    let endPoint = `Controllers/curtir_descurtir.php?user_id=${result.user_id}&post_id=${result.id}`;
+    let endPoint = `Controllers/curtir_descurtir.php?user_id=${userId}&post_id=${result.id}`;
 
     fetch(endPoint)
         .then(res => res.json())
@@ -786,7 +840,7 @@ function sharePost(element, result) {
     let publication;
     let perfil_like_share = element.parentElement.parentElement.firstElementChild;
 
-    if (perfil_like_share.classList.contains("perfilshare") || perfil_like_share.classList.contains("perfil_like")) {
+    if (perfil_like_share.classList.contains("perfil_share") || perfil_like_share.classList.contains("perfil_like")) {
         publication = element.parentElement.parentElement.children[2];
     } else {
         publication = element.parentElement.parentElement.children[1];
@@ -816,7 +870,7 @@ function commentPost(element, result) {
 
     let perfil_like_share = element.parentElement.parentElement.parentElement.firstElementChild;
 
-    if (perfil_like_share.classList.contains("perfilshare") || perfil_like_share.classList.contains("perfil_like")) {
+    if (perfil_like_share.classList.contains("perfil_share") || perfil_like_share.classList.contains("perfil_like")) {
         spanComment = element.parentNode.parentNode.parentNode.children[3].children[1].firstElementChild;
     } else {
         spanComment = element.parentNode.parentNode.parentNode.children[2].children[1].firstElementChild;

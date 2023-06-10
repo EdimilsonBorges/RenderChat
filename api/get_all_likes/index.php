@@ -16,7 +16,7 @@ $params = [
 ];
 
 $results = $db->select('SELECT li.*, usu.first_name, usu.last_name, usu.deleted_at, perf.photo_url FROM likes li 
-LEFT JOIN users AS usu ON li.user_id = usu.id AND usu.deleted_at IS NULL
+LEFT JOIN users AS usu ON li.user_id = usu.id
 LEFT JOIN perfil AS perf ON perf.user_id = li.user_id WHERE li.post_id = :post_id ORDER BY li.created_at DESC LIMIT 200 OFFSET 0', $params);
 
 sucess_response("", $results);

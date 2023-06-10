@@ -9,7 +9,7 @@ $db = new database();
 
 $variables = filter_input_array(INPUT_GET, FILTER_DEFAULT);
 
-if (empty($variables['user_id'])) {
+if (empty($variables['user_id']) || empty($variables['limit'])) {
     error_response("Não existe nenhum usuário logado");
 }
 
@@ -18,7 +18,7 @@ $param = [
 ];
 
 $results = $db->select(
-    'SELECT pos.*, usu.deleted_at, usu.first_name, usu.last_name, perf.photo_url, li.post_id AS li_post_id, sh.user_id AS sh_user_id, us.first_name AS sh_first_name, us.last_name AS sh_last_name, per.photo_url AS sh_photo_url, u.first_name AS lik_first_name, u.last_name AS lik_last_name, pe.photo_url AS lik_photo_url, u.id AS lik_user_id, sh.created_at AS sh_created_at,
+    "SELECT pos.*, usu.deleted_at, usu.first_name, usu.last_name, perf.photo_url, li.post_id AS li_post_id, sh.user_id AS sh_user_id, us.first_name AS sh_first_name, us.last_name AS sh_last_name, per.photo_url AS sh_photo_url, u.first_name AS lik_first_name, u.last_name AS lik_last_name, pe.photo_url AS lik_photo_url, u.id AS lik_user_id, sh.created_at AS sh_created_at,
         (SELECT hs.comment FROM shares hs WHERE hs.post_id = pos.id AND hs.user_id = sh_user_id ORDER BY hs.created_at DESC LIMIT 1) AS sh_comment,
         (SELECT COUNT(lk.post_id) FROM likes lk WHERE lk.post_id = pos.id) AS t_likes,
         (SELECT COUNT(cs.post_id) FROM comments cs WHERE cs.post_id = pos.id) AS t_comments,
@@ -40,7 +40,7 @@ $results = $db->select(
     
     GROUP BY pos.id
     ORDER BY pos.modified_at DESC
-    LIMIT 200 OFFSET 0',
+    LIMIT ".$variables['limit']." OFFSET ".$variables['offset'],
     $param
 );
 

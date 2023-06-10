@@ -1,15 +1,15 @@
 /* Área principal ==================================================================================*/
-body{
---borda-janelas:rgb(192, 191, 191);
---background-janelas:#fff;
+body {
+    --borda-janelas: rgb(192, 191, 191);
+    --background-janelas: #fff;
 
---borda-publicar:#000;
---texto-publicar:#444;
---background-hover-publicar:#eee;
---links-background-publicar:aqua;
---links-background-publicar-hover:#00f;
+    --borda-publicar: #000;
+    --texto-publicar: #444;
+    --background-hover-publicar: #eee;
+    --links-background-publicar: aqua;
+    --links-background-publicar-hover: #00f;
 
---titulo-compart-modal:var(--texto-publicar);
+    --titulo-compart-modal: var(--texto-publicar);
 }
 
 .container-corpo {
@@ -203,10 +203,9 @@ body{
     margin-bottom: 10px;
     padding: 0px 5% 0px 5%;
     font-size: 12pt;
-    color: var(--texto-publicar);
 }
 
-.publication .post {
+.publication #post {
     padding: 0px 5% 0px 5%;
     font-size: 12pt;
     color: var(--texto-publicar);
@@ -517,11 +516,13 @@ body{
 
 /* barra topo compartilhamentos e curtidas =============================================================================*/
 
-.perfilshare div {
+
+.perfil_share div {
     display: flex;
     align-items: center;
     background-color: #ccf;
     border-radius: 10px 10px 0 0;
+    cursor: pointer;
 }
 
 .perfil_like div {
@@ -529,9 +530,18 @@ body{
     align-items: center;
     background-color: #cfc;
     border-radius: 10px 10px 0 0;
+    cursor: pointer;
 }
 
-.publication .perfilshare img,
+.perfil_share div:hover {
+    text-decoration: underline;
+}
+
+.perfil_like div:hover {
+    text-decoration: underline;
+}
+
+.publication .perfil_share img,
 .publication .perfil_like img {
     position: relative;
     margin: 5px 5px 5px 5px;
@@ -541,12 +551,13 @@ body{
 
 }
 
-.publication .perfilshare p,
+.publication .perfil_share p,
 .publication .perfil_like p {
     margin: 5px 5px 5px 5px;
+    color: var(--texto-publicar);
 }
 
-.publication .perfilshare .shareComment {
+.publication .perfil_share .shareComment {
     background-color: #ccf;
     margin: 0px 0px 0px 0px;
     padding: 10px 20px 10px 20px;
@@ -737,6 +748,7 @@ body{
     top: -58px;
     left: 45px;
     background-color: #eee;
+    color: var(--texto-publicar);
     width: 85%;
     border-radius: 0px 10px 10px 10px;
     text-overflow: clip '-';

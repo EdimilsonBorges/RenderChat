@@ -58,7 +58,7 @@ defined("ROOT") or die("Acesso negado");
     <header class="principal">
         <div>
             <img src="assets/images/logo.png" alt="">
-            <input type="search" name="" id="" onkeyup="showHint(this.value)" placeholder="Pesquisar">
+            <input type="search" name="pesqClients" onkeyup="showHint(this.value)" placeholder="Pesquisar">
         </div>
         <nav>
             <ul>
