@@ -102,7 +102,11 @@ function createPost(result) {
         let div = document.createElement("div");
 
         let imgShare = document.createElement("img");
-        imgShare.setAttribute("src", "assets/images/sem-foto.jpg");
+        if(result.sh_photo_url != null){
+            imgShare.setAttribute("src", `assets/images/${result.sh_photo_url}`);
+        }else{
+            imgShare.setAttribute("src", `assets/images/sem-foto.jpg`);
+        }
 
         let pMensagemShare = document.createElement("p");
         pMensagemShare.innerHTML = `${result.sh_first_name} ${result.sh_last_name} compartilhou isso!`;
@@ -119,7 +123,12 @@ function createPost(result) {
         let div = document.createElement("div");
 
         let imgLike = document.createElement("img");
-        imgLike.setAttribute("src", "assets/images/sem-foto.jpg");
+
+        if(result.lik_photo_url != null){
+            imgLike.setAttribute("src", `assets/images/${result.lik_photo_url}`);
+        }else{
+            imgLike.setAttribute("src", `assets/images/sem-foto.jpg`);
+        }
 
         let pMensagemLike = document.createElement("p");
 
@@ -181,7 +190,12 @@ function createPost(result) {
     let div = document.createElement("div");
 
     let imgPerf = document.createElement("img");
-    imgPerf.setAttribute("src", "assets/images/sem-foto.jpg");
+
+    if(result.photo_url != null){
+        imgPerf.setAttribute("src", `assets/images/${result.photo_url}`);
+    }else{
+        imgPerf.setAttribute("src", `assets/images/sem-foto.jpg`);
+    }
 
     div.appendChild(imgPerf);
     perfil.appendChild(div);
@@ -350,8 +364,8 @@ function createComment(result, area) {
     let div = document.createElement("div");
 
     let img = document.createElement("img");
-    if (result['co_photo_url'] != null) {
-        img.src = `assets/images/${result['co_photo_url']}`;
+    if (result.co_photo_url != null) {
+        img.src = `assets/images/${result.co_photo_url}`;
     } else {
         img.src = "assets/images/sem-foto.jpg";
     }
