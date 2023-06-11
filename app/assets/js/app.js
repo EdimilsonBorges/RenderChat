@@ -58,15 +58,19 @@ window.onclick = function (event) {
     }
 }
 
-function limitDefault(){
-    return 10;
-}
-
 let carregando = false;
 let postPosition = -1;
-let limit = limitDefault();
+let limit = 10;
 let offset = 0;
 let fim = false;
+
+function resetDados() {
+    carregando = false;
+    postPosition = -1;
+    limit = 10;
+    offset = 0;
+    fim = false;
+}
 
 getAllUsers(limit, offset);
 
@@ -78,11 +82,11 @@ if (!fim) {
             let rect = elemento.getBoundingClientRect();
             if (rect.top < window.innerHeight) {
                 if (!carregando) {
-                    carregando = true;
                     offset += limit;
+                    console.log("Carregando....");
                     getAllUsers(limit, offset);
                 } else {
-
+                    console.log("Carregou!!!");
                 }
             }
         }
@@ -99,6 +103,8 @@ function getAllUsers(limit, offset) {
 
 
     posts.appendChild(areaPost);
+
+    carregando = true;
 
     const endPoint = `Controllers/get_all_posts?user_id=${userId}&limit=${limit}&offset=${offset}`;
     fetch(endPoint)
@@ -558,10 +564,7 @@ function postModal() {
                 if (results.status == "SUCESS") {
                     janela.classList.add("esconderPostModal");
                     areaPost.remove();
-                    postPosition = 0;
-                    carregando = true;
-                    limit = limitDefault();
-                    offset = 0;
+                    resetDados();
                     getAllUsers(limit, offset);
                 } else {
                     console.log(results['message']);
@@ -630,10 +633,11 @@ function editarPost(element, result) {
     janela.classList.remove("esconderPostModal");
     janela.classList.add("mostrarPostModal");
 
-    btnEditPost.onclick = () =>{
+    btnEditPost.onclick = () => {
         const postId = element.parentNode.parentNode.parentNode.parentNode.dataset.postid;
         const postUserId = element.parentNode.parentNode.parentNode.parentNode.dataset.postuserid;
-        const post = document.querySelector("#postForm textarea").value.replaceAll('\n', '<br/>');;
+        const areaPost = document.getElementById("areaPost");
+        const post = document.querySelector("#postForm textarea").value.replaceAll('\n', '<br/>');
         const fotoUrl = document.querySelector("#postForm .fotoUrl").value;
         const videoUrl = document.querySelector("#postForm .videoUrl").value;
         const endPoint = `Controllers/update_post?post=${post}&foto_url=${fotoUrl}&video_url=${videoUrl}&post_id=${postId}&post_user_id=${postUserId}&user_id=${userId}`;
@@ -644,6 +648,7 @@ function editarPost(element, result) {
                 if (results.status == "SUCESS") {
                     janela.classList.add("esconderPostModal");
                     areaPost.remove();
+                    resetDados();
                     getAllUsers(limit, offset);
                 } else {
                     console.log(results['message']);
@@ -668,12 +673,11 @@ function excluirPost(publication, result) {
         .then(results => {
             if (results.status == "SUCESS") {
                 publication.remove();
-                 postPosition -= 1;
+                postPosition -= 1;
             } else {
                 console.log(results['message']);
             }
         }).catch(error => {
-            // Lidar com erros
             console.error('Erro:', error);
         });
 }
