@@ -129,6 +129,8 @@ function createPost(result) {
 
     let publication = document.createElement("section");
     publication.setAttribute("class", "publication");
+    publication.setAttribute("data-postid", result.id);
+    publication.setAttribute("data-postuserid", result.user_id);
 
     if (result.sh_user_id != null) {
 
@@ -270,7 +272,6 @@ function createPost(result) {
     divPost = document.createElement("div");
     pPost = document.createElement("p");
     pPost.setAttribute("class", "pPost");
-    pPost.setAttribute("id", "post");
     pPost.innerHTML = result.post;
 
     divPost.appendChild(pPost);
@@ -546,13 +547,14 @@ function postModal() {
 
     btnPublicarPost.onclick = () => {
         const userId = document.querySelector("#postForm .userId").value;
-        const post = document.querySelector("#postForm textarea").value;
+        const post = document.querySelector("#postForm textarea").value.replaceAll('\n', '<br/>');
         const fotoUrl = document.querySelector("#postForm .fotoUrl").value;
         const videoUrl = document.querySelector("#postForm .videoUrl").value;
         const endPoint = `Controllers/create_new_post?post=${post}&foto_url=${fotoUrl}&video_url=${videoUrl}&user_id=${userId}`;
         fetch(endPoint)
             .then(res => res.json())
             .then(results => {
+                document.querySelector("#postForm textarea").value = "";
                 if (results.status == "SUCESS") {
                     janela.classList.add("esconderPostModal");
                     areaPost.remove();
@@ -617,6 +619,7 @@ function editarPost(element, result) {
 
     const janela = document.getElementById("areaPostModal");
     const btnFecharPostModal = document.getElementById("btnFecharPostModal");
+    const btnEditPost = document.getElementById("btnPublicarPost");
 
     document.querySelector('.postModal .cabecalhoPostModal h4').innerText = "Editar publicação";
     document.querySelector("#postForm button").innerHTML = "Salvar";
@@ -627,7 +630,31 @@ function editarPost(element, result) {
     janela.classList.remove("esconderPostModal");
     janela.classList.add("mostrarPostModal");
 
-    btnFecharPostModal.onclick = function () {
+    btnEditPost.onclick = () =>{
+        const postId = element.parentNode.parentNode.parentNode.parentNode.dataset.postid;
+        const postUserId = element.parentNode.parentNode.parentNode.parentNode.dataset.postuserid;
+        const post = document.querySelector("#postForm textarea").value.replaceAll('\n', '<br/>');;
+        const fotoUrl = document.querySelector("#postForm .fotoUrl").value;
+        const videoUrl = document.querySelector("#postForm .videoUrl").value;
+        const endPoint = `Controllers/update_post?post=${post}&foto_url=${fotoUrl}&video_url=${videoUrl}&post_id=${postId}&post_user_id=${postUserId}&user_id=${userId}`;
+        fetch(endPoint)
+            .then(res => res.json())
+            .then(results => {
+                document.querySelector("#postForm textarea").value = "";
+                if (results.status == "SUCESS") {
+                    janela.classList.add("esconderPostModal");
+                    areaPost.remove();
+                    getAllUsers(limit, offset);
+                } else {
+                    console.log(results['message']);
+                }
+            }).catch(error => {
+                // Lidar com erros
+                console.error('Erro:', error);
+            });
+    }
+
+    btnFecharPostModal.onclick = () => {
         document.querySelector("#postForm textarea").value = "";
         janela.classList.remove("mostrarPostModal");
         janela.classList.add("esconderPostModal");
