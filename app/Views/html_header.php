@@ -52,10 +52,7 @@ defined("ROOT") or die("Acesso negado");
 </head>
 
 <body>
-    <input id="userId" type="hidden" name="" value='<?= $_SESSION['user_id'] ?>'>
-    <input id="nameC" type="hidden" name="" value='<?= $_SESSION['first_name'] . " " . $_SESSION['last_name'] ?>'>
-    <input id="photo" type="hidden" name="" value='<?= $_SESSION['photo_url'] ?>'>
-    <header class="principal">
+    <header class="principal" id="principal" data-userid='<?= $_SESSION['user_id'] ?>' data-namec='<?= $_SESSION['first_name'] . " " . $_SESSION['last_name'] ?>' data-photo='<?= $_SESSION['photo_url'] ?>'>
         <div>
             <img src="assets/images/logo.png" alt="">
             <input type="search" name="pesqClients" onkeyup="showHint(this.value)" placeholder="Pesquisar">

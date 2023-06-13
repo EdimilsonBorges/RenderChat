@@ -7,7 +7,7 @@ defined("ROOT") or die("Acesso negado");
         <div id="postModal" class="postModal">
             <div class="cabecalhoPostModal">
                 <h4></h4>
-                <span id="btnFecharPostModal" class="btnFecharPostModal">x</span>
+                <span id="btnFecharPostModal" class="btnFecharPostModal"><img src="./assets/icons/close.svg"></span>
             </div>
             <hr>
             <div class="perfilPostModal">
@@ -34,7 +34,7 @@ defined("ROOT") or die("Acesso negado");
         <div id="compartModal" class="compartModal">
             <div class="cabecalhoCompartModal">
                 <h4>Compartilhamento</h4>
-                <span id="btnFecharCompartModal" class="btnFecharCompartModal">x</span>
+                <span id="btnFecharCompartModal" class="btnFecharCompartModal"><img src="./assets/icons/close.svg"></span>
             </div>
             <hr>
             <div class="perfilCompartModal">

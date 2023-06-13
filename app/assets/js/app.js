@@ -1,9 +1,9 @@
 // Conexão do chat =====================================================================================
 const conn = new WebSocket('ws:localhost:8080/wss');
 //let conn = new WebSocket('ws:192.168.0.103:8080/wss');
-const userId = document.getElementById("userId").value;
-const nameC = document.getElementById("nameC").value;
-const photo = document.getElementById("photo").value;
+const userId = document.getElementById("principal").dataset.userid;
+const nameC = document.getElementById("principal").dataset.namec;
+const photo = document.getElementById("principal").dataset.photo;
 let onlines;
 
 conn.onopen = function (e) {
@@ -201,11 +201,13 @@ function createPost(result) {
     publication.setAttribute("class", "publication");
     publication.setAttribute("data-postid", result.id);
     publication.setAttribute("data-postuserid", result.user_id);
+    publication.setAttribute("data-like", "no");
 
     if (result.sh_user_id != null) {
         createPerfilShare(result, publication);
     } else if (result.lik_user_id != null) {
         createPerfilLike(result, publication);
+        publication.setAttribute("data-like", "yes");
     }
 
     const postMenuDrop = document.createElement("div");
@@ -226,17 +228,29 @@ function createPost(result) {
     const linksPostMenuDrop = document.createElement("div");
     linksPostMenuDrop.setAttribute("class", "linksPostMenuDrop");
 
+    const imgEditar = document.createElement("img");
+    imgEditar.setAttribute("class", "imgDelete");
+    imgEditar.setAttribute("src", "./assets/icons/edit.svg");
+
     const linkEditar = document.createElement("a");
-    linkEditar.innerHTML = "Editar";
     linkEditar.onclick = () => {
         editarPost(linkEditar, result);
     }
 
+    linkEditar.appendChild(imgEditar);
+    linkEditar.innerHTML += "Editar";
+
+    const imgDelete = document.createElement("img");
+    imgDelete.setAttribute("class", "imgDelete");
+    imgDelete.setAttribute("src", "./assets/icons/delete.svg");
+
     const linkExcluir = document.createElement("a");
-    linkExcluir.innerHTML = "Excluir";
     linkExcluir.onclick = () => {
         excluirPost(publication, result);
     }
+
+    linkExcluir.appendChild(imgDelete);
+    linkExcluir.innerHTML += "Excluir";
 
     linksPostMenuDrop.appendChild(linkEditar);
     linksPostMenuDrop.appendChild(linkExcluir);
@@ -351,29 +365,52 @@ function createPost(result) {
 
     const buttonLike = document.createElement("button");
     buttonLike.setAttribute("type", "button");
+
+    const imgLike = document.createElement("img");
+    imgLike.setAttribute("class", "imgLike");
+
+    buttonLike.innerHTML = "Curtir";
+
     if (result.li_post_id == null) {
-        buttonLike.innerHTML = "Curtir";
+        imgLike.setAttribute("src", "./assets/icons/like.svg");
     } else {
-        buttonLike.innerHTML = "Descurtir";
+        imgLike.setAttribute("src", "./assets/icons/deslike.svg");
+        buttonLike.style.color = "#090";
     }
+    buttonLike.appendChild(imgLike);
     buttonLike.onclick = () => {
-        likeDeslike(buttonLike, result);
+        likeDeslike(buttonLike, result, imgLike, publication);
     }
 
     const btnComment = document.createElement("button");
     btnComment.setAttribute("type", "button");
     btnComment.setAttribute("class", "btnComment");
+
+    const imgComment = document.createElement("img");
+    imgComment.setAttribute("class", "imgComment");
+    imgComment.setAttribute("src", "./assets/icons/comment.svg");
+
     btnComment.innerHTML = "Comentar";
+
     btnComment.onclick = () => {
         showComments(btnComment, result);
     }
 
+    btnComment.appendChild(imgComment);
+
     const btnShare = document.createElement("button");
     btnShare.setAttribute("type", "button");
+
+    const imgShare = document.createElement("img");
+    imgShare.setAttribute("class", "imgShare");
+    imgShare.setAttribute("src", "./assets/icons/share.svg");
+
     btnShare.innerHTML = "Compartilhar";
+
     btnShare.onclick = () => {
         sharePost(btnShare, result);
     }
+    btnShare.appendChild(imgShare);
 
     botoesPublication.appendChild(buttonLike);
     botoesPublication.appendChild(btnComment);
@@ -397,13 +434,18 @@ function createPost(result) {
         txtTextAreaComment.style.height = `${scHeight - 20}px`;
     });
 
+    const imgEnviarComment = document.createElement("img");
+    imgEnviarComment.setAttribute("class", "imgEnviarComment");
+    imgEnviarComment.setAttribute("src", "./assets/icons/send.svg");
+
     const btnEnviarComment = document.createElement("button");
     btnEnviarComment.setAttribute("class", "btnEnviarComment");
     btnEnviarComment.setAttribute("type", "button");
-    btnEnviarComment.innerHTML = "Enviar";
     btnEnviarComment.onclick = () => {
         commentPost(btnEnviarComment, result);
     }
+    btnEnviarComment.innerHTML = "Enviar";
+    btnEnviarComment.appendChild(imgEnviarComment);
 
     const area = document.createElement("div");
     area.setAttribute("class", "area");
@@ -841,14 +883,14 @@ function showShares(result) {
     }
 }
 
-function likeDeslike(element, result) {
+function likeDeslike(element, result, imgLike, publication) {
     const perfil_share_like = element.parentElement.parentElement.firstElementChild;
     let elementLikes;
 
     if (perfil_share_like.classList.contains("perfil_share") || perfil_share_like.classList.contains("perfil_like")) {
-        elementLikes = element.parentElement.parentElement.children[3].firstElementChild.firstElementChild;
+        elementLikes = element.parentNode.parentNode.children[3].firstElementChild.firstElementChild;
     } else {
-        elementLikes = element.parentElement.parentElement.children[2].firstElementChild.firstElementChild;
+        elementLikes = element.parentNode.parentNode.children[2].firstElementChild.firstElementChild;
     }
 
     const endPoint = `Controllers/curtir_descurtir.php?user_id=${userId}&post_id=${result.id}`;
@@ -858,12 +900,16 @@ function likeDeslike(element, result) {
         .then(results => {
             if (results.status == "SUCESS") {
 
-                if (element.innerHTML == "Curtir") {
+                if (publication.dataset.like == "no") {
                     elementLikes.innerHTML++;
-                    element.innerHTML = "Descurtir";
-                } else if (element.innerHTML == "Descurtir") {
+                    imgLike.src = "./assets/icons/deslike.svg";
+                    element.style.color = "#090";
+                    publication.setAttribute("data-like", "yes");
+                } else if (publication.dataset.like == "yes"){
                     elementLikes.innerHTML--;
-                    element.innerHTML = "Curtir"
+                    imgLike.src = "./assets/icons/like.svg";
+                    element.style.color = "#444";
+                    publication.setAttribute("data-like", "no");
                 }
 
             } else {
