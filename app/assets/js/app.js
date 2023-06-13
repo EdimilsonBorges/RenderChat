@@ -1,9 +1,9 @@
 // Conexão do chat =====================================================================================
-let conn = new WebSocket('ws:localhost:8080/wss');
+const conn = new WebSocket('ws:localhost:8080/wss');
 //let conn = new WebSocket('ws:192.168.0.103:8080/wss');
-let userId = document.getElementById("userId").value;
-let nameC = document.getElementById("nameC").value;
-let photo = document.getElementById("photo").value;
+const userId = document.getElementById("userId").value;
+const nameC = document.getElementById("nameC").value;
+const photo = document.getElementById("photo").value;
 let onlines;
 
 conn.onopen = function (e) {
@@ -34,10 +34,10 @@ conn.onmessage = function (e) {
             // console.log(dados);
         }
     } else if (data.userId != userId) {
-        let dados = JSON.stringify(data);
+        const dados = JSON.stringify(data);
         showChatMessage(dados, "other", userId);
     } else {
-        let dados = JSON.stringify(data);
+        const dados = JSON.stringify(data);
         showChatMessage(dados, "me", userId);
     }
 };
@@ -47,7 +47,7 @@ conn.onmessage = function (e) {
 // ocultar menu se clicar fora do elemento
 window.onclick = function (event) {
     if (!event.target.matches('.btnPostMenuDrop')) {
-        let elements = document.getElementsByClassName("linksPostMenuDrop");
+        const elements = document.getElementsByClassName("linksPostMenuDrop");
 
         for (let i = 0; i < elements.length; i++) {
             let aberto = elements[i];
@@ -77,7 +77,7 @@ getAllUsers(limit, offset);
 if (!fim) {
     window.addEventListener('scroll', () => {
 
-        let elemento = document.getElementsByClassName("publication")[postPosition];
+        const elemento = document.getElementsByClassName("publication")[postPosition];
         if (elemento != null) {
             let rect = elemento.getBoundingClientRect();
             if (rect.top < window.innerHeight) {
@@ -97,7 +97,7 @@ function getAllUsers(limit, offset) {
 
     const posts = document.getElementById("posts");
 
-    let areaPost = document.createElement("div");
+    const areaPost = document.createElement("div");
     areaPost.setAttribute("class", "areaPost");
     areaPost.setAttribute("id", "areaPost");
 
@@ -129,83 +129,89 @@ function getAllUsers(limit, offset) {
         });
 }
 
+function createPerfilShare(result, publication) {
+
+    const perfil_share = document.createElement("header");
+    perfil_share.setAttribute("class", "perfil_share");
+    perfil_share.onclick = () => {
+        showShares(result);
+    }
+    const div = document.createElement("div");
+
+    const imgShare = document.createElement("img");
+    if (result.sh_photo_url != null) {
+        imgShare.setAttribute("src", `assets/images/${result.sh_photo_url}`);
+    } else {
+        imgShare.setAttribute("src", `assets/images/sem-foto.jpg`);
+    }
+
+    const pMensagemShare = document.createElement("p");
+
+    if (result.t_shares <= 1) {
+        pMensagemShare.innerHTML = `${result.sh_first_name} ${result.sh_last_name} compartilhou isso!`;
+    } else if (result.t_shares <= 2) {
+        pMensagemShare.innerHTML = `${result.sh_first_name} ${result.sh_last_name} e outras ${result.t_shares - 1}  pessoa compartilhou isso!`;
+    } else {
+        pMensagemShare.innerHTML = `${result.sh_first_name} ${result.sh_last_name} e outras ${result.t_shares - 1}  pessoas compartilhou isso!`;
+    }
+
+    div.appendChild(imgShare);
+    div.appendChild(pMensagemShare);
+    perfil_share.appendChild(div);
+    publication.appendChild(perfil_share);
+}
+
+function createPerfilLike(result, publication) {
+    const perfil_like = document.createElement("header");
+    perfil_like.setAttribute("class", "perfil_like");
+    perfil_like.onclick = () => {
+        showLikes(result);
+    }
+    const div = document.createElement("div");
+
+    const imgLike = document.createElement("img");
+
+    if (result.lik_photo_url != null) {
+        imgLike.setAttribute("src", `assets/images/${result.lik_photo_url}`);
+    } else {
+        imgLike.setAttribute("src", `assets/images/sem-foto.jpg`);
+    }
+
+    const pMensagemLike = document.createElement("p");
+
+    if (result.t_likes <= 1) {
+        pMensagemLike.innerHTML = `${result.lik_first_name} ${result.lik_last_name} curtiu isso!`;
+    } else if (result.t_likes <= 2) {
+        pMensagemLike.innerHTML = `${result.lik_first_name} ${result.lik_last_name} e outras ${result.t_likes - 1}  pessoa curtiu isso!`;
+    } else {
+        pMensagemLike.innerHTML = `${result.lik_first_name} ${result.lik_last_name} e outras ${result.t_likes - 1}  pessoas curtiu isso!`;
+    }
+
+    div.appendChild(imgLike);
+    div.appendChild(pMensagemLike);
+    perfil_like.appendChild(div);
+    publication.appendChild(perfil_like);
+}
+
 function createPost(result) {
 
     const areaPost = document.getElementById("areaPost");;
 
-    let publication = document.createElement("section");
+    const publication = document.createElement("section");
     publication.setAttribute("class", "publication");
     publication.setAttribute("data-postid", result.id);
     publication.setAttribute("data-postuserid", result.user_id);
 
     if (result.sh_user_id != null) {
-
-        let perfil_share = document.createElement("header");
-        perfil_share.setAttribute("class", "perfil_share");
-        perfil_share.onclick = () => {
-            showShares(result);
-        }
-        let div = document.createElement("div");
-
-        let imgShare = document.createElement("img");
-        if (result.sh_photo_url != null) {
-            imgShare.setAttribute("src", `assets/images/${result.sh_photo_url}`);
-        } else {
-            imgShare.setAttribute("src", `assets/images/sem-foto.jpg`);
-        }
-
-        let pMensagemShare = document.createElement("p");
-
-        if (result.t_shares <= 1) {
-            pMensagemShare.innerHTML = `${result.sh_first_name} ${result.sh_last_name} compartilhou isso!`;
-        } else if (result.t_shares <= 2) {
-            pMensagemShare.innerHTML = `${result.sh_first_name} ${result.sh_last_name} e outras ${result.t_shares - 1}  pessoa compartilhou isso!`;
-        } else {
-            pMensagemShare.innerHTML = `${result.sh_first_name} ${result.sh_last_name} e outras ${result.t_shares - 1}  pessoas compartilhou isso!`;
-        }
-
-        div.appendChild(imgShare);
-        div.appendChild(pMensagemShare);
-        perfil_share.appendChild(div);
-        publication.appendChild(perfil_share);
-
+        createPerfilShare(result, publication);
     } else if (result.lik_user_id != null) {
-
-        let perfil_like = document.createElement("header");
-        perfil_like.setAttribute("class", "perfil_like");
-        perfil_like.onclick = () => {
-            showLikes(result);
-        }
-        let div = document.createElement("div");
-
-        let imgLike = document.createElement("img");
-
-        if (result.lik_photo_url != null) {
-            imgLike.setAttribute("src", `assets/images/${result.lik_photo_url}`);
-        } else {
-            imgLike.setAttribute("src", `assets/images/sem-foto.jpg`);
-        }
-
-        let pMensagemLike = document.createElement("p");
-
-        if (result.t_likes <= 1) {
-            pMensagemLike.innerHTML = `${result.lik_first_name} ${result.lik_last_name} curtiu isso!`;
-        } else if (result.t_likes <= 2) {
-            pMensagemLike.innerHTML = `${result.lik_first_name} ${result.lik_last_name} e outras ${result.t_likes - 1}  pessoa curtiu isso!`;
-        } else {
-            pMensagemLike.innerHTML = `${result.lik_first_name} ${result.lik_last_name} e outras ${result.t_likes - 1}  pessoas curtiu isso!`;
-        }
-
-        div.appendChild(imgLike);
-        div.appendChild(pMensagemLike);
-        perfil_like.appendChild(div);
-        publication.appendChild(perfil_like);
+        createPerfilLike(result, publication);
     }
 
-    let postMenuDrop = document.createElement("div");
+    const postMenuDrop = document.createElement("div");
     postMenuDrop.setAttribute("class", "postMenuDrop");
 
-    let btnPostMenuDrop = document.createElement("button");
+    const btnPostMenuDrop = document.createElement("button");
     btnPostMenuDrop.setAttribute("class", "btnPostMenuDrop");
     btnPostMenuDrop.innerHTML = "...";
     btnPostMenuDrop.onclick = () => {
@@ -214,19 +220,19 @@ function createPost(result) {
         }
     }
 
-    let navLinks = document.createElement("nav");
+    const navLinks = document.createElement("nav");
     navLinks.setAttribute("class", "navLinks");
 
-    let linksPostMenuDrop = document.createElement("div");
+    const linksPostMenuDrop = document.createElement("div");
     linksPostMenuDrop.setAttribute("class", "linksPostMenuDrop");
 
-    let linkEditar = document.createElement("a");
+    const linkEditar = document.createElement("a");
     linkEditar.innerHTML = "Editar";
     linkEditar.onclick = () => {
         editarPost(linkEditar, result);
     }
 
-    let linkExcluir = document.createElement("a");
+    const linkExcluir = document.createElement("a");
     linkExcluir.innerHTML = "Excluir";
     linkExcluir.onclick = () => {
         excluirPost(publication, result);
@@ -245,9 +251,9 @@ function createPost(result) {
     perfil = document.createElement("header");
     perfil.setAttribute("class", "perfil");
 
-    let div = document.createElement("div");
+    const div = document.createElement("div");
 
-    let imgPerf = document.createElement("img");
+    const imgPerf = document.createElement("img");
 
     if (result.photo_url != null) {
         imgPerf.setAttribute("src", `assets/images/${result.photo_url}`);
@@ -284,66 +290,66 @@ function createPost(result) {
     publicationPost.appendChild(perfil);
     publicationPost.appendChild(divPost);
 
-    let curtidasComentarios = document.createElement("div");
+    const curtidasComentarios = document.createElement("div");
     curtidasComentarios.setAttribute("class", "curtidas-comentarios");
 
-    let curtidas = document.createElement("div");
+    const curtidas = document.createElement("div");
     curtidas.setAttribute("class", "curtidas");
     curtidas.onclick = () => {
         showLikes(result);
     }
 
-    let pLike = document.createElement("p");
+    const pLike = document.createElement("p");
     pLike.setAttribute("class", "like");
     pLike.innerHTML = result.t_likes;
 
-    let spanLike = document.createElement("span");
+    const spanLike = document.createElement("span");
     spanLike.innerHTML = "Curtidas"
 
     curtidas.appendChild(pLike);
     curtidas.appendChild(spanLike);
     curtidasComentarios.appendChild(curtidas);
 
-    let comentarios = document.createElement("div");
+    const comentarios = document.createElement("div");
     comentarios.setAttribute("class", "comentarios");
     comentarios.onclick = () => {
         showComments(comentarios, result);
     }
 
-    let pComment = document.createElement("p");
+    const pComment = document.createElement("p");
     pComment.setAttribute("class", "spanComment");
     pComment.innerHTML = result.t_comments;
 
-    let spanComment = document.createElement("span");
+    const spanComment = document.createElement("span");
     spanComment.innerHTML = "Comentários"
 
     comentarios.appendChild(pComment);
     comentarios.appendChild(spanComment);
     curtidasComentarios.appendChild(comentarios);
 
-    let compartilhamentos = document.createElement("div");
+    const compartilhamentos = document.createElement("div");
     compartilhamentos.setAttribute("class", "compartilhamentos");
     compartilhamentos.onclick = () => {
         showShares(result);
     }
 
-    let pShares = document.createElement("p");
+    const pShares = document.createElement("p");
     pShares.setAttribute("class", "share");
     pShares.innerHTML = result.t_shares;
 
-    let spanShare = document.createElement("span");
+    const spanShare = document.createElement("span");
     spanShare.innerHTML = "Compartilhamentos"
 
     compartilhamentos.appendChild(pShares);
     compartilhamentos.appendChild(spanShare);
     curtidasComentarios.appendChild(compartilhamentos);
 
-    let hr = document.createElement("hr");
+    const hr = document.createElement("hr");
 
-    let botoesPublication = document.createElement("div");
+    const botoesPublication = document.createElement("div");
     botoesPublication.setAttribute("class", "botoes-publication");
 
-    let buttonLike = document.createElement("button");
+    const buttonLike = document.createElement("button");
     buttonLike.setAttribute("type", "button");
     if (result.li_post_id == null) {
         buttonLike.innerHTML = "Curtir";
@@ -354,7 +360,7 @@ function createPost(result) {
         likeDeslike(buttonLike, result);
     }
 
-    let btnComment = document.createElement("button");
+    const btnComment = document.createElement("button");
     btnComment.setAttribute("type", "button");
     btnComment.setAttribute("class", "btnComment");
     btnComment.innerHTML = "Comentar";
@@ -362,7 +368,7 @@ function createPost(result) {
         showComments(btnComment, result);
     }
 
-    let btnShare = document.createElement("button");
+    const btnShare = document.createElement("button");
     btnShare.setAttribute("type", "button");
     btnShare.innerHTML = "Compartilhar";
     btnShare.onclick = () => {
@@ -373,13 +379,13 @@ function createPost(result) {
     botoesPublication.appendChild(btnComment);
     botoesPublication.appendChild(btnShare);
 
-    let commentArea = document.createElement("div");
+    const commentArea = document.createElement("div");
     commentArea.setAttribute("class", "commentArea");
 
-    let commentar = document.createElement("div");
+    const commentar = document.createElement("div");
     commentar.setAttribute("class", "commentar");
 
-    let txtTextAreaComment = document.createElement("textarea");
+    const txtTextAreaComment = document.createElement("textarea");
     txtTextAreaComment.setAttribute("class", "txtTextAreaComment");
     txtTextAreaComment.setAttribute("id", `${result.id}comment`);
     txtTextAreaComment.placeholder = "Escreva um comentário";
@@ -391,7 +397,7 @@ function createPost(result) {
         txtTextAreaComment.style.height = `${scHeight - 20}px`;
     });
 
-    let btnEnviarComment = document.createElement("button");
+    const btnEnviarComment = document.createElement("button");
     btnEnviarComment.setAttribute("class", "btnEnviarComment");
     btnEnviarComment.setAttribute("type", "button");
     btnEnviarComment.innerHTML = "Enviar";
@@ -399,7 +405,7 @@ function createPost(result) {
         commentPost(btnEnviarComment, result);
     }
 
-    let area = document.createElement("div");
+    const area = document.createElement("div");
     area.setAttribute("class", "area");
 
     commentar.appendChild(txtTextAreaComment);
@@ -417,25 +423,25 @@ function createPost(result) {
 }
 
 function createComment(result, area) {
-    let commentUserId = result['user_id'];
-    let commentId = result['id'];
+    const commentUserId = result['user_id'];
+    const commentId = result['id'];
 
-    let perfilComment = document.createElement("header");
+    const perfilComment = document.createElement("header");
     perfilComment.setAttribute("class", "perfil_comment");
 
-    let div = document.createElement("div");
+    const div = document.createElement("div");
 
-    let img = document.createElement("img");
+    const img = document.createElement("img");
     if (result.co_photo_url != null) {
         img.src = `assets/images/${result.co_photo_url}`;
     } else {
         img.src = "assets/images/sem-foto.jpg";
     }
 
-    let ccommentMenuDrop = document.createElement("div");
+    const ccommentMenuDrop = document.createElement("div");
     ccommentMenuDrop.setAttribute("class", "commentMenuDrop");
 
-    let btnCommentMenuDrop = document.createElement("button");
+    const btnCommentMenuDrop = document.createElement("button");
     btnCommentMenuDrop.setAttribute("class", "btnCommentMenuDrop");
     btnCommentMenuDrop.id = "btnCommentMenuDrop";
     btnCommentMenuDrop.innerText = "...";
@@ -443,19 +449,19 @@ function createComment(result, area) {
         commentMenuDrop(commentId, commentUserId, userId);
     }
 
-    let navLinksComment = document.createElement("nav");
+    const navLinksComment = document.createElement("nav");
     navLinksComment.setAttribute("class", "navLinksComment navLinksCommentInvisible");
     navLinksComment.id = commentId;
 
-    let linksCommentMenuDrop = document.createElement("div");
+    const linksCommentMenuDrop = document.createElement("div");
     linksCommentMenuDrop.setAttribute("class", "linksCommentMenuDrop");
 
-    let delet = document.createElement("a");
+    const delet = document.createElement("a");
     delet.id = "delet";
     delet.innerText = "Excluir";
     delet.onclick = function () {
 
-        let perfil_like_share = delet.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.firstElementChild;
+        const perfil_like_share = delet.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.firstElementChild;
         let spanComment;
 
         if (perfil_like_share.classList.contains("perfil_share") || perfil_like_share.classList.contains("perfil_like")) {
@@ -464,7 +470,7 @@ function createComment(result, area) {
             spanComment = delet.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.children[2].children[1].firstChild;
         }
 
-        let endPoints = `Controllers/delete_comment?id=${commentId}`
+        const endPoints = `Controllers/delete_comment?id=${commentId}`
         fetch(endPoints)
             .then(res => res.json())
             .then(results => {
@@ -477,14 +483,14 @@ function createComment(result, area) {
             });
     }
 
-    let corpoComment = document.createElement("div");
+    const corpoComment = document.createElement("div");
     corpoComment.setAttribute("class", "corpo_comment");
 
-    let nomePerf = document.createElement("p");
+    const nomePerf = document.createElement("p");
     nomePerf.setAttribute("class", "nomePerf");
     nomePerf.innerText = `${result['co_first_name']} ${result['co_last_name']}`;
 
-    let p = document.createElement("p");
+    const p = document.createElement("p");
     p.innerHTML = result['comment'];
 
     div.appendChild(img);
@@ -498,7 +504,7 @@ function createComment(result, area) {
     corpoComment.appendChild(nomePerf);
     corpoComment.appendChild(p);
 
-    let itemComment = document.createElement("div");
+    const itemComment = document.createElement("div");
     itemComment.setAttribute("class", "itemComment");
 
     itemComment.appendChild(perfilComment);
@@ -510,8 +516,8 @@ function createComment(result, area) {
 
 function commentMenuDrop(commentId, commentUser, user) {
 
-    let janela = document.getElementById(commentId);
-    let janelas = document.getElementsByClassName("navLinksComment");
+    const janela = document.getElementById(commentId);
+    const janelas = document.getElementsByClassName("navLinksComment");
 
     if (user == commentUser) {
         if (janela.classList.contains("navLinksCommentInvisible")) {
@@ -597,14 +603,14 @@ function showHint(str) {
 }
 
 // Publicar um Post (Página Home)
-let btnPublicarHome = document.getElementById("btnPublicarHome");
+const btnPublicarHome = document.getElementById("btnPublicarHome");
 if (btnPublicarHome != null) {
     btnPublicarHome.addEventListener("click", () => {
         postModal();
     });
 } else {
     // Publicar um Post (Página Perfil)
-    let btnPublicarPerfil = document.getElementById("btnPublicarPerfil");
+    const btnPublicarPerfil = document.getElementById("btnPublicarPerfil");
     btnPublicarPerfil.addEventListener("click", () => {
         postModal();
     });
@@ -612,7 +618,7 @@ if (btnPublicarHome != null) {
 
 function editarPost(element, result) {
     let post;
-    let perfil_like_share = element.parentElement.parentElement.parentElement.parentElement.firstChild;
+    const perfil_like_share = element.parentElement.parentElement.parentElement.parentElement.firstChild;
 
     if (perfil_like_share.classList.contains("perfil_share") || perfil_like_share.classList.contains("perfil_like")) {
         post = element.parentElement.parentElement.parentElement.parentElement.children[2].children[1];
@@ -667,7 +673,7 @@ function editarPost(element, result) {
 }
 
 function excluirPost(publication, result) {
-    let endPoint = `Controllers/delete_post.php?id=${result.id}`;
+    const endPoint = `Controllers/delete_post.php?id=${result.id}`;
     fetch(endPoint)
         .then(res => res.json())
         .then(results => {
@@ -691,7 +697,7 @@ function showLikes(result) {
 
     campo.innerHTML = "";
 
-    let endPoint = `Controllers/get_all_likes/index.php?post_id=${result.id}`;
+    const endPoint = `Controllers/get_all_likes/index.php?post_id=${result.id}`;
 
     fetch(endPoint)
         .then(res => res.json())
@@ -704,10 +710,10 @@ function showLikes(result) {
 
                     console.log(like);
 
-                    let perfilCurtidas = document.createElement("div");
+                    const perfilCurtidas = document.createElement("div");
                     perfilCurtidas.setAttribute("class", "perfilCurtidas");
 
-                    let img = document.createElement("img");
+                    const img = document.createElement("img");
 
                     if (like['photo_url'] != null) {
                         img.src = `assets/images/${like['photo_url']}`;
@@ -715,14 +721,14 @@ function showLikes(result) {
                         img.src = "assets/images/sem-foto.jpg";
                     }
 
-                    let h5 = document.createElement("h5");
+                    const h5 = document.createElement("h5");
                     h5.innerText = `${like['first_name']} ${like['last_name']}`;
 
-                    let btnAdicionar = document.createElement("button");
+                    const btnAdicionar = document.createElement("button");
                     btnAdicionar.type = "button";
                     btnAdicionar.innerText = "Adicionar";
 
-                    let hr = document.createElement("hr");
+                    const hr = document.createElement("hr");
 
                     perfilCurtidas.appendChild(img);
                     perfilCurtidas.appendChild(h5);
@@ -748,9 +754,8 @@ function showLikes(result) {
 }
 
 function showComments(element, result) {
-    let janela = element.parentNode.parentNode.lastElementChild;
-    let area = element.parentNode.parentNode.lastElementChild.lastElementChild;
-    let spanComment = element.parentNode.parentNode.children[2].children[1].firstElementChild;
+    const janela = element.parentNode.parentNode.lastElementChild;
+    const area = element.parentNode.parentNode.lastElementChild.lastElementChild;
 
     janela.classList.toggle("most");
 
@@ -783,7 +788,7 @@ function showShares(result) {
 
     campo.innerHTML = "";
 
-    let endPoint = `Controllers/get_all_shares/index.php?post_id=${result.id}`;
+    const endPoint = `Controllers/get_all_shares/index.php?post_id=${result.id}`;
 
     fetch(endPoint)
         .then(res => res.json())
@@ -794,10 +799,10 @@ function showShares(result) {
 
                 results['results'].forEach((share) => {
 
-                    let perfilComp = document.createElement("div");
+                    const perfilComp = document.createElement("div");
                     perfilComp.setAttribute("class", "perfilComp");
 
-                    let img = document.createElement("img");
+                    const img = document.createElement("img");
 
                     if (share['photo_url'] != null) {
                         img.src = `assets/images/${share['photo_url']}`;
@@ -805,14 +810,14 @@ function showShares(result) {
                         img.src = "assets/images/sem-foto.jpg";
                     }
 
-                    let h5 = document.createElement("h5");
+                    const h5 = document.createElement("h5");
                     h5.innerText = `${share['first_name']} ${share['last_name']}`;
 
-                    let btnAdicionar = document.createElement("button");
+                    const btnAdicionar = document.createElement("button");
                     btnAdicionar.type = "button";
                     btnAdicionar.innerText = "Adicionar";
 
-                    let hr = document.createElement("hr");
+                    const hr = document.createElement("hr");
 
                     perfilComp.appendChild(img);
                     perfilComp.appendChild(h5);
@@ -837,7 +842,7 @@ function showShares(result) {
 }
 
 function likeDeslike(element, result) {
-    let perfil_share_like = element.parentElement.parentElement.firstElementChild;
+    const perfil_share_like = element.parentElement.parentElement.firstElementChild;
     let elementLikes;
 
     if (perfil_share_like.classList.contains("perfil_share") || perfil_share_like.classList.contains("perfil_like")) {
@@ -846,7 +851,7 @@ function likeDeslike(element, result) {
         elementLikes = element.parentElement.parentElement.children[2].firstElementChild.firstElementChild;
     }
 
-    let endPoint = `Controllers/curtir_descurtir.php?user_id=${userId}&post_id=${result.id}`;
+    const endPoint = `Controllers/curtir_descurtir.php?user_id=${userId}&post_id=${result.id}`;
 
     fetch(endPoint)
         .then(res => res.json())
@@ -855,10 +860,11 @@ function likeDeslike(element, result) {
 
                 if (element.innerHTML == "Curtir") {
                     elementLikes.innerHTML++;
+                    element.innerHTML = "Descurtir";
                 } else if (element.innerHTML == "Descurtir") {
                     elementLikes.innerHTML--;
+                    element.innerHTML = "Curtir"
                 }
-                element.innerHTML = results["results"];
 
             } else {
                 console.log(results['message']);
@@ -869,7 +875,7 @@ function likeDeslike(element, result) {
 function sharePost(element, result) {
     const post = document.getElementById('conteudoPost');
     let publication;
-    let perfil_like_share = element.parentElement.parentElement.firstElementChild;
+    const perfil_like_share = element.parentElement.parentElement.firstElementChild;
 
     if (perfil_like_share.classList.contains("perfil_share") || perfil_like_share.classList.contains("perfil_like")) {
         publication = element.parentElement.parentElement.children[2];
@@ -899,7 +905,7 @@ function commentPost(element, result) {
     let menssage;
     let spanComment;
 
-    let perfil_like_share = element.parentElement.parentElement.parentElement.firstElementChild;
+    const perfil_like_share = element.parentElement.parentElement.parentElement.firstElementChild;
 
     if (perfil_like_share.classList.contains("perfil_share") || perfil_like_share.classList.contains("perfil_like")) {
         spanComment = element.parentNode.parentNode.parentNode.children[3].children[1].firstElementChild;
@@ -912,7 +918,7 @@ function commentPost(element, result) {
     element.parentNode.firstElementChild.value = "";
     element.parentNode.firstElementChild.style.height = "15px";
 
-    let endPoint = `Controllers/create_new_comment?comment=${menssage}&user_id=${userId}&post_id=${result.id}`;
+    const endPoint = `Controllers/create_new_comment?comment=${menssage}&user_id=${userId}&post_id=${result.id}`;
 
     if (menssage != "") {
         spanComment.innerHTML++;
@@ -938,7 +944,7 @@ function enviarMessageChat(event, userId, fromId) {
 
     if ((event.keyCode == 13) || (event.keyCode == null)) {
 
-        let chatMessage = document.getElementById(`chat${fromId}`);
+        const chatMessage = document.getElementById(`chat${fromId}`);
 
         if (chatMessage.value != "") {
 
@@ -950,7 +956,7 @@ function enviarMessageChat(event, userId, fromId) {
                 'message': chatMessage.value
             }
 
-            let endPoint = `Controllers/create_new_messager_chat?messeger=${chatMessage.value}&user_id=${userId}&to_user_id=${fromId}`;
+            const endPoint = `Controllers/create_new_messager_chat?messeger=${chatMessage.value}&user_id=${userId}&to_user_id=${fromId}`;
 
             chatMessage.value = "";
 
@@ -974,22 +980,22 @@ function showChatMessage(msg, user) {
 
     if (user == "me") {
 
-        let areaMenssage = document.getElementById(msg.userId + msg.fromId);
+        const areaMenssage = document.getElementById(msg.userId + msg.fromId);
 
-        let caixaEu = document.createElement('div');
+        const caixaEu = document.createElement('div');
         caixaEu.setAttribute('class', 'caixa-eu');
 
-        let mensagemEu = document.createElement('div');
+        const mensagemEu = document.createElement('div');
         mensagemEu.setAttribute('class', 'mensagem-eu');
 
-        let mensagemEup = document.createElement('p');
+        const mensagemEup = document.createElement('p');
         mensagemEup.textContent = msg.message;
 
-        let visto = document.createElement('div');
+        const visto = document.createElement('div');
         visto.setAttribute("class", "visto");
         visto.style = "width: 10px; height: 10px; background-color: #0f0; border-radius: 50%; margin-top: 16px; margin-left: -18px;";
 
-        let nVisto = document.createElement('div');
+        const nVisto = document.createElement('div');
         nVisto.setAttribute("class", "nvisto");
         nVisto.style = "width: 10px; height: 10px; background-color: #bbb; border-radius: 50%; margin-top: 16px; margin-left: -18px;";
 
@@ -1005,7 +1011,7 @@ function showChatMessage(msg, user) {
 
         areaMenssage.scrollTop = areaMenssage.scrollHeight;
     } else {
-        let areaMenssage = document.getElementById(msg.fromId + msg.userId);
+        const areaMenssage = document.getElementById(msg.fromId + msg.userId);
         openChat(msg.userId, msg.name, msg.photo, true);
 
         if (areaMenssage != null) {
@@ -1019,15 +1025,15 @@ function showChatMessage(msg, user) {
 
 const receberMensagemChat = (msg) => {
 
-    let areaMenssage = document.getElementById(msg.fromId + msg.userId);
+    const areaMenssage = document.getElementById(msg.fromId + msg.userId);
 
-    let caixaOutro = document.createElement('div');
+    const caixaOutro = document.createElement('div');
     caixaOutro.setAttribute('class', 'caixa-outro');
 
-    let mensagemOutro = document.createElement('div');
+    const mensagemOutro = document.createElement('div');
     mensagemOutro.setAttribute('class', 'mensagem-outro');
 
-    let mensagemOutrop = document.createElement('p');
+    const mensagemOutrop = document.createElement('p');
     mensagemOutrop.textContent = msg.message;
 
     mensagemOutro.appendChild(mensagemOutrop);
@@ -1042,18 +1048,24 @@ document.getElementById("cabecalhoBatePapoPrincipal").onclick = function () {
 
 function marcarChatComoLido(fromId) {
 
-    let endPoint = `Controllers/update_messeger_chat?from_id=${fromId}&user_id=${userId}`;
-    fetch(endPoint);
+    const endPoint = `Controllers/update_messeger_chat?from_id=${fromId}&user_id=${userId}`;
+    fetch(endPoint)
+        .then(res => res.json())
+        .then(results => {
+            if (results.status == "SUCESS") {
+                // atualiza para visto em tempo real
+                let read = { // cria um objeto msg
+                    'userId': userId,
+                    'fromId': fromId,
+                    'read_at': Date(),
+                }
 
-    // atualiza para visto em tempo real
-    let read = { // cria um objeto msg
-        'userId': userId,
-        'fromId': fromId,
-        'read_at': Date(),
-    }
-
-    read = JSON.stringify(read); //converte para json
-    conn.send(read);
+                read = JSON.stringify(read); //converte para json
+                conn.send(read);
+            } else {
+                console.log(results['message']);
+            }
+        });
 }
 
 function ocultarDesocultarBatePapo() {
@@ -1069,7 +1081,7 @@ function ocultarDesocultarBatePapo() {
 
 function carregarUserChat() {
 
-    let endPoint = `Controllers/get_all_status?user_id=${userId}`;
+    const endPoint = `Controllers/get_all_status?user_id=${userId}`;
 
     fetch(endPoint)
         .then(res => res.json())
@@ -1085,8 +1097,8 @@ function carregarUserChat() {
 
                     total_nread += parseInt(result['count_nread']);
 
-                    let nomeCompleto = `${result['first_name']} ${result['last_name']}`;
-                    let itemChat = document.createElement("section");
+                    const nomeCompleto = `${result['first_name']} ${result['last_name']}`;
+                    const itemChat = document.createElement("section");
                     itemChat.setAttribute("class", "itemChat");
                     let count = 0;
                     itemChat.onclick = function () {
@@ -1104,16 +1116,16 @@ function carregarUserChat() {
 
                     }
 
-                    let div = document.createElement("div");
+                    const div = document.createElement("div");
 
-                    let imgPerfil = document.createElement("img");
+                    const imgPerfil = document.createElement("img");
                     if (result['photo_url'] != null) {
                         imgPerfil.src = `assets/images/${result['photo_url']}`;
                     } else {
                         imgPerfil.src = "assets/images/sem-foto.jpg";
                     }
 
-                    let statu = document.createElement("div");
+                    const statu = document.createElement("div");
 
                     if (onlines.includes(result['id'])) {
                         statu.setAttribute("class", "online");
@@ -1121,13 +1133,13 @@ function carregarUserChat() {
                         statu.setAttribute("class", "offline");
                     }
 
-                    let mensagem = document.createElement("div");
+                    const mensagem = document.createElement("div");
                     mensagem.setAttribute("class", "mensagem");
 
-                    let nome = document.createElement("h3");
+                    const nome = document.createElement("h3");
                     nome.innerText = nomeCompleto;
 
-                    let historico = document.createElement("p");
+                    const historico = document.createElement("p");
                     historico.id = `his${result['id']}`;
                     if (result['messeger'] != undefined) {
                         historico.innerText = result['messeger'];
@@ -1136,7 +1148,7 @@ function carregarUserChat() {
                     }
 
 
-                    let hr = document.createElement("hr");
+                    const hr = document.createElement("hr");
 
                     let divNunHistory = document.createElement('div');
                     divNunHistory.setAttribute("class", "divNunHistory");
@@ -1177,13 +1189,13 @@ function openChat(fromId, nomeCompleto, perfImg, online) {
 
     if (myElement == null) {
 
-        let areaChat = document.getElementById("area-chat");
+        const areaChat = document.getElementById("area-chat");
 
-        let batePapoPerfil = document.createElement('section');
+        const batePapoPerfil = document.createElement('section');
         batePapoPerfil.setAttribute('class', 'bate-papo-perfil');
         batePapoPerfil.style = 'height: 500px';
 
-        let headerPapoPerfil = document.createElement('header');
+        const headerPapoPerfil = document.createElement('header');
         headerPapoPerfil.setAttribute('class', 'perfil-bate-papo-perfil');
         headerPapoPerfil.id = "cabecalhoBatePapo";
 
@@ -1191,16 +1203,16 @@ function openChat(fromId, nomeCompleto, perfImg, online) {
             areaChat.removeChild(batePapoPerfil);
         }
 
-        let div = document.createElement('div');
+        const div = document.createElement('div');
 
-        let img = document.createElement('img');
+        const img = document.createElement('img');
         if (perfImg != null) {
             img.src = `assets/images/${perfImg}`;
         } else {
             img.src = "assets/images/sem-foto.jpg";
         }
 
-        let status = document.createElement('div');
+        const status = document.createElement('div');
 
         if (online) {
             status.setAttribute("class", "online");
@@ -1208,12 +1220,12 @@ function openChat(fromId, nomeCompleto, perfImg, online) {
             status.setAttribute("class", "offline");
         }
 
-        let div2 = document.createElement('div');
+        const div2 = document.createElement('div');
 
-        let h3 = document.createElement('h3');
+        const h3 = document.createElement('h3');
         h3.innerText = nomeCompleto;
 
-        let hr = document.createElement('hr');
+        const hr = document.createElement('hr');
 
         div2.appendChild(h3);
         div.appendChild(img);
@@ -1223,15 +1235,15 @@ function openChat(fromId, nomeCompleto, perfImg, online) {
         batePapoPerfil.appendChild(headerPapoPerfil);
         batePapoPerfil.appendChild(hr);
 
-        let conversaBatePapoPerfil = document.createElement("section");
+        const conversaBatePapoPerfil = document.createElement("section");
         conversaBatePapoPerfil.setAttribute("class", "conversa-bate-papo-perfil");
         conversaBatePapoPerfil.id = userId + fromId;
 
-        let submitBatePapo = document.createElement("div");
+        const submitBatePapo = document.createElement("div");
         submitBatePapo.setAttribute("class", "submit-bate-papo");
         submitBatePapo.id = "submit-bate-papo";
 
-        let input = document.createElement("input");
+        const input = document.createElement("input");
         input.setAttribute("class", "chatMessage");
         input.id = `chat${fromId}`;
         input.type = "text";
@@ -1239,7 +1251,7 @@ function openChat(fromId, nomeCompleto, perfImg, online) {
             enviarMessageChat(event, userId, fromId);
         }
 
-        let btnchat = document.createElement("button");
+        const btnchat = document.createElement("button");
         btnchat.setAttribute("class", "btnChat");
         btnchat.type = "button";
         btnchat.id = `btnChat${userId}`;
@@ -1256,7 +1268,7 @@ function openChat(fromId, nomeCompleto, perfImg, online) {
 
         areaChat.appendChild(batePapoPerfil);
 
-        let endPoint = `Controllers/get_messager_chat?user_id=${userId}&to_user_id=${fromId}`;
+        const endPoint = `Controllers/get_messager_chat?user_id=${userId}&to_user_id=${fromId}`;
 
         fetch(endPoint)
             .then(res => res.json())
