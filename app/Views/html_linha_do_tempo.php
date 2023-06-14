@@ -3,7 +3,7 @@ defined("ROOT") or die("Acesso negado");
 ?>
 
 <section class="container-corpo">
-    <nav class="direita">
+    <nav class="esquerda">
         <section>
             <p id="txtHint"></p>
             <p>
@@ -47,7 +47,7 @@ defined("ROOT") or die("Acesso negado");
         
     </article>
 
-    <nav class="esquerda">
+    <nav class="direita">
         <section>
             <p>
                 Maecenas eget eros at lacus lacinia pharetra. Praesent quis nibh fringilla diam fermentum tempor

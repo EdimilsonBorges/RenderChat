@@ -18,12 +18,14 @@ body {
     position: relative;
     top: 90px;
     display: flex;
+    flex-direction: row;
+    justify-content: center;
 }
 
 .posts {
 
     margin: 0px 1% 0px 1%;
-    width: 40%;
+    width: 500px;
     height: max-content;
 
 }
@@ -36,13 +38,13 @@ body {
     margin-bottom: 15px;
 }
 
-.esquerda {
-    margin: 0px 10% 0px 0px;
-    width: 15%;
+.direita {
+    width: 250px;
     height: max-content;
+    margin: 0px 1% 0px 1%;
 }
 
-.esquerda section {
+.direita section {
     border: 1px solid var(--borda-janelas);
     background-color: var(--background-janelas);
     border-radius: 15px;
@@ -51,13 +53,13 @@ body {
     margin-bottom: 15px;
 }
 
-.direita {
-    margin: 0px 0px 0px 10%;
-    width: 20%;
+.esquerda {
+    width: 250px;
     height: max-content;
+    margin: 0px 1% 0px 1%;
 }
 
-.direita section {
+.esquerda section {
     border: 1px solid var(--borda-janelas);
     background-color: var(--background-janelas);
     border-radius: 15px;
@@ -237,7 +239,7 @@ body {
     background-color: var(--background-janelas);
     border: none;
     border-radius: 5px;
-    color:#444;
+    color: #444;
     align-items: center;
     justify-content: center;
     font-weight: bold;
@@ -254,7 +256,7 @@ body {
     color: #00f;
     width: 25px;
     margin-left: 5px;
-} 
+}
 
 /*Textos de curtidas e comentários ==============================================================*/
 
@@ -841,4 +843,46 @@ body {
     right: 3.5vw;
     font-weight: bold;
     z-index: 8;
+}
+
+@media screen and (max-width: 800px) {
+    .direita {
+        display: none;
+    }
+
+    .posts {
+        margin: 0px 1% 0px 1%;
+        width: 500px;
+        height: max-content;
+    }
+
+    .esquerda {
+        width: 250px;
+        margin: 0px 1% 0px 1%;
+    }
+}
+
+@media screen and (max-width: 620px) {
+    .esquerda {
+        display: none;
+        width: 15%;
+    }
+
+    .posts {
+        margin: 0px 1% 0px 1%;
+        width: 500px;
+        height: max-content;
+
+    }
+}
+
+@media screen and (max-width: 400px) {
+
+    .posts {
+
+        margin: 0px 1% 0px 1%;
+        width: 100%;
+        height: max-content;
+
+    }
 }

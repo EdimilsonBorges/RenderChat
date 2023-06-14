@@ -1,6 +1,6 @@
 // Conexão do chat =====================================================================================
-const conn = new WebSocket('ws:localhost:8080/wss');
-//let conn = new WebSocket('ws:192.168.0.103:8080/wss');
+//const conn = new WebSocket('ws:localhost:8080/wss');
+const conn = new WebSocket('ws:192.168.0.110:8080/wss');
 const userId = document.getElementById("principal").dataset.userid;
 const nameC = document.getElementById("principal").dataset.namec;
 const photo = document.getElementById("principal").dataset.photo;
@@ -1118,10 +1118,10 @@ function ocultarDesocultarBatePapo() {
 
     const batepapo = document.getElementById("batePapo");
 
-    if (batepapo.style.height == "500px") {
+    if (batepapo.style.height == "75vh") {
         batepapo.style.height = "57px";
     } else if (batepapo.style.height < "60px") {
-        batepapo.style.height = "500px";
+        batepapo.style.height = "75vh";
     }
 }
 
