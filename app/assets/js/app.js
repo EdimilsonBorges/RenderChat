@@ -201,13 +201,11 @@ function createPost(result) {
     publication.setAttribute("class", "publication");
     publication.setAttribute("data-postid", result.id);
     publication.setAttribute("data-postuserid", result.user_id);
-    publication.setAttribute("data-like", "no");
 
     if (result.sh_user_id != null) {
         createPerfilShare(result, publication);
     } else if (result.lik_user_id != null) {
         createPerfilLike(result, publication);
-        publication.setAttribute("data-like", "yes");
     }
 
     const postMenuDrop = document.createElement("div");
@@ -373,8 +371,10 @@ function createPost(result) {
 
     if (result.li_post_id == null) {
         imgLike.setAttribute("src", "./assets/icons/like.svg");
+        publication.setAttribute("data-like", "no");
     } else {
         imgLike.setAttribute("src", "./assets/icons/deslike.svg");
+        publication.setAttribute("data-like", "yes");
         buttonLike.style.color = "#090";
     }
     buttonLike.appendChild(imgLike);
@@ -893,7 +893,7 @@ function likeDeslike(element, result, imgLike, publication) {
         elementLikes = element.parentNode.parentNode.children[2].firstElementChild.firstElementChild;
     }
 
-    const endPoint = `Controllers/curtir_descurtir.php?user_id=${userId}&post_id=${result.id}`;
+    const endPoint = `Controllers/create_new_like.php?user_id=${userId}&post_id=${result.id}`;
 
     fetch(endPoint)
         .then(res => res.json())
@@ -1239,7 +1239,7 @@ function openChat(fromId, nomeCompleto, perfImg, online) {
 
         const batePapoPerfil = document.createElement('section');
         batePapoPerfil.setAttribute('class', 'bate-papo-perfil');
-        batePapoPerfil.style = 'height: 500px';
+        batePapoPerfil.style = 'height: 75vh';
 
         const headerPapoPerfil = document.createElement('header');
         headerPapoPerfil.setAttribute('class', 'perfil-bate-papo-perfil');
