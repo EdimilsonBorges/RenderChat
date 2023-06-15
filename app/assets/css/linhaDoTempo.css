@@ -336,7 +336,7 @@ body {
 .areaPostModal .postModal {
     top: 100px;
     width: 580px;
-    height: 400px;
+    height: 80vh;
     border-radius: 10px;
     background-color: #fff;
     margin: 8vh auto auto auto;
@@ -349,7 +349,7 @@ body {
 .areaPostModal .postModal .cabecalhoPostModal {
     position: relative;
     font-size: 15pt;
-    padding: 15px 0px 25px 20px;
+    padding: 15px 0px 15px 20px;
     display: flex;
     background-color: rgb(166, 247, 120);
     border-radius: 10px 10px 0 0;
@@ -362,7 +362,7 @@ body {
 }
 
 .postModal .cabecalhoPostModal h4 {
-    color: rgb(2, 2, 2);
+    color: #444;
 }
 
 .perfilPostModal {
@@ -387,9 +387,8 @@ body {
     position: relative;
     margin: 2vh 3% 0px 3%;
     max-width: 91%;
-    max-height: 200px;
     min-width: 91%;
-    min-height: 200px;
+    height: 100%;
     padding: 1.5%;
     outline: none;
     border: 1px solid #ccc;
@@ -402,7 +401,7 @@ body {
 }
 
 .postModal button {
-    margin: 7px auto 7px auto;
+    margin: 3% auto 3% auto;
     font-size: 12pt;
     padding: 5px 10px 5px 10px;
     color: #444;
@@ -426,8 +425,8 @@ body {
 .arealinksCurtidas .linksCurtidas,
 .arealinksComp .linksComp {
     top: 100px;
-    width: 40%;
-    height: 400px;
+    width: 580px;
+    height: 80vh;
     border-radius: 10px;
     background-color: #fff;
     margin: 8vh auto auto auto;
@@ -436,22 +435,30 @@ body {
 }
 
 
-.arealinksCurtidas .linksCurtidas .cabecalhoCurtidas,
+.arealinksCurtidas .linksCurtidas .cabecalhoCurtidas {
+    position: relative;
+    font-size: 15pt;
+    padding: 15px;
+    background-color: #cfc;
+    border-radius: 12px 12px 0px 0px;
+    margin-bottom: 10px;
+}
+
 .arealinksComp .linksComp .cabecalhoComp {
     position: relative;
     font-size: 15pt;
     padding: 15px;
+    background-color: #dde;
+    border-radius: 12px 12px 0px 0px;
+    margin-bottom: 10px;
 }
 
 .btnFecharCurtidas,
 .btnFecharComp {
-    position: fixed;
-    top: 10vh;
-    font-weight: bold;
-    font-family: Arial, Helvetica, sans-serif;
+    position: absolute;
+    top: 2vh;
     cursor: pointer;
-    right: 31.5%;
-    color: #444;
+    right: 15px;
 }
 
 .perfilCurtidas,
@@ -599,7 +606,7 @@ body {
 
 .areaCompartModal .compartModal {
     top: 100px;
-    width: 45%;
+    width: 580px;
     height: 85vh;
     border-radius: 10px;
     background-color: #fff;
@@ -620,11 +627,11 @@ body {
 }
 
 .btnFecharCompartModal {
-    position: fixed;
+    position: absolute;
     font-weight: bold;
     font-family: Arial, Helvetica, sans-serif;
     cursor: pointer;
-    right: 29%;
+    right: 15px;
     color: var(--titulo-compart-modal);
 }
 
@@ -875,6 +882,15 @@ body {
     .areaPostModal .postModal {
         width: 390px;
     }
+
+    .arealinksCurtidas .linksCurtidas,
+    .arealinksComp .linksComp {
+        width: 390px;
+    }
+
+    .areaCompartModal .compartModal{
+        width: 390px;
+    }
 }
 
 @media screen and (max-width: 400px) {
@@ -890,7 +906,13 @@ body {
     .areaPostModal .postModal {
         width: 280px;
     }
-    .areaPostModal .postModal .cabecalhoPostModal {
-        font-size: 14px;
+
+    .arealinksCurtidas .linksCurtidas,
+    .arealinksComp .linksComp {
+        width: 280px;
+    }
+
+    .areaCompartModal .compartModal{
+        width: 280px;
     }
 }

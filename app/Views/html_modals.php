@@ -18,14 +18,12 @@ defined("ROOT") or die("Acesso negado");
                 <?php endif; ?>
                 <h5><?= $_SESSION['first_name'] ?> <?= $_SESSION['last_name'] ?></h5>
             </div>
-            <form id="postForm">
-                <textarea name="post" class="textAreaPostModal" rows="500" placeholder="No que você está pensando?"></textarea>
+                <textarea name="post" class="textAreaPostModal" autofocus rows="500" placeholder="No que você está pensando?"></textarea>
                 <input class="userId" type="hidden" name="user_id" value="<?= $_SESSION['user_id'] ?>">
                 <input id="postId" type="hidden" name="id">
                 <input class="fotoUrl" type="hidden" name="foto_url" value="fotoUrl">
                 <input class="videoUrl" type="hidden" name="video_url" value="videoUrl">
                 <button id="btnPublicarPost"type="button"></button>
-            </form>
         </div>
     </div>
 
@@ -33,7 +31,7 @@ defined("ROOT") or die("Acesso negado");
 
         <div id="compartModal" class="compartModal">
             <div class="cabecalhoCompartModal">
-                <h4>Compartilhamento</h4>
+                <h4>Compartilhar</h4>
                 <span id="btnFecharCompartModal" class="btnFecharCompartModal"><img src="./assets/icons/close.svg"></span>
             </div>
             <hr>
@@ -49,7 +47,7 @@ defined("ROOT") or die("Acesso negado");
                 <input type="hidden" name="user_id" value="<?= $_SESSION['user_id'] ?>">
                 <input id="rshare" type="hidden" name="r">
                 <input id="postIdCompart" type="hidden" name="post_id">
-                <textarea name="comment" class="textAreaCompartModal" rows="500" placeholder="No que você está pensando?"></textarea>
+                <textarea name="comment" class="textAreaCompartModal" rows="500" autofocus placeholder="No que você está pensando?"></textarea>
             </form>
             <div id="compartPost" class="compartPost">
                 <div id="conteudoPost" class="conteudoPost">
@@ -63,7 +61,7 @@ defined("ROOT") or die("Acesso negado");
         <div id="linksCurtidas" class="linksCurtidas">
             <div class="cabecalhoCurtidas">
                 <h4>Curtidas</h4>
-                <span id="btnFecharCurtidas" class="btnFecharCurtidas">x</span>
+                <span id="btnFecharCurtidas" class="btnFecharCurtidas"><img src="./assets/icons/close.svg"></span>
             </div>
             <div class="totalCurtidas">
                 <h5>Todas </h5><span></span>
@@ -77,7 +75,7 @@ defined("ROOT") or die("Acesso negado");
         <div id="linksComp" class="linksComp">
             <div class="cabecalhoComp">
                 <h4>Compartilhamentos</h4>
-                <span id="btnFecharComp" class="btnFecharComp">x</span>
+                <span id="btnFecharComp" class="btnFecharComp"><img src="./assets/icons/close.svg"></span>
             </div>
             <div class="totalComp">
                 <h5>Todas </h5><span></span>

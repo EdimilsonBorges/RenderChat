@@ -28,10 +28,6 @@ conn.onmessage = function (e) {
         if (data.read_at == null) {
             onlines = JSON.stringify(data);
             carregarUserChat();
-        } else {
-            // let dados = JSON.stringify(data);
-            // showChatMessage(dados, "me", userId);
-            // console.log(dados);
         }
     } else if (data.userId != userId) {
         const dados = JSON.stringify(data);
@@ -594,21 +590,22 @@ function postModal() {
     const btnPublicarPost = document.getElementById("btnPublicarPost");
     const areaPost = document.getElementById("areaPost");
 
-    document.querySelector('.postModal .cabecalhoPostModal h4').innerText = "Criar nova publicação";
+    document.querySelector('.postModal .cabecalhoPostModal h4').innerText = "Postar";
     btnPublicarPost.innerHTML = "Publicar";
 
     janela.classList.remove("esconderPostModal");
 
     btnPublicarPost.onclick = () => {
-        const userId = document.querySelector("#postForm .userId").value;
-        const post = document.querySelector("#postForm textarea").value.replaceAll('\n', '<br/>');
-        const fotoUrl = document.querySelector("#postForm .fotoUrl").value;
-        const videoUrl = document.querySelector("#postForm .videoUrl").value;
+        const userId = document.querySelector("#postModal .userId").value;
+        const post = document.querySelector("#postModal textarea").value.replaceAll('\n', '<br/>');
+        const fotoUrl = document.querySelector("#postModal .fotoUrl").value;
+        const videoUrl = document.querySelector("#postModal .videoUrl").value;
+
         const endPoint = `Controllers/create_new_post?post=${post}&foto_url=${fotoUrl}&video_url=${videoUrl}&user_id=${userId}`;
         fetch(endPoint)
             .then(res => res.json())
             .then(results => {
-                document.querySelector("#postForm textarea").value = "";
+                document.querySelector("#postModal textarea").value = "";
                 if (results.status == "SUCESS") {
                     janela.classList.add("esconderPostModal");
                     areaPost.remove();
@@ -624,7 +621,7 @@ function postModal() {
     }
 
     btnFechar.onclick = function () {
-        document.querySelector("#postForm textarea").value = "";
+        document.querySelector("#postModal textarea").value = "";
         janela.classList.remove("mostrarPostModal");
         janela.classList.add("esconderPostModal");
     }
@@ -673,10 +670,10 @@ function editarPost(element, result) {
     const btnEditPost = document.getElementById("btnPublicarPost");
 
     document.querySelector('.postModal .cabecalhoPostModal h4').innerText = "Editar publicação";
-    document.querySelector("#postForm button").innerHTML = "Salvar";
-    document.querySelector("#postForm").action = "Controllers/update_post.php";
+    document.querySelector("#postModal button").innerHTML = "Salvar";
     document.getElementById("postId").value = result.id;
-    document.querySelector("#postForm textarea").value = post.innerText;
+    const textArea = document.querySelector("#postModal textarea");
+    textArea.value = post.innerText;
 
     janela.classList.remove("esconderPostModal");
     janela.classList.add("mostrarPostModal");
@@ -685,14 +682,14 @@ function editarPost(element, result) {
         const postId = element.parentNode.parentNode.parentNode.parentNode.dataset.postid;
         const postUserId = element.parentNode.parentNode.parentNode.parentNode.dataset.postuserid;
         const areaPost = document.getElementById("areaPost");
-        const post = document.querySelector("#postForm textarea").value.replaceAll('\n', '<br/>');
-        const fotoUrl = document.querySelector("#postForm .fotoUrl").value;
-        const videoUrl = document.querySelector("#postForm .videoUrl").value;
+        const post = document.querySelector("#postModal textarea").value.replaceAll('\n', '<br/>');
+        const fotoUrl = document.querySelector("#postModal .fotoUrl").value;
+        const videoUrl = document.querySelector("#postModal .videoUrl").value;
         const endPoint = `Controllers/update_post?post=${post}&foto_url=${fotoUrl}&video_url=${videoUrl}&post_id=${postId}&post_user_id=${postUserId}&user_id=${userId}`;
         fetch(endPoint)
             .then(res => res.json())
             .then(results => {
-                document.querySelector("#postForm textarea").value = "";
+                document.querySelector("#postModal textarea").value = "";
                 if (results.status == "SUCESS") {
                     janela.classList.add("esconderPostModal");
                     areaPost.remove();
@@ -708,7 +705,7 @@ function editarPost(element, result) {
     }
 
     btnFecharPostModal.onclick = () => {
-        document.querySelector("#postForm textarea").value = "";
+        document.querySelector("#postModal textarea").value = "";
         janela.classList.remove("mostrarPostModal");
         janela.classList.add("esconderPostModal");
     }
@@ -749,8 +746,6 @@ function showLikes(result) {
                 totalLikes.innerText = results['results'].length;
 
                 results['results'].forEach((like) => {
-
-                    console.log(like);
 
                     const perfilCurtidas = document.createElement("div");
                     perfilCurtidas.setAttribute("class", "perfilCurtidas");
