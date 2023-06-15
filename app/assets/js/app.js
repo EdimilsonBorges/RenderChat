@@ -900,7 +900,7 @@ function likeDeslike(element, result, imgLike, publication) {
                     imgLike.src = "./assets/icons/deslike.svg";
                     element.style.color = "#090";
                     publication.setAttribute("data-like", "yes");
-                } else if (publication.dataset.like == "yes"){
+                } else if (publication.dataset.like == "yes") {
                     elementLikes.innerHTML--;
                     imgLike.src = "./assets/icons/like.svg";
                     element.style.color = "#444";

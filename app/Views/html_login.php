@@ -16,31 +16,36 @@ defined("ROOT") or die("Acesso negado");
 </head>
 
 <body>
-    <section class="caixa">
-        <div class="titulo">
-            <h1>Seja Bem-vindo!</h1>
-        </div>
-        <div class="formulario">
-            <form action="index.php" method="POST">
-                <label for="e-mail">E-mail:</label>
-                <input type="email" name="e-mail" id="e-mail" placeholder="Digite seu e-mail" size="30">
+    <section class="areaLogin">
+        <img src="./assets/icons/connected-login.svg">
+        <section class="caixaLogin">
+            <div class="titulo">
+                <h1>Olá!</h1>
+                <h2>Seja bem-vindo ao ReaderChat.</h2>
+                <p>Faça seu login agora.</p>
+            </div>
+            <div class="formulario">
+                <form action="index.php" method="POST">
+                    <label for="e-mail">E-mail:</label>
+                    <input type="email" name="e-mail" id="e-mail" placeholder="Digite seu e-mail" size="30">
 
-                <label for="senha">Senha:</label>
-                <input type="password" name="senha" id="senha" placeholder="Digite sua senha" size="30">
+                    <label for="senha">Senha:</label>
+                    <input type="password" name="senha" id="senha" placeholder="Digite sua senha" size="30">
 
-                <button type="submit">Entrar</button>
-            </form>
-        </div>
-        <footer class="rodape">
-            <a href="#">Esqueceu a senha?</a>
-            <button class="cadastrar">Criar nova conta</button>
-        </footer>
-        <div class="mensagem">
-            <?php if (isset($_SESSION['error'])) : ?>
-                <p><?= $_SESSION['error'] ?></p>
-            <?php unset($_SESSION['error']);
-            endif; ?>
-        </div>
+                    <button type="submit">Entrar</button>
+                </form>
+            </div>
+            <footer class="rodape">
+                <a href="#">Esqueceu a senha?</a>
+                <button class="cadastrar">Criar nova conta</button>
+            </footer>
+            <div class="mensagem">
+                <?php if (isset($_SESSION['error'])) : ?>
+                    <p><?= $_SESSION['error'] ?></p>
+                <?php unset($_SESSION['error']);
+                endif; ?>
+            </div>
+        </section>
     </section>
 </body>
 </html>

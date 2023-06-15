@@ -1,120 +1,161 @@
-body {
-    display: flex;
-    justify-content: center;
-	background-color: #ddd;
+* {
+    margin: 0px;
+    padding: 0px;
+    border: 0px;
 }
 
-.caixa {
+body {
+    display: flex;
+    background-color: #ddd;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.areaLogin {
+    display: flex;
+    position: relative;
+    top: 7vh;
+    justify-content: center;
+    align-items: center;
+    height: 500px;
+    background-color: rgb(0, 158, 45);
+    box-shadow: 1px 1px 10px #000;
+    border-radius: 3% 3% 5% 3%;
+}
+
+.areaLogin img {
+    width: 400px;
+    margin: 30px;
+}
+
+.caixaLogin {
+    position: relative;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    position: relative;
-    top: 30px;
-    height: 500px;
-    width: 35%;
-    box-shadow: 5px 5px 15px #000;
-    border-radius: 10px;
+    height: 100%;
+    width: 400px;
+    border-radius: 15% 4% 6% 0px;
     background-color: #f7f7f7;
 }
 
 .titulo {
     text-align: center;
     width: 100%;
-    height: 17%;
-    font-size: 20px;
-    border-radius: 10px 10px 0px 0px;
-    color: #fff;
-    background-color: rgb(255, 94, 0);
-	text-shadow: 5px 5px 5px #000;
+    margin-top: 20px;
+    z-index: 1;
+
+}
+
+.titulo h1 {
+    font-size: 25pt;
+    color: rgb(0, 158, 45);
+}
+
+.titulo h2 {
+    font-size: 20pt;
+    color: rgb(0, 158, 45);
+}
+
+.titulo p {
+    font-size: 15pt;
+    color: rgb(0, 158, 45);
+    margin-top: 15px;
 }
 
 .formulario {
+    position: relative;
     display: flex;
     justify-content: center;
     background-color: #f7f7f7;
     font-size: 17px;
     width: 90%;
     height: 43%;
+    top: -10px;
 }
 
 .formulario form {
     justify-content: center;
     position: relative;
-    top:20px;
-	margin-bottom:50px;
+    top: 20px;
+    margin-bottom: 50px;
 }
 
 .formulario form input {
     width: 91%;
-	font-size:12pt;
+    font-size: 12pt;
     margin-bottom: 15px;
     padding: 4%;
     border-radius: 3px;
-    border: 1px solid rgb(255, 94, 0);
+    border: 1px solid rgb(0, 158, 45);
+    ;
     display: block;
 }
 
 .formulario form input:hover {
-	border: 1px solid rgb(167, 34, 0);
+    border: 1px solid rgb(0, 82, 23);
+    ;
 }
 
-.formulario form input:focus{
-    box-shadow: 4px 4px 5px rgb(167, 34, 0);
+.formulario form input:focus {
+    box-shadow: 4px 4px 5px rgb(0, 82, 23);
+    ;
     outline: 0;
 }
 
 .formulario form button {
-	font-size:14pt;
+    font-size: 14pt;
     width: 100%;
     padding: 10px 0px 10px 0px;
     border-radius: 3px;
-	box-shadow: 2px 5px 10px #000;
-    background-color: rgb(255, 94, 0);
+    box-shadow: 2px 5px 10px #000;
+    background-color: rgb(0, 158, 45);
     color: #fff;
-	border: none;
-   
+    border: none;
+
 }
 
 .formulario form button:hover {
-	background-color: rgb(167, 34, 0);
-	box-shadow: 5px 5px 5px #000;
-	cursor: pointer;
+    background-color: rgb(0, 82, 23);
+    box-shadow: 5px 5px 5px #000;
+    cursor: pointer;
 }
 
 .formulario label {
     display: block;
 }
 
-.caixa a{
-text-decoration:none;
-color:#00f;
-display:block;
-text-align:center;
+.caixaLogin a {
+    text-decoration: none;
+    color: #00f;
+    display: block;
+    text-align: center;
 }
 
-.caixa a:hover{
-color:rgb(167, 34, 0);
+.caixaLogin a:hover {
+    color: rgb(0, 0, 100);
 }
 
-.cadastrar{
-	font-size:12pt;
-	margin-top:20px;
+.cadastrar {
+    font-size: 12pt;
+    margin-top: 20px;
     width: 100%;
     padding: 10px 10px 10px 10px;
     border-radius: 3px;
-	box-shadow: 2px 5px 10px #000;
+    box-shadow: 2px 5px 10px #000;
     background-color: rgb(0, 0, 255);
     color: #fff;
-	border: none;
+    border: none;
 }
 
-.cadastrar:hover{
-	background-color: rgb(0, 0, 100);
-	box-shadow: 5px 5px 5px #000;
-	cursor: pointer;
+.cadastrar:hover {
+    background-color: rgb(0, 0, 100);
+    box-shadow: 5px 5px 5px #000;
+    cursor: pointer;
 }
 
-.mensagem{
+.mensagem {
     position: relative;
     bottom: 10px;
     display: flex;
@@ -122,10 +163,11 @@ color:rgb(167, 34, 0);
     width: 100%;
     text-align: center;
     align-self: center;
-    height: 50px;
+    margin-bottom: 60px;
+    height: 90px;
 }
 
-.mensagem p{
+.mensagem p {
     position: relative;
     top: 25%;
     margin: 0px;
@@ -135,3 +177,57 @@ color:rgb(167, 34, 0);
     font-size: 15pt;
 }
 
+@media screen and (max-width: 870px) {
+
+    .areaLogin img {
+        width: 300px;
+        margin: 2px;
+    }
+}
+
+@media screen and (max-width: 725px) {
+    .areaLogin {
+        flex-direction: column;
+        height: 800px;
+        padding: 15px;
+        top:20px;
+    }
+
+    .areaLogin img {
+        width: 200px;
+    }
+
+    .formulario {
+        height: 200px;
+    }
+
+    .caixaLogin{
+        border-radius: 6%;
+    }
+
+    .mensagem {
+        margin-bottom: 0px;
+    }
+
+    body {
+        margin-bottom: 40px;
+    }
+
+}
+
+@media screen and (max-width: 440px) {
+    .areaLogin {
+        flex-direction: column;
+        height: 850px;
+        padding: 5px 5px 15px 5px;
+    }
+
+    .caixaLogin {
+        width: 300px;
+    }
+
+    .areaLogin img {
+        width: 200px;
+    }
+
+}

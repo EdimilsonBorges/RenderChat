@@ -616,7 +616,6 @@ body {
     flex-direction: column;
 }
 
-
 .areaCompartModal .compartModal .cabecalhoCompartModal {
     position: relative;
     font-size: 15pt;
@@ -888,7 +887,7 @@ body {
         width: 390px;
     }
 
-    .areaCompartModal .compartModal{
+    .areaCompartModal .compartModal {
         width: 390px;
     }
 }
@@ -912,7 +911,7 @@ body {
         width: 280px;
     }
 
-    .areaCompartModal .compartModal{
+    .areaCompartModal .compartModal {
         width: 280px;
     }
 }
