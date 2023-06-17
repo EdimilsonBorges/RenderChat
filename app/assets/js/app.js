@@ -68,7 +68,9 @@ function resetDados() {
     fim = false;
 }
 
-getAllUsers(limit, offset);
+const pagina = document.getElementById("posts");
+
+getAllUsers(limit, offset, pagina);
 
 if (!fim) {
     window.addEventListener('scroll', () => {
@@ -80,7 +82,7 @@ if (!fim) {
                 if (!carregando) {
                     offset += limit;
                     console.log("Carregando....");
-                    getAllUsers(limit, offset);
+                    getAllUsers(limit, offset, pagina);
                 } else {
                     console.log("Carregou!!!");
                 }
@@ -89,7 +91,7 @@ if (!fim) {
     });
 }
 
-function getAllUsers(limit, offset) {
+function getAllUsers(limit, offset, pagina) {
 
     const posts = document.getElementById("posts");
 
@@ -102,7 +104,13 @@ function getAllUsers(limit, offset) {
 
     carregando = true;
 
-    const endPoint = `Controllers/get_all_posts?user_id=${userId}&limit=${limit}&offset=${offset}`;
+    let endPoint;
+
+    if(pagina.dataset.pagina == "home"){
+        endPoint = `Controllers/get_all_posts?user_id=${userId}&limit=${limit}&offset=${offset}`;
+    }else if(pagina.dataset.pagina == "perfil"){
+        endPoint = `Controllers/get_post_user?user_id=${userId}&limit=${limit}&offset=${offset}`;
+    }
     fetch(endPoint)
         .then(res => res.json())
         .then(results => {
@@ -610,7 +618,7 @@ function postModal() {
                     janela.classList.add("esconderPostModal");
                     areaPost.remove();
                     resetDados();
-                    getAllUsers(limit, offset);
+                    getAllUsers(limit, offset, pagina);
                 } else {
                     console.log(results['message']);
                 }
@@ -694,7 +702,7 @@ function editarPost(element, result) {
                     janela.classList.add("esconderPostModal");
                     areaPost.remove();
                     resetDados();
-                    getAllUsers(limit, offset);
+                    getAllUsers(limit, offset, pagina);
                 } else {
                     console.log(results['message']);
                 }

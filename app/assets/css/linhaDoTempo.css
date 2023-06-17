@@ -223,10 +223,6 @@ body {
     color: var(--texto-publicar);
 }
 
-/* .publication .imgPublication {
-    width: 100%;
-} */
-
 .botoes-publication {
     display: flex;
     justify-content: center;
@@ -847,6 +843,8 @@ body {
     font-weight: bold;
     z-index: 8;
 }
+
+/* Responsividade ========================================================================================= */
 
 @media screen and (max-width: 800px) {
     .direita {

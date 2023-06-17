@@ -357,7 +357,7 @@
 .navLinks {
     position: relative;
     float: right;
-    box-shadow: #444 1px 1px 10px;
+    box-shadow: var(--texto-publicar) 1px 1px 10px;
     width: 90px;
     left: 20%;
     text-align: center;
@@ -372,10 +372,11 @@
 
 .linksPostMenuDrop a {
     position: relative;
-    color: #444;
-    padding: 12px 16px;
+    color: var(--texto-publicar);
+    padding: 6px 5px;
     text-decoration: none;
-    display: block;
+    display: flex;
+    align-items: center;
     cursor: pointer;
 }
 
@@ -388,9 +389,9 @@
     font-size: 15pt;
     cursor: pointer;
     float: right;
-    color: #444;
+    color: var(--texto-publicar);
     border: none;
-    background-color: #fff;
+    background-color: var(--background-janelas);
     font-weight: bold;
 }
 
@@ -400,13 +401,12 @@
     margin-bottom: 10px;
     padding: 0px 5% 0px 5%;
     font-size: 12pt;
-    color: #444;
 }
 
-.publication .post {
+.pPost {
     padding: 0px 5% 0px 5%;
     font-size: 12pt;
-    color: #444;
+    color: var(--texto-publicar);
     word-break: break-all;
 }
 
@@ -415,11 +415,7 @@
     margin-bottom: 10px;
     padding: 0px 5% 0px 5%;
     font-size: 12pt;
-    color: #444;
-}
-
-.publication img {
-    width: 100%;
+    color: var(--texto-publicar);
 }
 
 .botoes-publication {
@@ -428,18 +424,29 @@
 }
 
 .botoes-publication button {
-    margin: 2%;
-    padding: 2%;
-    background-color: #fff;
+    display: flex;
+    margin: 1%;
+    padding: 1%;
+    background-color: var(--background-janelas);
     border: none;
     border-radius: 5px;
-    font-weight: 700;
     color: #444;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
 }
 
 .botoes-publication button:hover {
     background-color: #eee;
     cursor: pointer;
+}
+
+.botoes-publication .imgLike,
+.botoes-publication .imgComment,
+.botoes-publication .imgShare {
+    color: #00f;
+    width: 25px;
+    margin-left: 5px;
 }
 
 /*Textos de curtidas e comentários ==============================================================*/
@@ -519,8 +526,8 @@
 
 .areaPostModal .postModal {
     top: 100px;
-    width: 45%;
-    height: 400px;
+    width: 580px;
+    height: 80vh;
     border-radius: 10px;
     background-color: #fff;
     margin: 8vh auto auto auto;
@@ -533,25 +540,20 @@
 .areaPostModal .postModal .cabecalhoPostModal {
     position: relative;
     font-size: 15pt;
-    padding: 15px;
+    padding: 15px 0px 15px 20px;
     display: flex;
     background-color: rgb(166, 247, 120);
     border-radius: 10px 10px 0 0;
 }
 
 .btnFecharPostModal {
-    position: fixed;
-    font-weight: bold;
-    font-family: Arial, Helvetica, sans-serif;
+    position: absolute;
     cursor: pointer;
-    right: 29%;
-    color: rgb(0, 0, 0);
-    /*color: #444;*/
+    right: 15px;
 }
 
 .postModal .cabecalhoPostModal h4 {
-    color: rgb(2, 2, 2);
-    /*color: #444;*/
+    color: #444;
 }
 
 .perfilPostModal {
@@ -576,9 +578,8 @@
     position: relative;
     margin: 2vh 3% 0px 3%;
     max-width: 91%;
-    max-height: 200px;
     min-width: 91%;
-    min-height: 200px;
+    height: 100%;
     padding: 1.5%;
     outline: none;
     border: 1px solid #ccc;
@@ -591,7 +592,7 @@
 }
 
 .postModal button {
-    margin: 7px auto 7px auto;
+    margin: 3% auto 3% auto;
     font-size: 12pt;
     padding: 5px 10px 5px 10px;
     color: #444;
@@ -615,8 +616,8 @@
 .arealinksCurtidas .linksCurtidas,
 .arealinksComp .linksComp {
     top: 100px;
-    width: 40%;
-    height: 400px;
+    width: 580px;
+    height: 80vh;
     border-radius: 10px;
     background-color: #fff;
     margin: 8vh auto auto auto;
@@ -625,22 +626,30 @@
 }
 
 
-.arealinksCurtidas .linksCurtidas .cabecalhoCurtidas,
+.arealinksCurtidas .linksCurtidas .cabecalhoCurtidas {
+    position: relative;
+    font-size: 15pt;
+    padding: 15px;
+    background-color: #cfc;
+    border-radius: 12px 12px 0px 0px;
+    margin-bottom: 10px;
+}
+
 .arealinksComp .linksComp .cabecalhoComp {
     position: relative;
     font-size: 15pt;
     padding: 15px;
+    background-color: #dde;
+    border-radius: 12px 12px 0px 0px;
+    margin-bottom: 10px;
 }
 
 .btnFecharCurtidas,
 .btnFecharComp {
-    position: fixed;
-    top: 10vh;
-    font-weight: bold;
-    font-family: Arial, Helvetica, sans-serif;
+    position: absolute;
+    top: 2vh;
     cursor: pointer;
-    right: 31.5%;
-    color: #444;
+    right: 15px;
 }
 
 .perfilCurtidas,
@@ -716,11 +725,12 @@
 
 /* barra topo compartilhamentos e curtidas =============================================================================*/
 
-.perfilshare div {
+.perfil_share div {
     display: flex;
     align-items: center;
     background-color: #ccf;
     border-radius: 10px 10px 0 0;
+    cursor: pointer;
 }
 
 .perfil_like div {
@@ -728,24 +738,34 @@
     align-items: center;
     background-color: #cfc;
     border-radius: 10px 10px 0 0;
+    cursor: pointer;
 }
 
-.publication .perfilshare img,
+.perfil_share div:hover {
+    text-decoration: underline;
+}
+
+.perfil_like div:hover {
+    text-decoration: underline;
+}
+
+.publication .perfil_share img,
 .publication .perfil_like img {
     position: relative;
     margin: 5px 5px 5px 5px;
-    left: 30px;
+    left: 20px;
     border-radius: 50%;
     width: 25px;
 
 }
 
-.publication .perfilshare p,
+.publication .perfil_share p,
 .publication .perfil_like p {
     margin: 5px 5px 5px 5px;
+    color: var(--texto-publicar);
 }
 
-.publication .perfilshare .shareComment {
+.publication .perfil_share .shareComment {
     background-color: #ccf;
     margin: 0px 0px 0px 0px;
     padding: 10px 20px 10px 20px;
@@ -753,7 +773,6 @@
 }
 
 /* janela de compartilhamento =================================================================================*/
-
 
 .mostrarCompartModal {
     display: block;
@@ -776,7 +795,7 @@
 
 .areaCompartModal .compartModal {
     top: 100px;
-    width: 45%;
+    width: 580px;
     height: 85vh;
     border-radius: 10px;
     background-color: #fff;
@@ -785,7 +804,6 @@
     display: flex;
     flex-direction: column;
 }
-
 
 .areaCompartModal .compartModal .cabecalhoCompartModal {
     position: relative;
@@ -797,18 +815,16 @@
 }
 
 .btnFecharCompartModal {
-    position: fixed;
+    position: absolute;
     font-weight: bold;
     font-family: Arial, Helvetica, sans-serif;
     cursor: pointer;
-    right: 29%;
-    color: rgb(0, 0, 0);
-    /*color: #444;*/
+    right: 15px;
+    color: var(--titulo-compart-modal);
 }
 
 .compartModal .cabecalhoCompartModal h4 {
-    color: rgb(2, 2, 2);
-    /*color: #444;*/
+    color: var(--titulo-compart-modal);
 }
 
 .perfilCompartModal {
@@ -861,7 +877,6 @@
     text-align: left;
     margin: 0px 0px 0px 30px;
 }
-
 /* area de comentários =================================================================================================*/
 
 .most {
@@ -906,6 +921,8 @@
     background-color: #eee;
     border: #000 solid 1px;
     cursor: pointer;
+    display: flex;
+    align-items: center;
 }
 
 .commentArea .commentar button:hover {
@@ -938,6 +955,7 @@
     top: -58px;
     left: 45px;
     background-color: #eee;
+    color: var(--texto-publicar);
     width: 85%;
     border-radius: 0px 10px 10px 10px;
     text-overflow: clip '-';
@@ -957,6 +975,7 @@
     margin: 0px 0px -0px 0px;
     word-break: break-all;
 }
+
 
 /*menu drop comentários ===========================================================================*/
 

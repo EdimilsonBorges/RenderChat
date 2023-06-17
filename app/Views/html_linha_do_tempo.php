@@ -27,7 +27,7 @@ defined("ROOT") or die("Acesso negado");
         </section>
     </nav>
     
-    <article class="posts" id="posts">
+    <article class="posts" id="posts" data-pagina="home">
         <section class="publicar">
             <div class="perfil">
                 <?php if (!empty($_SESSION['photo_url'])) : ?>
