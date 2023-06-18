@@ -21,7 +21,7 @@ defined("ROOT") or die("Acesso negado");
         <section class="caixaLogin">
             <div class="titulo">
                 <h1>Olá!</h1>
-                <h2>Seja bem-vindo ao ReaderChat.</h2>
+                <h2>Seja bem-vindo ao RenderChat.</h2>
                 <p>Faça seu login agora.</p>
             </div>
             <div class="formulario">

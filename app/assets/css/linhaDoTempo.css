@@ -301,11 +301,17 @@ body {
     color: #888;
 }
 
-.perfil h3 {
+.perfil a {
     position: relative;
     top: 8px;
     margin: 0px 15px 0px 15px;
-    color: #555;
+    color: #333;
+    font-size: 14pt;
+    font-weight: bold;
+    text-decoration: none;
+}
+.perfil a:hover{
+    text-decoration: underline;
 }
 
 /* janela de posts e edição =========================================================================================*/

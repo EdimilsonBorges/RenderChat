@@ -68,7 +68,7 @@ function resetDados() {
     fim = false;
 }
 
-const pagina = document.getElementById("posts");
+const pagina = document.getElementById("posts").dataset.pagina;
 
 getAllUsers(limit, offset, pagina);
 
@@ -106,10 +106,18 @@ function getAllUsers(limit, offset, pagina) {
 
     let endPoint;
 
-    if(pagina.dataset.pagina == "home"){
+    const urlAtual = window.location.href;
+    const urlClass = new URL(urlAtual);
+    let perfilId = urlClass.searchParams.get("id");
+
+    if (pagina == "home") {
         endPoint = `Controllers/get_all_posts?user_id=${userId}&limit=${limit}&offset=${offset}`;
-    }else if(pagina.dataset.pagina == "perfil"){
-        endPoint = `Controllers/get_post_user?user_id=${userId}&limit=${limit}&offset=${offset}`;
+    } else if (pagina == "perfil") {
+        if(perfilId==null){
+            endPoint = `Controllers/get_post_user?user_id=${userId}&limit=${limit}&offset=${offset}`;
+        }else{
+            endPoint = `Controllers/get_post_user?user_id=${perfilId}&limit=${limit}&offset=${offset}`;
+        }
     }
     fetch(endPoint)
         .then(res => res.json())
@@ -199,7 +207,7 @@ function createPerfilLike(result, publication) {
 
 function createPost(result) {
 
-    const areaPost = document.getElementById("areaPost");;
+    const areaPost = document.getElementById("areaPost");
 
     const publication = document.createElement("section");
     publication.setAttribute("class", "publication");
@@ -264,7 +272,7 @@ function createPost(result) {
     publicationPost = document.createElement("div");
     publicationPost.setAttribute("class", "publicationPost");
 
-    perfil = document.createElement("header");
+    const perfil = document.createElement("header");
     perfil.setAttribute("class", "perfil");
 
     const div = document.createElement("div");
@@ -286,13 +294,14 @@ function createPost(result) {
     postCabecalho = document.createElement("div");
     postCabecalho.setAttribute("class", "postCabecalho");
 
-    h3 = document.createElement("h3");
-    h3.innerHTML = `${result.first_name} ${result.last_name}`;
+    aNomeUserPost = document.createElement("a");
+    aNomeUserPost.setAttribute("href", `/upper/app/?r=perfil&id=${publication.dataset.postuserid}`);
+    aNomeUserPost.innerHTML = `${result.first_name} ${result.last_name}`;
 
     h5 = document.createElement("h5");
     h5.innerHTML = result.created_at;
 
-    postCabecalho.appendChild(h3);
+    postCabecalho.appendChild(aNomeUserPost);
     cabecalho.appendChild(postCabecalho);
     cabecalho.appendChild(h5);
     perfil.appendChild(cabecalho);
@@ -526,6 +535,9 @@ function createComment(result, area) {
                 } else {
                     console.log(results['message']);
                 }
+            }).catch(error => {
+                // Lidar com erros
+                console.error('Erro:', error);
             });
     }
 
@@ -785,6 +797,9 @@ function showLikes(result) {
             } else {
                 console.log(results['message']);
             }
+        }).catch(error => {
+            // Lidar com erros
+            console.error('Erro:', error);
         });
 
     janela.classList.remove("esconderPostModal");
@@ -874,6 +889,9 @@ function showShares(result) {
             } else {
                 console.log(results['message']);
             }
+        }).catch(error => {
+            // Lidar com erros
+            console.error('Erro:', error);
         });
 
     janela.classList.remove("esconderPostModal");
@@ -918,6 +936,9 @@ function likeDeslike(element, result, imgLike, publication) {
             } else {
                 console.log(results['message']);
             }
+        }).catch(error => {
+            // Lidar com erros
+            console.error('Erro:', error);
         });
 }
 
@@ -983,6 +1004,9 @@ function commentPost(element, result) {
                 } else {
                     console.log(results['message']);
                 }
+            }).catch(error => {
+                // Lidar com erros
+                console.error('Erro:', error);
             });
     }
 }
@@ -1018,6 +1042,9 @@ function enviarMessageChat(event, userId, fromId) {
                     } else {
                         console.log(results['message']);
                     }
+                }).catch(error => {
+                    // Lidar com erros
+                    console.error('Erro:', error);
                 });
         }
     }
@@ -1114,6 +1141,9 @@ function marcarChatComoLido(fromId) {
             } else {
                 console.log(results['message']);
             }
+        }).catch(error => {
+            // Lidar com erros
+            console.error('Erro:', error);
         });
 }
 
@@ -1227,6 +1257,9 @@ function carregarUserChat() {
             } else {
                 console.log(results['message']);
             }
+        }).catch(error => {
+            // Lidar com erros
+            console.error('Erro:', error);
         });
 }
 
@@ -1363,6 +1396,9 @@ function openChat(fromId, nomeCompleto, perfImg, online) {
                 } else {
                     console.log(results['message']);
                 }
+            }).catch(error => {
+                // Lidar com erros
+                console.error('Erro:', error);
             });
     }
 }

@@ -4,30 +4,7 @@ defined("ROOT") or die("Acesso negado");
 
 <section class="container-cabecalho-p">
     <article class="cabecalho-p">
-        <section class="capa">
-            <section class="imagem-capa">
-                <img src="assets/images/capa.jpg" alt="">
-                <div class="sobreposicao-capa">
-                    <p>Mudar imagem da capa</p>
-                </div>
-            </section>
-        </section>
-        <section class="perfil-p">
-            <section class="imagem-perfil">
-                <?php if (!empty($_SESSION["photo_url"])) : ?>
-                    <img src="assets/images/<?= $_SESSION["photo_url"] ?>" alt="">
-                <?php else : ?>
-                    <img src="assets/images/sem-foto.jpg" alt="">
-                <?php endif; ?>
-                <div class="sobreposicao-perfil">
-                    <p>Mudar foto</p>
-                </div>
-            </section>
-            <div class="descricao">
-                <h1><?= $_SESSION['first_name'] . " " . $_SESSION['last_name'] ?></h1>
-                <h2>569 Amigos</h2>
-            </div>
-        </section>
+        
     </article>
     <article class="container-corpo-p">
         <section class="container-lateral-p">
@@ -84,3 +61,6 @@ defined("ROOT") or die("Acesso negado");
 </section>
 
 </section>
+
+<script src="assets/js/app.js"></script>
+ <script src="assets/js/perfil.js"></script> 
