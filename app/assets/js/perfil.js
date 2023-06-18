@@ -63,7 +63,7 @@ function carregarPerfil(result) {
     if(result.results[0].photo_url != null){
         imgPefil.setAttribute("src", `assets/images/${result.results[0].photo_url}`);
     }else{
-        imgPefil.setAttribute("src", "assets/images/sem-foto.jpeg");
+        imgPefil.setAttribute("src", "assets/images/sem-foto.jpg");
     }
 
     let sobreposicaoPerfil;

@@ -380,8 +380,6 @@ function createPost(result) {
     const imgLike = document.createElement("img");
     imgLike.setAttribute("class", "imgLike");
 
-    buttonLike.innerHTML = "Curtir";
-
     if (result.li_post_id == null) {
         imgLike.setAttribute("src", "./assets/icons/like.svg");
         publication.setAttribute("data-like", "no");
@@ -390,7 +388,13 @@ function createPost(result) {
         publication.setAttribute("data-like", "yes");
         buttonLike.style.color = "#090";
     }
+
+    const spanCurtir = document.createElement("span");
+    spanCurtir.innerHTML = "Curtir"
+
     buttonLike.appendChild(imgLike);
+    buttonLike.appendChild(spanCurtir);
+    
     buttonLike.onclick = () => {
         likeDeslike(buttonLike, result, imgLike, publication);
     }
@@ -403,13 +407,12 @@ function createPost(result) {
     imgComment.setAttribute("class", "imgComment");
     imgComment.setAttribute("src", "./assets/icons/comment.svg");
 
-    btnComment.innerHTML = "Comentar";
+    btnComment.appendChild(imgComment);
+    btnComment.innerHTML += "Comentar";
 
     btnComment.onclick = () => {
         showComments(btnComment, result);
     }
-
-    btnComment.appendChild(imgComment);
 
     const btnShare = document.createElement("button");
     btnShare.setAttribute("type", "button");
@@ -418,13 +421,13 @@ function createPost(result) {
     imgShare.setAttribute("class", "imgShare");
     imgShare.setAttribute("src", "./assets/icons/share.svg");
 
-    btnShare.innerHTML = "Compartilhar";
+    btnShare.appendChild(imgShare);
+    btnShare.innerHTML += "Compartilhar";
 
     btnShare.onclick = () => {
         sharePost(btnShare, result);
     }
-    btnShare.appendChild(imgShare);
-
+   
     botoesPublication.appendChild(buttonLike);
     botoesPublication.appendChild(btnComment);
     botoesPublication.appendChild(btnShare);
@@ -625,6 +628,7 @@ function postModal() {
         fetch(endPoint)
             .then(res => res.json())
             .then(results => {
+                console.log(results);
                 document.querySelector("#postModal textarea").value = "";
                 if (results.status == "SUCESS") {
                     janela.classList.add("esconderPostModal");
