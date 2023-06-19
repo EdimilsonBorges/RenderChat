@@ -54,6 +54,38 @@ window.onclick = function (event) {
     }
 }
 
+//  const menuHome = document.getElementById("menuHome");
+// const menuPerfil = document.getElementById("menuPerfil");
+// const menuFriends = document.getElementById("menuFriends");
+// const menuConvites = document.getElementById("menuConvites");
+// const menuMesseger = document.getElementById("menuMesseger");
+// const menuNotifly = document.getElementById("menuNotifly");
+// const menuConfig = document.getElementById("menuConfig");
+
+//  menuHome.addEventListener("click", ()=>{
+//     menuHome.classList.add("active");
+//     console.log(menuHome);
+//  });
+     
+// menuPerfil.onclick = () => {
+//     menuPerfil.classList.add("active");
+// }
+// menuFriends.onclick = () => {
+//     menuFriends.classList.add("active");
+// }
+// menuConvites.onclick = () => {
+//     menuConvites.classList.add("active");
+// }
+// menuMesseger.onclick = () => {
+//     menuMesseger.classList.add("active");
+// }
+// menuNotifly.onclick = () => {
+//     menuNotifly.classList.add("active");
+// }
+// menuConfig.onclick = () => {
+//     menuConfig.classList.add("active");
+// }
+
 let carregando = false;
 let postPosition = -1;
 let limit = 10;
@@ -113,9 +145,9 @@ function getAllUsers(limit, offset, pagina) {
     if (pagina == "home") {
         endPoint = `Controllers/get_all_posts?user_id=${userId}&limit=${limit}&offset=${offset}`;
     } else if (pagina == "perfil") {
-        if(perfilId==null){
+        if (perfilId == null) {
             endPoint = `Controllers/get_post_user?user_id=${userId}&limit=${limit}&offset=${offset}`;
-        }else{
+        } else {
             endPoint = `Controllers/get_post_user?user_id=${perfilId}&limit=${limit}&offset=${offset}`;
         }
     }
@@ -394,7 +426,7 @@ function createPost(result) {
 
     buttonLike.appendChild(imgLike);
     buttonLike.appendChild(spanCurtir);
-    
+
     buttonLike.onclick = () => {
         likeDeslike(buttonLike, result, imgLike, publication);
     }
@@ -427,7 +459,7 @@ function createPost(result) {
     btnShare.onclick = () => {
         sharePost(btnShare, result);
     }
-   
+
     botoesPublication.appendChild(buttonLike);
     botoesPublication.appendChild(btnComment);
     botoesPublication.appendChild(btnShare);

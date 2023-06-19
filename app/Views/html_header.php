@@ -10,7 +10,7 @@ defined("ROOT") or die("Acesso negado");
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="favicon.ico" type="image/x-ico">
-    <title>Upper</title>
+    <title>RenderChat</title>
 
     <?php
     if (isset($_GET['r'])) : ?>
@@ -53,7 +53,7 @@ defined("ROOT") or die("Acesso negado");
 
 <body>
     <header class="principal" id="principal" data-userid='<?= $_SESSION['user_id'] ?>' data-perfid='<?= $_SESSION['user_id'] ?>' data-namec='<?= $_SESSION['first_name'] . " " . $_SESSION['last_name'] ?>' data-photo='<?= $_SESSION['photo_url'] ?>'>
-        <div>
+        <div class="logoPesquisa">
             <img src="assets/images/logo.png" alt="">
             <input type="search" name="pesqClients" onkeyup="showHint(this.value)" placeholder="Pesquisar">
         </div>
@@ -81,5 +81,20 @@ defined("ROOT") or die("Acesso negado");
                                     echo 'active';
                                 } ?>"><a href="?r=config">Configurações</a></li>
             </ul>
+
+            <!-- <ul>
+                <li class="menu" id="menuHome"><a href="?r=home">Linha do tempo</a></li>
+                <li class="menu" id="menuPerfil"><a href="?r=perfil">Perfil</a></li>
+                <li class="menu" id="menuFriends"><a href="?r=friends">Amigos</a></li>
+                <li class="menu" id="menuConvites"><a href="?r=convites">Convites</a></li>
+                <li class="menu" id="menuMesseger"><a href="?r=messeger">Mensagens</a></li>
+                <li class="menu" id="menuNotifly"><a href="?r=notifly">Notificações</a></li>
+                <li class="menu" id="menuConfig"><a href="?r=config">Configurações</a></li> 
+            </ul>-->
         </nav>
+        <div class="conta">
+            <img class="per" src="assets/images/<?= $_SESSION['photo_url'] ?>">
+            <span><?= $_SESSION['first_name'] . " " . $_SESSION['last_name'] ?></span>
+            <img src="assets/icons/mais.svg">
+        </div>
     </header>
