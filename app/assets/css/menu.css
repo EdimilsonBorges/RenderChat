@@ -91,12 +91,12 @@ body {
 }
 
 .conta span {
-    color: #eee;
+    color: #fff;
     font-size: 10pt;
 }
 
 .conta span:hover{
-    color: #aaa;
+    color: #eee;
 }
 
 .navLinkConta {
@@ -106,12 +106,14 @@ body {
     flex-direction: column;
     right: 10px;
     top: 50px;
+    background-color: #eee;
+    border-radius: 5px;
+    box-shadow: #000 0px 0px 2px;
     visibility: hidden;
 }
 
 .navLinkConta a {
     position: relative;
-    background-color: #eee;
     color: var(--texto-publicar);
     padding: 6px 5px;
     text-decoration: none;
@@ -121,6 +123,7 @@ body {
 }
 
 .navLinkConta a:hover {
+    border-radius: 5px;
     background-color: #ccc;
 }
 

@@ -21,8 +21,8 @@ defined("ROOT") or die("Acesso negado");
                 <textarea name="post" class="textAreaPostModal" autofocus rows="500" placeholder="No que você está pensando?"></textarea>
                 <input class="userId" type="hidden" name="user_id" value="<?= $_SESSION['user_id'] ?>">
                 <input id="postId" type="hidden" name="id">
-                <input class="fotoUrl" type="hidden" name="foto_url" value="fotoUrl">
-                <input class="videoUrl" type="hidden" name="video_url" value="videoUrl">
+                <input class="fotoUrl" type="hidden" name="foto_url" value="">
+                <input class="videoUrl" type="hidden" name="video_url" value="">
                 <button id="btnPublicarPost"type="button"></button>
         </div>
     </div>

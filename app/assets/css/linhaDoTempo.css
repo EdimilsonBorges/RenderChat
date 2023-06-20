@@ -170,9 +170,11 @@ body {
 }
 
 .linksPostMenuDrop {
-    max-width: 90px;
-    height: 85px;
+    width: max-content;
+    height: max-content;
     background-color: #eee;
+    border-radius: 5px;
+    box-shadow: #000 0px 0px 2px;
 }
 
 .linksPostMenuDrop a {
@@ -187,8 +189,12 @@ body {
 
 .linksPostMenuDrop a:hover {
     background-color: #ddd;
+    border-radius: 5px;
 }
 
+.linksPostMenuDrop a img {
+    margin-right: 3px;
+}
 
 .postMenuDrop .btnPostMenuDrop {
     font-size: 15pt;
@@ -796,6 +802,8 @@ body {
     max-width: 90px;
     height: 42px;
     background-color: #eee;
+    border-radius: 5px;
+    box-shadow: #000 0px 0px 2px;
 }
 
 .commentMenuDrop {
@@ -816,11 +824,13 @@ body {
 .navLinksComment {
     position: relative;
     float: right;
-    box-shadow: #444 1px 1px 10px;
     width: 90px;
     text-align: center;
     right: 2vw;
-    z-index: 9;
+    z-index: 9;  
+    background-color: #eee;
+    border-radius: 5px;
+    box-shadow: #000 0px 0px 2px;
 }
 
 .linksCommentMenuDrop a {
@@ -830,6 +840,7 @@ body {
     text-decoration: none;
     display: block;
     cursor: pointer;
+    border-radius: 5px;
 }
 
 .linksCommentMenuDrop a:hover {
