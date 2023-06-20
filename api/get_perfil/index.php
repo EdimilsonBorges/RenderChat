@@ -19,7 +19,24 @@ $results = $db->select('SELECT usu.first_name, usu.last_name, per.photo_url, per
 LEFT JOIN perfil per ON per.user_id = usu.id 
 WHERE usu.id = :id', $params);
 
+if (count($results) == 0) {
+    error_response('Nenhum usuario encontrado');
+}
+
 sucess_response("", $results);
+
+function error_response($mensage)
+{
+    header("Content-Type:application/json");
+    echo json_encode(
+        [
+            'status' => 'ERROR',
+            'message' => $mensage,
+            'results' => [],
+        ],
+    );
+    exit;
+}
 
 function sucess_response($mensage, $results = [])
 {

@@ -76,34 +76,40 @@ body {
     font-size: 1.25vw;
 }
 
-.logoPesquisa{
-width: max-content;
+.logoPesquisa {
+    width: max-content;
 }
 
-.conta{
-width: max-content;
-cursor: pointer;
+.conta {
+    width: max-content;
+    cursor: pointer;
 }
-.conta .per{
+
+.conta .per {
     margin-right: 10px;
     border-radius: 50%;
 }
-.conta span{
+
+.conta span {
     color: #eee;
     font-size: 10pt;
 }
 
-.navLinkConta{
+.conta span:hover{
+    color: #aaa;
+}
+
+.navLinkConta {
     position: fixed;
-    width: 130px;
+    width: max-content;
     display: flex;
     flex-direction: column;
     right: 10px;
-    top:50px;
+    top: 50px;
     visibility: hidden;
 }
 
-.navLinkConta a{
+.navLinkConta a {
     position: relative;
     background-color: #eee;
     color: var(--texto-publicar);
@@ -113,9 +119,11 @@ cursor: pointer;
     align-items: center;
     cursor: pointer;
 }
-.navLinkConta a:hover{
+
+.navLinkConta a:hover {
     background-color: #ccc;
 }
-.navLinkConta a img{
-margin-right: 3px;
+
+.navLinkConta a img {
+    margin-right: 3px;
 }
