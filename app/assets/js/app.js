@@ -42,8 +42,8 @@ conn.onmessage = function (e) {
 
 // ocultar menu se clicar fora do elemento
 window.onclick = function (event) {
-    if (!event.target.matches('.btnPostMenuDrop')) {
-        const elements = document.getElementsByClassName("linksPostMenuDrop");
+    if (!event.target.matches('.btnPostMenuDrop') && !event.target.matches('.conta img')&& !event.target.matches('.conta span')&& !event.target.matches('.conta')) {
+        const elements = document.querySelectorAll(".linksPostMenuDrop, .navLinkConta");
 
         for (let i = 0; i < elements.length; i++) {
             let aberto = elements[i];
@@ -54,7 +54,15 @@ window.onclick = function (event) {
     }
 }
 
-//  const menuHome = document.getElementById("menuHome");
+const navLinkConta = document.getElementById("navLinkConta");
+const conta = document.getElementById("conta");
+conta.addEventListener("click", ()=>{
+    console.log("scdsfsfds");
+    navLinkConta.classList.toggle("visivel");
+});
+
+
+// const menuHome = document.getElementById("menuHome");
 // const menuPerfil = document.getElementById("menuPerfil");
 // const menuFriends = document.getElementById("menuFriends");
 // const menuConvites = document.getElementById("menuConvites");

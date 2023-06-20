@@ -11,12 +11,12 @@ body {
 }
 
 .principal {
-    display: flex;
     position: fixed;
+    display: flex;
     background-color: rgb(133, 22, 22);
     justify-content: space-between;
     width: 100%;
-    height: max-content;
+    height: 40px;
     padding: 15px;
     margin-left: 10px;
     z-index: 99;
@@ -25,7 +25,7 @@ body {
 
 .principal div {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
 }
 
@@ -91,4 +91,31 @@ cursor: pointer;
 .conta span{
     color: #eee;
     font-size: 10pt;
+}
+
+.navLinkConta{
+    position: fixed;
+    width: 130px;
+    display: flex;
+    flex-direction: column;
+    right: 10px;
+    top:50px;
+    visibility: hidden;
+}
+
+.navLinkConta a{
+    position: relative;
+    background-color: #eee;
+    color: var(--texto-publicar);
+    padding: 6px 5px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+.navLinkConta a:hover{
+    background-color: #ccc;
+}
+.navLinkConta a img{
+margin-right: 3px;
 }

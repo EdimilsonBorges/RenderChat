@@ -92,9 +92,14 @@ defined("ROOT") or die("Acesso negado");
                 <li class="menu" id="menuConfig"><a href="?r=config">Configurações</a></li> 
             </ul>-->
         </nav>
-        <div class="conta">
+        <div class="conta" id="conta">
             <img class="per" src="assets/images/<?= $_SESSION['photo_url'] ?>">
             <span><?= $_SESSION['first_name'] . " " . $_SESSION['last_name'] ?></span>
             <img src="assets/icons/mais.svg">
         </div>
+        <nav class="navLinkConta" id="navLinkConta">
+                <a href="?r=perfil"><img src="assets/icons/person.svg">Conta</a>
+                <a href="#"><img src="assets/icons/settings.svg">Configurações</a>
+                <a href="?r=logout"><img src="assets/icons/logout.svg">Sair</a>
+        </nav>
     </header>

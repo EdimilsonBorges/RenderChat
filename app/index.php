@@ -32,6 +32,10 @@ switch ($rotas) {
         require_once(dirname(__DIR__) . '\\app\\Controllers\\login_submit.php');
         break;
 
+    case 'logout':
+        require_once(dirname(__DIR__) . '\\app\\Controllers\\logout.php');
+        break;
+
     case 'home':
         require_once(dirname(__DIR__) . '\\app\\Views\\html_header.php');
         require_once(dirname(__DIR__) . '\\app\\Views\\html_chat.php');
