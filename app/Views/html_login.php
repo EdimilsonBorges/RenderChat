@@ -36,8 +36,8 @@ defined("ROOT") or die("Acesso negado");
                 </form>
             </div>
             <footer class="rodape">
-                <a href="#">Esqueceu a senha?</a>
-                <button class="cadastrar">Criar nova conta</button>
+                <a href="#" class="esqSenha">Esqueceu a senha?</a>
+                <a href="#" class="cadastrar">Criar nova conta</a>
             </footer>
             <div class="mensagem">
                 <?php if (isset($_SESSION['error'])) : ?>

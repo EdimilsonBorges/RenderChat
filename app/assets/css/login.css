@@ -32,8 +32,8 @@ body {
 .caixaLogin {
     position: relative;
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
     height: 100%;
     width: 400px;
     border-radius: 15% 4% 6% 0px;
@@ -71,14 +71,12 @@ body {
     background-color: #f7f7f7;
     font-size: 17px;
     width: 90%;
-    height: 43%;
-    top: -10px;
+    height: 200px;
 }
 
 .formulario form {
     justify-content: center;
     position: relative;
-    top: 20px;
     margin-bottom: 50px;
 }
 
@@ -126,21 +124,27 @@ body {
     display: block;
 }
 
-.caixaLogin a {
+.rodape{
+    margin: 10px 0px 25px 0px;
+}
+
+.rodape .esqSenha {
     text-decoration: none;
     color: #00f;
     display: block;
     text-align: center;
+    margin-bottom: 30px;
 }
 
-.caixaLogin a:hover {
+.rodape .esqSenha:hover {
     color: rgb(0, 0, 100);
 }
 
-.cadastrar {
+.rodape .cadastrar {
     font-size: 12pt;
     margin-top: 20px;
     width: 100%;
+    text-decoration: none;
     padding: 10px 10px 10px 10px;
     border-radius: 3px;
     box-shadow: 2px 5px 10px #000;
@@ -149,7 +153,7 @@ body {
     border: none;
 }
 
-.cadastrar:hover {
+.rodape .cadastrar:hover {
     background-color: rgb(0, 0, 100);
     box-shadow: 5px 5px 5px #000;
     cursor: pointer;
@@ -157,24 +161,21 @@ body {
 
 .mensagem {
     position: relative;
-    bottom: 10px;
     display: flex;
-    flex-direction: column;
     width: 100%;
-    text-align: center;
-    align-self: center;
-    margin-bottom: 60px;
-    height: 90px;
+    margin-bottom: 30px;
+    justify-content: center;
+    align-items: center;
 }
 
 .mensagem p {
     position: relative;
-    top: 25%;
-    margin: 0px;
     padding: 10px;
+    width:inherit;
     background-color: #fcc;
     color: #333;
     font-size: 15pt;
+    text-align: center;
 }
 
 @media screen and (max-width: 870px) {
@@ -188,9 +189,9 @@ body {
 @media screen and (max-width: 725px) {
     .areaLogin {
         flex-direction: column;
-        height: 800px;
         padding: 15px;
-        top:20px;
+        height: 700px;
+        top: 20px;
     }
 
     .areaLogin img {
@@ -201,12 +202,8 @@ body {
         height: 200px;
     }
 
-    .caixaLogin{
+    .caixaLogin {
         border-radius: 6%;
-    }
-
-    .mensagem {
-        margin-bottom: 0px;
     }
 
     body {
@@ -218,8 +215,8 @@ body {
 @media screen and (max-width: 440px) {
     .areaLogin {
         flex-direction: column;
-        height: 850px;
         padding: 5px 5px 15px 5px;
+        height: 730px;
     }
 
     .caixaLogin {
