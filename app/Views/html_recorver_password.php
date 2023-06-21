@@ -9,6 +9,6 @@ defined("ROOT") or die("Acesso negado");
     <title>Document</title>
 </head>
 <body>
-<h1>Criar nova conta</h1>
+    <h1>Redefinição de senha</h1>
 </body>
 </html>
