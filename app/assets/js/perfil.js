@@ -4,7 +4,7 @@ const urlClass = new URL(urlAtual);
 let perfilId = urlClass.searchParams.get("id");
 const perfilUserId =  document.getElementById("principal").dataset.userid;
 
-if(perfilId==null){
+if(!perfilId){
     perfilId = perfilUserId;
 }
 
@@ -36,7 +36,7 @@ function carregarPerfil(result) {
    }
 
    let sobreposicao;
-   if(perfilId == userId){
+   if(perfilId == perfilUserId){
     sobreposicao = document.createElement("div");
     sobreposicao.setAttribute("class", "sobreposicao-capa");
     const textoSobreposicao = document.createElement("p");
@@ -46,7 +46,7 @@ function carregarPerfil(result) {
 
     imagemCapa.appendChild(imgCapaPerfil);
 
-    if(perfilId == userId){
+    if(perfilId == perfilUserId){
         imagemCapa.appendChild(sobreposicao);
     }
     
@@ -67,7 +67,7 @@ function carregarPerfil(result) {
     }
 
     let sobreposicaoPerfil;
-    if(perfilId == userId){
+    if(perfilId == perfilUserId){
     sobreposicaoPerfil = document.createElement("div");
     sobreposicaoPerfil.setAttribute("class", "sobreposicao-perfil");
     const pSobreposicao = document.createElement("p");
@@ -75,7 +75,7 @@ function carregarPerfil(result) {
     sobreposicaoPerfil.appendChild(pSobreposicao);
 }
     imagemPerfil.appendChild(imgPefil);
-    if(perfilId == userId){
+    if(perfilId == perfilUserId){
         imagemPerfil.appendChild(sobreposicaoPerfil);
     }
     perfil.appendChild(imagemPerfil);
