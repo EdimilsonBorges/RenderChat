@@ -1,31 +1,80 @@
 import { FuncoesPosts } from "./funcoesPosts.js";
 import { Chat } from "./chat.js";
+import { FuncoesPerfil } from "./funcoesPerfil.js";
+import { FuncoesLinhaDoTempo } from "./funcoesLinhaDoTempo.js";
 
 const userId = document.getElementById("principal").dataset.userid;
 const nameC = document.getElementById("principal").dataset.namec;
 const photo = document.getElementById("principal").dataset.photo;
+const pagina = document.getElementById("posts").dataset.pagina;
 
-let chat = new Chat(userId,nameC,photo)
-let funcoesPosts = new FuncoesPosts(userId,nameC,photo);
+let chat = new Chat(userId, nameC, photo)
+let funcoesPosts = new FuncoesPosts(userId, nameC, photo, pagina);
 
-chat.connect();
+if (pagina === "perfil") {
+    new FuncoesPerfil();
+    chat.connect(); // abrir chat
+    //carrega os posts
+    funcoesPosts.getAllPosts();
+} else if (pagina === "home") {
+    new FuncoesLinhaDoTempo();
+    chat.connect(); // abrir chat
+    //carrega os posts
+    funcoesPosts.getAllPosts();
+}
+
+//Publicar um Post (Página Home)
+const btnPublicarHome = document.getElementById("btnPublicarHome");
+if (btnPublicarHome) {
+    btnPublicarHome.addEventListener("click", () => {
+        funcoesPosts.postModal();
+    });
+} else {
+    // Publicar um Post (Página Perfil)
+    const btnPublicarPerfil = document.getElementById("btnPublicarPerfil");
+    btnPublicarPerfil.addEventListener("click", () => {
+        funcoesPosts.postModal();
+    });
+}
+
+// ocultar menu se clicar fora do elemento
+window.onclick = function (event) {
+    if (!event.target.matches('.btnCommentMenuDrop')) {
+
+        for (let i = 0; i < janelas.length; i++) {
+            let aberto = janelas[i];
+            if (aberto.classList.contains("navLinksCommentVisible")) {
+                aberto.classList.remove("navLinksCommentVisible");
+                aberto.classList.add("navLinksCommentInvisible");
+            }
+        }
+
+    }
+}
+
+
 
 
 // Funções da página =====================================================================================
 
 // ocultar menu se clicar fora do elemento
-window.onclick = function (event) {
-    if (!event.target.matches('.btnPostMenuDrop') && !event.target.matches('.conta img') && !event.target.matches('.conta span') && !event.target.matches('.conta')) {
-        const elements = document.querySelectorAll(".linksPostMenuDrop, .navLinkConta");
+const ocultarElementos = () => {
+    window.onclick = function (event) {
+        if (!event.target.matches('.btnPostMenuDrop') && !event.target.matches('.conta img') && !event.target.matches('.conta span') && !event.target.matches('.conta')) {
+            const elements = document.querySelectorAll(".linksPostMenuDrop, .navLinkConta");
 
-        for (let i = 0; i < elements.length; i++) {
-            let aberto = elements[i];
-            if (aberto.classList.contains("visivel")) {
-                aberto.classList.remove("visivel");
+            for (let i = 0; i < elements.length; i++) {
+                let aberto = elements[i];
+                if (aberto.classList.contains("visivel")) {
+                    aberto.classList.remove("visivel");
+                }
             }
         }
     }
 }
+
+ocultarElementos();
+
 
 // mostra o menu da conta
 const navLinkConta = document.getElementById("navLinkConta");
@@ -67,28 +116,6 @@ conta.addEventListener("click", () => {
 //     menuConfig.classList.add("active");
 // }
 
-// carrega os posts
-funcoesPosts.getAllPosts();
-
-if (!funcoesPosts.fim) {
-    window.addEventListener('scroll', () => {
-
-        const elemento = document.getElementsByClassName("publication")[funcoesPosts.postPosition];
-        if (elemento != null) {
-            let rect = elemento.getBoundingClientRect();
-            if (rect.top < window.innerHeight) {
-                if (!funcoesPosts.carregando) {
-                    funcoesPosts.offset += funcoesPosts.limit;
-                    console.log("Carregando....");
-                    funcoesPosts.getAllPosts();
-                } else {
-                    console.log("Carregou!!!");
-                }
-            }
-        }
-    });
-}
-
 function showHint(str) {
     if (str.length == 0) {
         document.getElementById("txtHint").innerHTML = "";
@@ -103,19 +130,6 @@ function showHint(str) {
     }
 }
 
-// Publicar um Post (Página Home)
-const btnPublicarHome = document.getElementById("btnPublicarHome");
-if (btnPublicarHome) {
-    btnPublicarHome.addEventListener("click", () => {
-        funcoesPosts.postModal();
-    });
-} else {
-    // Publicar um Post (Página Perfil)
-    const btnPublicarPerfil = document.getElementById("btnPublicarPerfil");
-    btnPublicarPerfil.addEventListener("click", () => {
-        funcoesPosts.postModal();
-    });
-}
 
 document.getElementById("cabecalhoBatePapoPrincipal").onclick = function () {
 
@@ -132,5 +146,4 @@ function ocultarDesocultarBatePapo() {
         batepapo.style.height = "75vh";
     }
 }
-
 // =======================================================================================================

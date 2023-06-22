@@ -1,12 +1,12 @@
 class FuncoesPosts {
 
-  constructor(userId, nameC, photo) {
+  constructor(userId, nameC, photo, pagina) {
     this.userId = userId;
     this.nameC = nameC;
     this.photo = photo;
+    this.pagina = pagina;
   }
 
-  pagina = document.getElementById("posts").dataset.pagina;
   carregando = false;
   postPosition = -1;
   limit = 10;
@@ -22,6 +22,25 @@ class FuncoesPosts {
   }
 
   getAllPosts = () => {
+
+    if (!this.fim) {
+      window.addEventListener('scroll', () => {
+
+        const elemento = document.getElementsByClassName("publication")[this.postPosition];
+        if (elemento != null) {
+          let rect = elemento.getBoundingClientRect();
+          if (rect.top < window.innerHeight) {
+            if (!this.carregando) {
+              this.offset += this.limit;
+              console.log("Carregando....");
+              this.getAllPosts();
+            } else {
+              console.log("Carregou!!!");
+            }
+          }
+        }
+      });
+    }
 
     const posts = document.getElementById("posts");
 
@@ -43,10 +62,10 @@ class FuncoesPosts {
     if (this.pagina == "home") {
       endPoint = `Controllers/get_all_posts?user_id=${this.userId}&limit=${this.limit}&offset=${this.offset}`;
     } else if (this.pagina == "perfil") {
-      if (perfilId == null) {
+      if (!perfilId) {
         endPoint = `Controllers/get_post_user?user_id=${this.userId}&limit=${this.limit}&offset=${this.offset}`;
       } else {
-        endPoint = `Controllers/get_post_user?user_id=${this.perfilId}&limit=${this.limit}&offset=${this.offset}`;
+        endPoint = `Controllers/get_post_user?user_id=${perfilId}&limit=${this.limit}&offset=${this.offset}`;
       }
     }
     fetch(endPoint)
@@ -58,7 +77,7 @@ class FuncoesPosts {
             this.postPosition++;
             this.carregando = false;
             if (results['results'].length < this.limit) {
-              fim = true;
+              this.fim = true;
             }
           });
 
@@ -422,21 +441,6 @@ class FuncoesPosts {
       } else {
         janela.classList.remove("navLinksCommentVisible");
         janela.classList.add("navLinksCommentInvisible");
-      }
-    }
-
-    // ocultar menu se clicar fora do elemento
-    window.onclick = function (event) {
-      if (!event.target.matches('.btnCommentMenuDrop')) {
-
-        for (let i = 0; i < janelas.length; i++) {
-          let aberto = janelas[i];
-          if (aberto.classList.contains("navLinksCommentVisible")) {
-            aberto.classList.remove("navLinksCommentVisible");
-            aberto.classList.add("navLinksCommentInvisible");
-          }
-        }
-
       }
     }
   }

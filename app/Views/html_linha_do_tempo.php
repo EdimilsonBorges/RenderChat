@@ -87,5 +87,3 @@ defined("ROOT") or die("Acesso negado");
     </nav>
 
 </section>
-
-<script src="assets/js/app.js" type="module"></script>

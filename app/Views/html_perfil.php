@@ -61,6 +61,3 @@ defined("ROOT") or die("Acesso negado");
 </section>
 
 </section>
-
-<script src="assets/js/app.js" type="module"></script>
- <script src="assets/js/perfil.js" type="module"></script> 
