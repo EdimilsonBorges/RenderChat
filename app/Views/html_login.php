@@ -36,8 +36,8 @@ defined("ROOT") or die("Acesso negado");
                 </form>
             </div>
             <footer class="rodape">
-                <a href="?r=recorverPassword" class="esqSenha">Esqueceu a senha?</a>
-                <a href="?r=createAccount" class="cadastrar">Criar nova conta</a>
+                <button type="button" class="esqSenha">Esqueceu a senha?</button>
+                <button type="button" class="cadastrar">Criar nova conta</button>
             </footer>
             <div class="mensagem">
                 <?php if (isset($_SESSION['error'])) : ?>
@@ -47,5 +47,43 @@ defined("ROOT") or die("Acesso negado");
             </div>
         </section>
     </section>
+
+    <!-- <div id="areaCreateAcount" class="areaCreateAcount mostrarJanela"> -->
+    <div id="areaCreateAcount" class="areaCreateAcount">
+        <div id="linksCreateAcount" class="linksCreateAcount">
+            <div class="cabecalhoCreateAcount">
+                <h4>Cadastre-se!!!</h4>
+                <span id="btnFecharCreateAcount" class="btnFecharCreateAcount"><img src="./assets/icons/close.svg"></span>
+            </div>
+            <div class="campoCreateAcount">
+                <div class = "nome">
+                    <label>Nome</label>
+                <input type="text" name="" id="" placeholder="Nome">
+                <input type="text" name="" id="" placeholder="Sobrenome">
+                </div>
+                <div class = "data-de-nasc">
+                <label>Data de nascimento</label>
+                <input type="text" name="" id="" placeholder="dia">
+                <input type="text" name="" id="" placeholder="mes">
+                <input type="text" name="" id="" placeholder="ano">
+                </div>
+                <div class = "genero">
+                <label>Genero</label>
+                <input type="text" name="" id="" placeholder="genero">
+                </div>
+                <div class = "email">
+                <label>Email</label> 
+                <input type="text" name="" id="" placeholder="e-mail">
+                </div>
+                <div class = "senha">
+                <label>Senha</label>
+                <input type="text" name="" id="" placeholder="senha">
+                <input type="text" name="" id="" placeholder="confirmar senha">
+                </div>
+                
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>

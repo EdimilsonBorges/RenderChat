@@ -11,17 +11,7 @@ require_once(dirname(__DIR__) . '\\app\\inc\\api_functions.php');
 $rotas = '';
 
 if (!isset($_SESSION['user_id']) && $_SERVER['REQUEST_METHOD'] != 'POST') {
-    if (isset($_GET['r'])){
-        if($_GET['r'] == 'createAccount'){
-            $rotas = 'createAccount';
-        }elseif($_GET['r'] == 'recorverPassword'){
-            $rotas = 'recorverPassword';
-        }else{
-            $rotas = 'login';
-        }
-    }else{
-        $rotas = 'login';
-                }
+    $rotas = 'login';
 } elseif (!isset($_SESSION['user_id']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
     $rotas = 'login_submit';
 } else {
@@ -37,12 +27,6 @@ if (!isset($_SESSION['user_id']) && $_SERVER['REQUEST_METHOD'] != 'POST') {
 
 
 switch ($rotas) {
-    case 'createAccount':
-        require_once(dirname(__DIR__) . '\\app\\Views\\html_new_account.php');
-        break;
-    case 'recorverPassword':
-        require_once(dirname(__DIR__) . '\\app\\Views\\html_recorver_password.php');
-        break;
     case 'login':
         require_once(dirname(__DIR__) . '\\app\\Views\\html_login.php');
         break;
