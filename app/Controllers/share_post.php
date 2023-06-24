@@ -26,10 +26,10 @@ if (!empty($_GET)) {
 if(isset($variables['r'])){
 
   if($variables['r'] == 'perfil'){
-   header('Location: /upper/app?r=perfil');
+   header('Location: /RenderChat/app?r=perfil');
     die();
   }else{
-    header('Location: /upper/app');
+    header('Location: /RenderChat/app');
     die();
   }
 }

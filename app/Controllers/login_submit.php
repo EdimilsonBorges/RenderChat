@@ -10,7 +10,7 @@ $senha = filter_input(INPUT_POST, "senha", FILTER_DEFAULT);
 
 if (empty($usuario) || empty($senha)) {
     $_SESSION['error'] = 'Dados de login insuficientes';
-    header('Location: /upper/app');
+    header('Location: /RenderChat/app');
     return;
 }
 
@@ -26,7 +26,7 @@ if ($resultado['status'] == null || $resultado['status'] == 'ERROR') {
         $_SESSION['error'] = $resultado['message'];
     }
 
-    header('Location: /upper/app');
+    header('Location: /RenderChat/app');
     return;
 }
 
@@ -35,5 +35,5 @@ $_SESSION["first_name"] = $resultado['results']['first_name'];
 $_SESSION["last_name"] = $resultado['results']['last_name'];
 $_SESSION["photo_url"] = $resultado['results']['photo_url'];
 
-header('Location: /upper/app');
+header('Location: /RenderChat/app');
 return;

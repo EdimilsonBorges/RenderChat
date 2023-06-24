@@ -18,5 +18,5 @@ if(isset($_SESSION["photo_url"])){
     unset($_SESSION["photo_url"]);
 }
 
-header('Location: /upper/app');
+header('Location: /RenderChat/app');
 return;

@@ -180,7 +180,7 @@ class FuncoesPosts {
     postCabecalho.setAttribute("class", "postCabecalho");
 
     const aNomeUserPost = document.createElement("a");
-    aNomeUserPost.setAttribute("href", `/upper/app/?r=perfil&id=${publication.dataset.postuserid}`);
+    aNomeUserPost.setAttribute("href", `/RenderChat/app/?r=perfil&id=${publication.dataset.postuserid}`);
     aNomeUserPost.innerHTML = `${result.first_name} ${result.last_name}`;
 
     const h5 = document.createElement("h5");
