@@ -47,7 +47,7 @@ defined("ROOT") or die("Acesso negado");
             </div>
         </section>
     </section>
-    <div id="areaCreateAcount" class="areaCreateAcount mostrarJanela">
+    <div id="areaCreateAcount" class="areaCreateAcount">
         <div id="linksCreateAcount" class="linksCreateAcount">
             <div class="cabecalhoCreateAcount">
                 <h4>Cadastre-se!!!</h4>
@@ -166,16 +166,19 @@ defined("ROOT") or die("Acesso negado");
                     <div>
                         <div>
                             <label for="masculino">Masculino</label>
-                            <input type="radio" name="genero" id="masculino">
+                            <input class="radio" type="radio" name="genero" id="masculino">
                         </div>
                         <div>
                             <label for="feminino">Feminino</label>
-                            <input type="radio" name="genero" id="feminino">
+                            <input class="radio" type="radio" name="genero" id="feminino">
                         </div>
                         <div>
                             <label for="outro" >Outro</label>
-                            <input type="radio" name="genero" id="outro">
+                            <input class="radio" type="radio" name="genero" id="outro">
                         </div>
+                    </div>
+                    <div>
+                        <input type="text" name="" class="campos" id="camposGenero" placeholder="Gênero">
                     </div>
                     <div>
                         <button type="button">Cadastrar</button>

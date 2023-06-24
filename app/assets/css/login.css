@@ -87,18 +87,15 @@ body {
     padding: 4%;
     border-radius: 3px;
     border: 1px solid rgb(0, 158, 45);
-    ;
     display: block;
 }
 
 .formulario form input:hover {
     border: 1px solid rgb(0, 82, 23);
-    ;
 }
 
 .formulario form input:focus {
     box-shadow: 4px 4px 5px rgb(0, 82, 23);
-    ;
     outline: 0;
 }
 
@@ -273,6 +270,16 @@ body {
     width: 100%;
     margin: 5px 10px 5px 10px;
 }
+
+.campoCreateAcount .campos:focus{
+    box-shadow: 4px 4px 5px rgb(0, 82, 23);
+    outline: 0;
+}
+
+#camposGenero{
+    display: none;
+}
+
 .campoCreateAcount div label{
     padding-right: 10px;
 
