@@ -93,7 +93,11 @@ defined("ROOT") or die("Acesso negado");
             </ul>-->
         </nav>
         <div class="conta" id="conta">
-            <img class="per" src="assets/images/<?= $_SESSION['photo_url'] ?>">
+            <?php if (is_null($_SESSION['photo_url'])):?>
+                <img class="per" src="assets/images/sem-foto.jpg">
+            <?php else:?>
+                <img class="per" src="assets/images/<?= $_SESSION['photo_url'] ?>">
+            <?php endif;?>
             <span><?= $_SESSION['first_name'] . " " . $_SESSION['last_name'] ?></span>
             <img src="assets/icons/mais.svg">
         </div>

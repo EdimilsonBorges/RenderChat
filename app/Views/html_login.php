@@ -56,132 +56,132 @@ defined("ROOT") or die("Acesso negado");
             <div class="quadro">
                 <div class="campoCreateAcount">
                     <div>
-                        <input type="text" name="" class="campos" placeholder="Nome">
-                        <input type="text" name="" class="campos" placeholder="Sobrenome">
+                        <input type="text" id="campoNome" class="campos" placeholder="Nome">
+                        <input type="text" id="campoSobrenome" class="campos" placeholder="Sobrenome">
                     </div>
                     <div>
-                        <input type="email" class="campos" placeholder="E-mail">
+                        <input type="email" id="campoEmail" class="campos" placeholder="E-mail">
                     </div>
                     <div>
-                        <input type="password" class="campos" placeholder="Nova senha">
-                        <input type="password" class="campos" placeholder= "Repetir senha">
+                        <input type="password" id="campoNovaSenha" class="campos" placeholder="Nova senha">
+                        <input type="password" id="campoRepetirSenha" class="campos" placeholder= "Repetir senha">
                     </div>
                     <h3>Data de nascimento</h3>
                     <div>
-                        <select class="campos" name="dia">
-                            <option value="">01</option>
-                            <option value="">02</option>
-                            <option value="">03</option>
-                            <option value="">04</option>
-                            <option value="">05</option>
-                            <option value="">06</option>
-                            <option value="">07</option>
-                            <option value="">08</option>
-                            <option value="">09</option>
-                            <option value="">10</option>
-                            <option value="">11</option>
-                            <option value="">12</option>
-                            <option value="">13</option>
-                            <option value="">14</option>
-                            <option value="">15</option>
-                            <option value="">16</option>
-                            <option value="">17</option>
-                            <option value="">18</option>
-                            <option value="">19</option>
-                            <option value="">20</option>
-                            <option value="">21</option>
-                            <option value="">22</option>
-                            <option value="">23</option>
-                            <option value="">24</option>
-                            <option value="">25</option>
-                            <option value="">26</option>
-                            <option value="">27</option>
-                            <option value="">28</option>
-                            <option value="">29</option>
-                            <option value="">30</option>
-                            <option value="">31</option>
+                        <select id="campoDia" class="campos" name="dia">
+                            <option>01</option>
+                            <option>02</option>
+                            <option>03</option>
+                            <option>04</option>
+                            <option>05</option>
+                            <option>06</option>
+                            <option>07</option>
+                            <option>08</option>
+                            <option>09</option>
+                            <option>10</option>
+                            <option>11</option>
+                            <option>12</option>
+                            <option>13</option>
+                            <option>14</option>
+                            <option>15</option>
+                            <option>16</option>
+                            <option>17</option>
+                            <option>18</option>
+                            <option>19</option>
+                            <option>20</option>
+                            <option>21</option>
+                            <option>22</option>
+                            <option>23</option>
+                            <option>24</option>
+                            <option>25</option>
+                            <option>26</option>
+                            <option>27</option>
+                            <option>28</option>
+                            <option>29</option>
+                            <option>30</option>
+                            <option>31</option>
                         </select>
-                        <select class="campos" name="mes">
-                            <option value="">Janeiro</option>
-                            <option value="">Fevereiro</option>
-                            <option value="">Março</option>
-                            <option value="">Abril</option>
-                            <option value="">Maio</option>
-                            <option value="">Junho</option>
-                            <option value="">Julho</option>
-                            <option value="">Agosto</option>
-                            <option value="">Setembro</option>
-                            <option value="">Outubro</option>
-                            <option value="">Novembro</option>
-                            <option value="">Dezembro</option>
+                        <select id="campoMes" class="campos" name="mes">
+                            <option value="01">Janeiro</option>
+                            <option value="02">Fevereiro</option>
+                            <option value="03">Março</option>
+                            <option value="04">Abril</option>
+                            <option value="05">Maio</option>
+                            <option value="06">Junho</option>
+                            <option value="07">Julho</option>
+                            <option value="08">Agosto</option>
+                            <option value="09">Setembro</option>
+                            <option value="10">Outubro</option>
+                            <option value="11">Novembro</option>
+                            <option value="12">Dezembro</option>
                         </select>
-                        <select class="campos" name="ano">
-                            <option value="">2023</option>
-                            <option value="">2022</option>
-                            <option value="">2021</option>
-                            <option value="">2020</option>
-                            <option value="">2019</option>
-                            <option value="">2018</option>
-                            <option value="">2017</option>
-                            <option value="">2016</option>
-                            <option value="">2015</option>
-                            <option value="">2014</option>
-                            <option value="">2013</option>
-                            <option value="">2012</option>
-                            <option value="">2011</option>
-                            <option value="">2010</option>
-                            <option value="">2009</option>
-                            <option value="">2008</option>
-                            <option value="">2007</option>
-                            <option value="">2006</option>
-                            <option value="">2005</option>
-                            <option value="">2004</option>
-                            <option value="">2003</option>
-                            <option value="">2002</option>
-                            <option value="">2001</option>
-                            <option value="">2000</option>
-                            <option value="">1999</option>
-                            <option value="">1998</option>
-                            <option value="">1997</option>
-                            <option value="">1996</option>
-                            <option value="">1995</option>
-                            <option value="">1994</option>
-                            <option value="">1993</option>
-                            <option value="">1992</option>
-                            <option value="">1991</option>
-                            <option value="">1990</option>
-                            <option value="">1989</option>
-                            <option value="">1988</option>
-                            <option value="">1987</option>
-                            <option value="">1986</option>
-                            <option value="">1985</option>
-                            <option value="">1984</option>
-                            <option value="">1983</option>
-                            <option value="">1982</option>
-                            <option value="">1981</option>
-                            <option value="">1980</option>
+                        <select id="campoAno" class="campos" name="ano">
+                            <option>2023</option>
+                            <option>2022</option>
+                            <option>2021</option>
+                            <option>2020</option>
+                            <option>2019</option>
+                            <option>2018</option>
+                            <option>2017</option>
+                            <option>2016</option>
+                            <option>2015</option>
+                            <option>2014</option>
+                            <option>2013</option>
+                            <option>2012</option>
+                            <option>2011</option>
+                            <option>2010</option>
+                            <option>2009</option>
+                            <option>2008</option>
+                            <option>2007</option>
+                            <option>2006</option>
+                            <option>2005</option>
+                            <option>2004</option>
+                            <option>2003</option>
+                            <option>2002</option>
+                            <option>2001</option>
+                            <option>2000</option>
+                            <option>1999</option>
+                            <option>1998</option>
+                            <option>1997</option>
+                            <option>1996</option>
+                            <option>1995</option>
+                            <option>1994</option>
+                            <option>1993</option>
+                            <option>1992</option>
+                            <option>1991</option>
+                            <option>1990</option>
+                            <option>1989</option>
+                            <option>1988</option>
+                            <option>1987</option>
+                            <option>1986</option>
+                            <option>1985</option>
+                            <option>1984</option>
+                            <option>1983</option>
+                            <option>1982</option>
+                            <option>1981</option>
+                            <option>1980</option>
                         </select>
                     </div>
                     <h3>Gênero</h3>
                     <div>
                         <div>
                             <label for="masculino">Masculino</label>
-                            <input class="radio" type="radio" name="genero" id="masculino">
+                            <input class="radio" value="M" type="radio" name="genero" id="masculino">
                         </div>
                         <div>
                             <label for="feminino">Feminino</label>
-                            <input class="radio" type="radio" name="genero" id="feminino">
+                            <input class="radio" value="F" type="radio" name="genero" id="feminino">
                         </div>
                         <div>
                             <label for="outro" >Outro</label>
-                            <input class="radio" type="radio" name="genero" id="outro">
+                            <input class="radio" value="O" type="radio" name="genero" id="outro">
                         </div>
                     </div>
                     <div>
                         <input type="text" name="" class="campos" id="camposGenero" placeholder="Gênero">
                     </div>
                     <div>
-                        <button type="button">Cadastrar</button>
+                        <button id="btnSubmit" type="button">Cadastrar</button>
                     </div>
                 </div>
             </div>

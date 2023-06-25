@@ -10,8 +10,7 @@ if (
     !isset($variables['email']) ||
     !isset($variables['pass']) ||
     !isset($variables['date_nasc']) ||
-    !isset($variables['genre']) ||
-    !isset($variables['confirm_email'])
+    !isset($variables['genre'])
 ) {
     error_response('Os dados do cadastro estão incompletos');
 }
@@ -34,7 +33,6 @@ $params = [
     ':pass' => $variables['pass'],
     ':date_nasc' => $variables['date_nasc'],
     ':genre' => $variables['genre'],
-    ':confirm_email' => $variables['confirm_email'],
 ];
 
 
@@ -46,7 +44,7 @@ $db->insert('INSERT INTO users VALUES(
     :pass, 
     :date_nasc, 
     :genre,
-    :confirm_email,
+    NOW(),
     NOW(),
     NULL,
     NULL)', $params);
