@@ -6,9 +6,37 @@ define("ROOT", true);
 require_once(dirname(__DIR__) . '\\app\\inc\\config.php');
 require_once(dirname(__DIR__) . '\\app\\inc\\api_functions.php');
 
-
 //define rotas
 $rotas = '';
+
+// if(!empty(filter_input(INPUT_GET,"url", FILTER_DEFAULT))){
+//     $url =  filter_input(INPUT_GET,"url", FILTER_DEFAULT);
+//     $urlConjunto = explode("/", $url);
+//     if(isset($urlConjunto[0])){
+//         $urlController = $urlConjunto[0];
+//     }else{
+//         $urlController = "login";
+//     }
+
+//     if(isset($urlConjunto[1])){
+//         $urlMetodo = $urlConjunto[1];
+//     }else{
+//         $urlMetodo = "home";
+//     }
+//     if(isset($urlConjunto[2])){
+//         $urlParametro = $urlConjunto[2];
+//     }else{
+//         $urlParametro = "";
+//     }
+// }else{
+//     $urlController = "login_submit";
+//     // $urlController = "login";
+//     // $urlMetodo = "home";
+//     // $urlParametro = "";
+// }
+
+// $rotas = $urlController;
+
 
 if (!isset($_SESSION['user_id']) && $_SERVER['REQUEST_METHOD'] != 'POST') {
     $rotas = 'login';
