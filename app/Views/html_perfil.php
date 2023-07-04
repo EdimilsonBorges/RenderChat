@@ -53,7 +53,7 @@ defined("ROOT") or die("Acesso negado");
                     <a href="#">Evento</a>
                 </div>
             </section>
-            <hr>
+            <hr class="divisaoPost">
 
         </article>
 
