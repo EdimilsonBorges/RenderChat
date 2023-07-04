@@ -2,6 +2,7 @@ import { FuncoesPosts } from "./funcoesPosts.js";
 import { Chat } from "./chat.js";
 import { FuncoesPerfil } from "./funcoesPerfil.js";
 import { FuncoesLinhaDoTempo } from "./funcoesLinhaDoTempo.js";
+import { FuncoesFriends } from "./funcoesFriends.js";
 
 const userId = document.getElementById("principal").dataset.userid;
 const nameC = document.getElementById("principal").dataset.namec;
@@ -21,6 +22,8 @@ if (pagina === "perfil") {
     chat.connect(); // abrir chat
     //carrega os posts
     funcoesPosts.getAllPosts();
+} else if (pagina === "friends") {
+    const friends = new FuncoesFriends();
 }
 
 //Publicar um Post (Página Home)
