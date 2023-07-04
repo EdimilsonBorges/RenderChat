@@ -21,6 +21,23 @@ class FuncoesPosts {
     this.fim = false;
   }
 
+  lendo = () => {
+    const areaPost = document.getElementById("areaPost");
+    const custonLoader = document.createElement("div");
+    custonLoader.setAttribute("class", "custom-loader");
+    areaPost.appendChild(custonLoader);
+    console.log("Carregando....");
+  }
+
+  carregou = () => {
+    const areaPost = document.getElementById("areaPost");
+    const custonLoader = document.querySelector(".custom-loader");
+    if (custonLoader) {
+      areaPost.removeChild(custonLoader);
+    }
+    console.log("Carregou!!!");
+  }
+
   getAllPosts = () => {
 
     if (!this.fim) {
@@ -32,10 +49,7 @@ class FuncoesPosts {
           if (rect.top < window.innerHeight) {
             if (!this.carregando) {
               this.offset += this.limit;
-              console.log("Carregando....");
               this.getAllPosts();
-            } else {
-              console.log("Carregou!!!");
             }
           }
         }
@@ -52,6 +66,7 @@ class FuncoesPosts {
     posts.appendChild(areaPost);
 
     this.carregando = true;
+    this.lendo();
 
     let endPoint;
 
@@ -76,8 +91,12 @@ class FuncoesPosts {
             this.createPost(result);
             this.postPosition++;
             this.carregando = false;
+            if(!this.fim){
+              this.carregou();
+            }
+            
             if (results['results'].length < this.limit) {
-              this.fim = true;
+              this.fim = true; 
             }
           });
 

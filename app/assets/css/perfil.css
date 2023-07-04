@@ -20,6 +20,11 @@
     border: 1px solid rgb(192, 191, 191);
     background-color: #fff;
     border-radius: 15px;
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+.posts hr{
     margin-top: 15px;
     margin-bottom: 15px;
 }
@@ -87,7 +92,6 @@
     padding: 5%;
     border-radius: 15px;
     margin-bottom: 8px;
-    margin-top: 15px;
     border: 1px solid #aaa;
     background-color: #fefefe;
 }
@@ -265,7 +269,7 @@
     margin-top: 0px;
     display: block;
     height: max-content;
-    padding: 0px 2% 2% 0px;
+    padding: 0px 0px 2% 0px;
 }
 
 .publicar .perfil {
@@ -513,6 +517,12 @@
 
 .esconderPostModal {
     display: none;
+}
+
+.areaPost{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .areaPostModal {
@@ -1038,3 +1048,17 @@
     font-weight: bold;
     z-index: 8;
 }
+
+/* carregando ============================================================================================= */
+.custom-loader {
+    width:50px;
+    height:50px;
+    margin-top: 5vh;
+    margin-bottom: 20vh;
+    border-radius:50%;
+    background:conic-gradient(#0000 10%,#009e2d);
+    -webkit-mask:radial-gradient(farthest-side,#0000 calc(100% - 8px),#000 0);
+    mask:radial-gradient(farthest-side,#0000 calc(100% - 8px),#000 0);
+    animation:s3 1s infinite linear;
+  }
+  @keyframes s3 {to{transform: rotate(1turn)}}
