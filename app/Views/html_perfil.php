@@ -37,7 +37,7 @@ defined("ROOT") or die("Acesso negado");
             </div>
         </section>
 
-        <article class="posts" id="posts" data-pagina="perfil">
+        <article class="posts" id="posts">
             <section class="publicar">
                 <div class="perfil">
                     <?php if (!empty($_SESSION['photo_url'])) : ?>

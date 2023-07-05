@@ -451,7 +451,6 @@ class FuncoesPosts {
   mostrarCommentMenuDrop(commentId, commentUser, user) {
 
     const janela = document.getElementById(commentId);
-    const janelas = document.getElementsByClassName("navLinksComment");
 
     if (user == commentUser) {
       if (janela.classList.contains("navLinksCommentInvisible")) {

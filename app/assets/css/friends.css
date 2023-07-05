@@ -27,3 +27,7 @@
 .perfil-friends h3{
     margin: 10px;
 }
+
+.visivel {
+    visibility: visible;
+}

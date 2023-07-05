@@ -7,10 +7,18 @@ import { FuncoesFriends } from "./funcoesFriends.js";
 const userId = document.getElementById("principal").dataset.userid;
 const nameC = document.getElementById("principal").dataset.namec;
 const photo = document.getElementById("principal").dataset.photo;
-const pagina = document.getElementById("posts").dataset.pagina;
+
+const urlAtual = window.location.href;
+const urlClass = new URL(urlAtual);
+let pagina = urlClass.searchParams.get("r");
+
+if(!pagina){
+    pagina = "home";
+}
 
 let chat = new Chat(userId, nameC, photo)
 let funcoesPosts = new FuncoesPosts(userId, nameC, photo, pagina);
+
 
 if (pagina === "perfil") {
     new FuncoesPerfil();
@@ -23,18 +31,19 @@ if (pagina === "perfil") {
     //carrega os posts
     funcoesPosts.getAllPosts();
 } else if (pagina === "friends") {
-    const friends = new FuncoesFriends();
+    new FuncoesFriends(userId);
 }
 
 //Publicar um Post (Página Home)
 const btnPublicarHome = document.getElementById("btnPublicarHome");
+const btnPublicarPerfil = document.getElementById("btnPublicarPerfil");
+
 if (btnPublicarHome) {
     btnPublicarHome.addEventListener("click", () => {
         funcoesPosts.postModal();
     });
-} else {
+} else if (btnPublicarPerfil) {
     // Publicar um Post (Página Perfil)
-    const btnPublicarPerfil = document.getElementById("btnPublicarPerfil");
     btnPublicarPerfil.addEventListener("click", () => {
         funcoesPosts.postModal();
     });
@@ -84,6 +93,7 @@ const navLinkConta = document.getElementById("navLinkConta");
 const conta = document.getElementById("conta");
 conta.addEventListener("click", () => {
     navLinkConta.classList.toggle("visivel");
+    console.log("clicou");
 });
 
 
