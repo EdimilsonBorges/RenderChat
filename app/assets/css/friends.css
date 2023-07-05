@@ -1,4 +1,7 @@
 .container-friends{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
     position: relative;
     border-radius: 20px 20px 20px 20px;
     border: 1px solid #ccc;
@@ -10,24 +13,42 @@
 
 .perfil-friends{
     position: relative;
-    left:90px;
     display: flex;
-    margin: 3%;
-    text-align: center;
+    flex-direction: column;
+    margin: 2%;
+    width:180px;
     align-items: center;
-    width:fit-content;
-    float: left;
+    border-radius: 10px 10px 10px 10px;
+    border: 1px solid #888;
 }
 
 .perfil-friends img{
-    border-radius: 20px;
-    width: 80px;
+    border-radius: 10px 10px 0px 0px;
+    width: 100%;
 }
 
 .perfil-friends h3{
     margin: 10px;
+    font-size: 13pt;
+}
+
+.btnRemover{
+    width: 100px;
+    margin-bottom: 10px;
+    padding: 5px;
+    background-color: #e22;
+    color: #fff;
+    border: none;
+    border-radius: 3px 3px 3px 3px;
+}
+
+.btnRemover:hover{
+    background-color: #a00;
+}
+.btnRemover:active{
+    background-color: #700;
 }
 
 .visivel {
-    visibility: visible;
+    visibility:visible;
 }

@@ -31,8 +31,13 @@ class FuncoesFriends {
                         this.h3 = document.createElement("h3");
                         this.h3.innerHTML = `${result.first_name} ${result.last_name}`
 
+                        this.buttonRemover = document.createElement("button");
+                        this.buttonRemover.setAttribute("class", "btnRemover");
+                        this.buttonRemover.innerHTML = "Remover";
+
                         this.perfilFriends.appendChild(this.img);
                         this.perfilFriends.appendChild(this.h3);
+                        this.perfilFriends.appendChild(this.buttonRemover);
 
                         this.containerFriends.appendChild(this.perfilFriends);
                     });
