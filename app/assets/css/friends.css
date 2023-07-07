@@ -1,21 +1,56 @@
 .container-friends{
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-around;
-    position: relative;
-    border-radius: 20px 20px 20px 20px;
+    justify-content:space-around;
+    position:relative;
+    border-radius: 20px;
     border: 1px solid #ccc;
     top: 100px;
-    width: 80%;
-    height:fit-content;
+    left: 100px;
+    width: calc(100% - 270px);
+    height: max-content;
+    padding:10px;
     background-color: #fff;
+    margin-bottom: 20vh;
+}
+
+.menuFriends{
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    left: 10px;
+    top: 100px;
+    width: 200px;
+    margin-right: 10px;
+}
+
+.btnSugestoes, .btnAllFriends, .btnSolicitacoes{
+    background-color: #e22;
+    margin: 0px 5px 10px 5px;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+
+}
+
+.btnSugestoes:hover, .btnAllFriends:hover, .btnSolicitacoes:hover{
+    background-color: #a00;
+
+}
+
+.btnSugestoes:active, .btnAllFriends:active, .btnSolicitacoes:active{
+    background-color: #700;
+
 }
 
 .perfil-friends{
     position: relative;
     display: flex;
     flex-direction: column;
-    margin: 2%;
+    margin: 3px;
     width:180px;
     align-items: center;
     border-radius: 10px 10px 10px 10px;
@@ -32,7 +67,7 @@
     font-size: 13pt;
 }
 
-.btnRemover{
+.btnRemover, .btnRecusarFriend{
     width: 100px;
     margin-bottom: 10px;
     padding: 5px;
@@ -40,13 +75,32 @@
     color: #fff;
     border: none;
     border-radius: 3px 3px 3px 3px;
+    cursor: pointer;
 }
 
-.btnRemover:hover{
+.btnRemover:hover, .btnRecusarFriend:hover{
     background-color: #a00;
 }
-.btnRemover:active{
+.btnRemover:active, .btnRecusarFriend:active{
     background-color: #700;
+}
+
+.btnAdicionar, .btnAceitarFriend{
+    width: 100px;
+    margin-bottom: 10px;
+    padding: 5px;
+    background-color: #2b2;
+    color: #fff;
+    border: none;
+    border-radius: 3px 3px 3px 3px;
+    cursor: pointer; 
+}
+
+.btnAdicionar:hover, .btnAceitarFriend:hover{
+    background-color: #090;
+}
+.btnAdicionar:active, .btnAceitarFriend:active{
+    background-color: #050;
 }
 
 .visivel {

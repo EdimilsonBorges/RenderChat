@@ -18,24 +18,10 @@ $param = [
 ];
 
 $results = $db->select(
-    "SELECT  
-    CASE 
-        WHEN fri.user_id = :user_id THEN usu.id ELSE fri.user_id 
-    END AS friends_id,
-    CASE 
-        WHEN usu.id = :user_id THEN us.first_name ELSE usu.first_name 
-    END AS first_name,
-    CASE 
-        WHEN usu.id = :user_id THEN us.last_name ELSE usu.last_name 
-    END AS last_name,
-    CASE 
-        WHEN fri.user_id = :user_id THEN per.photo_url ELSE pe.photo_url 
-    END AS photo_url FROM friends fri
-    INNER JOIN users usu ON usu.id = fri.friends_id 
-    INNER JOIN users us ON us.id = fri.user_id
-    LEFT JOIN perfil per ON per.user_id = fri.friends_id 
-    LEFT JOIN perfil pe ON pe.user_id = fri.user_id
-    WHERE (fri.user_id = :user_id OR usu.id = :user_id) AND fri.convite IS NULL",
+    "SELECT fri.friends_id, usu.first_name, usu.last_name, perf.photo_url FROM friends fri
+    INNER JOIN users usu ON usu.id = fri.friends_id
+    LEFT JOIN perfil perf ON perf.user_id = fri.friends_id
+    WHERE fri.user_id = :user_id AND fri.convite IS NOT NULL",
     $param
 );
 

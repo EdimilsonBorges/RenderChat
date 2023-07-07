@@ -8,10 +8,10 @@ header("Content-Type:application/json");
 
 if (!empty($_GET)) {
     $variables = filter_input_array(INPUT_GET, FILTER_DEFAULT);
-    $resultado = api_request('get_all_status', 'GET', $variables);
+    $resultado = api_request('get_all_users', 'GET', $variables);
 
     if($resultado["status"] != "SUCESS"){
-        $resultado = array('message' => 'Erro da api ao receber dados dos status');
+        $resultado = array('message' => 'Erro da api ao receber dados dos usuários');
     }
 
 } else {
