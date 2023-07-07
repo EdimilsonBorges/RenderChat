@@ -9,8 +9,11 @@ defined("ROOT") or die("Acesso negado");
     <button class="btnAllFriends" id="btnAllFriends">
        Todos os amigos
     </button>
-    <button class="btnSolicitacoes" id="btnSolicitacoes">
-        Solicitações de amizades
+    <button class="btnSolicitacoesR" id="btnSolicitacoesR">
+        Solicitações recebidas
+    </button>
+    <button class="btnSolicitacoesE" id="btnSolicitacoesE">
+        Solicitações enviadas
     </button>
 </div>
 

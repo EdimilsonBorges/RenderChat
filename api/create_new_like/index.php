@@ -3,10 +3,10 @@
 require_once('../inc/authentication.php');
 require_once('../inc/api_encript.php');
 
-// require_once('../inc/database.php');
-// require_once('../inc/config.php');
+ require_once('../inc/database.php');
+ require_once('../inc/config.php');
 
-// $db = new database();
+ $db = new database();
 
 $variables = filter_input_array(INPUT_GET, FILTER_DEFAULT);
 
@@ -14,7 +14,7 @@ if (
     !isset($variables['user_id']) ||
     !isset($variables['post_id'])
 ) {
-   // echo "Dados insuficientes";
+    echo "Dados insuficientes";
     exit;
 }
 

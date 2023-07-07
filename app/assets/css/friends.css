@@ -24,7 +24,7 @@
     margin-right: 10px;
 }
 
-.btnSugestoes, .btnAllFriends, .btnSolicitacoes{
+.btnSugestoes, .btnAllFriends, .btnSolicitacoesE, .btnSolicitacoesR{
     background-color: #e22;
     margin: 0px 5px 10px 5px;
     color: #fff;
@@ -36,12 +36,12 @@
 
 }
 
-.btnSugestoes:hover, .btnAllFriends:hover, .btnSolicitacoes:hover{
+.btnSugestoes:hover, .btnAllFriends:hover, .btnSolicitacoesE:hover, .btnSolicitacoesR:hover{
     background-color: #a00;
 
 }
 
-.btnSugestoes:active, .btnAllFriends:active, .btnSolicitacoes:active{
+.btnSugestoes:active, .btnAllFriends:active, .btnSolicitacoesE:active, .btnSolicitacoesR:active{
     background-color: #700;
 
 }
@@ -67,7 +67,7 @@
     font-size: 13pt;
 }
 
-.btnRemover, .btnRecusarFriend{
+.btnRemover, .btnRecusarFriend, .btnCancelSolicit{
     width: 100px;
     margin-bottom: 10px;
     padding: 5px;
@@ -78,10 +78,10 @@
     cursor: pointer;
 }
 
-.btnRemover:hover, .btnRecusarFriend:hover{
+.btnRemover:hover, .btnRecusarFriend:hover, .btnCancelSolicit:hover{
     background-color: #a00;
 }
-.btnRemover:active, .btnRecusarFriend:active{
+.btnRemover:active, .btnRecusarFriend:active, .btnCancelSolicit:active{
     background-color: #700;
 }
 
