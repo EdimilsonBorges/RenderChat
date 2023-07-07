@@ -18,10 +18,10 @@ $param = [
 ];
 
 $results = $db->select(
-    "SELECT fri.friends_id, usu.first_name, usu.last_name, perf.photo_url FROM friends fri
-    INNER JOIN users usu ON usu.id = fri.friends_id
-    LEFT JOIN perfil perf ON perf.user_id = fri.friends_id
-    WHERE fri.user_id = :user_id AND fri.convite IS NOT NULL",
+    "SELECT frireq.friends_id, usu.first_name, usu.last_name, perf.photo_url FROM friendrequests frireq
+    INNER JOIN users usu ON usu.id = frireq.user_id
+    LEFT JOIN perfil perf ON perf.user_id = frireq.user_id
+    WHERE frireq.friends_id = :user_id",
     $param
 );
 

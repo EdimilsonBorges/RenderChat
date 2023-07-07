@@ -9,9 +9,9 @@ $params = [
     ':user_id' => api_encript::aesDesencriptar($variables['user_id']),
 ];
 
-$results = $db->select('SELECT usu.id, usu.first_name, usu.last_name, perf.photo_url FROM users usu
-LEFT JOIN perfil perf ON perf.user_id = usu.id
-WHERE usu.id != :user_id', $params);
+$results = $db->select('SELECT usu.id, usu.first_name, usu.last_name, per.photo_url FROM users usu 
+LEFT JOIN perfil per ON per.user_id = usu.id
+WHERE usu.id != :user_id AND (NOT EXISTS (SELECT 1 FROM friends fri WHERE fri.friends_id = usu.id AND fri.user_id = :user_id)) AND (NOT EXISTS (SELECT 1 FROM friendrequests frireq WHERE frireq.friends_id = :user_id AND frireq.user_id = usu.id))', $params);
 $resposta = [];
 
 foreach ($results as $result) {
