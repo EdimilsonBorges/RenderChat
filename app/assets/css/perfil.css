@@ -24,7 +24,7 @@
     width: 100%;
 }
 
-.posts .divisaoPost{
+.posts .divisaoPost {
     margin-top: 15px;
     margin-bottom: 15px;
 }
@@ -71,7 +71,7 @@
 }
 
 
-.container-corpo-p{
+.container-corpo-p {
     width: 100%;
     display: flex;
     justify-content: center;
@@ -79,16 +79,16 @@
 }
 
 
-.container-lateral-p{
+.container-lateral-p {
     width: 25%;
     margin-right: 2%;
 }
 
-.container-principal-p{
-    width: 50%;   
+.container-principal-p {
+    width: 50%;
 }
 
-.container-lateral-p div{
+.container-lateral-p div {
     padding: 5%;
     border-radius: 15px;
     margin-bottom: 8px;
@@ -102,7 +102,7 @@
     width: 50%;
     height: max-content;
 
-} 
+}
 
 .posts-p section {
     border: 1px solid rgb(192, 191, 191);
@@ -115,10 +115,10 @@
 .perfil-p {
     display: flex;
     padding: 2% 0px 0px 2%;
-    
+
 }
 
- .perfil-p img {
+.perfil-p img {
     border-radius: 50%;
     width: 60px;
 }
@@ -156,7 +156,7 @@
     z-index: 9;
 }
 
-.imagem-capa img{
+.imagem-capa img {
     position: absolute;
     top: 0;
     bottom: 0;
@@ -166,62 +166,20 @@
     height: 22vw;
     border-radius: 24px 24px 0px 0px;
     overflow: hidden;
-}
-
- .sobreposicao-capa{
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    width: 100%;
-    height: 22vw;
-    opacity: 0;
-    border-radius: 24px 24px 0px 0px;
-    background-color: rgb(180, 180, 180);
-    overflow: hidden;
-}
-
-.sobreposicao-capa p{
-    position: relative;
-    text-align: center;
-    top:40%;
-    font-size: 3vw;
-    font-weight: bold;
-    color: rgb(9, 9, 90);
-}
-
-.sobreposicao-capa:hover{
-    opacity: 0.8;
-    cursor: pointer;
 }
 
 .perfil-p {
     display: flex;
-    flex-direction:column;
+    flex-direction: column;
     position: relative;
     top: -25%;
     align-items: center;
     width: 30vw;
     margin-bottom: 20px;
 }
-.imagem-perfil{
+
+.imagem-perfil {
     z-index: 9;
-}
-
-.sobreposicao-perfil{
-    position: relative;
-    border-radius: 50%;
-    border: 5px solid #fff;
-    width: 16vw;
-    height: 16vw;  
-    background-color: rgb(180, 180, 180);
-    opacity: 0;
-}
-
-.sobreposicao-perfil:hover{
-    opacity: 0.8;
-    cursor: pointer;
 }
 
 .imagem-perfil img {
@@ -230,21 +188,10 @@
     border-radius: 50%;
     border: 5px solid #fff;
     width: 16vw;
-    height: 16vw;  
+    height: 16vw;
 }
 
-.sobreposicao-perfil p{
-    position: absolute;
-    top: 40%;
-    left: 13%;
-    float:left;
-    font-size: 2.5vw;
-    color: rgb(9, 9, 90);
-    font-weight: bold;
-     
-} 
-
- .descricao {
+.descricao {
     display: flex;
     flex-direction: column;
     width: max-content;
@@ -252,16 +199,16 @@
     text-align: center;
     color: #555;
     z-index: 9;
-} 
+}
 
- .descricao h1 {
+.descricao h1 {
     font-size: 2vw;
 }
 
 .descricao h2 {
     font-size: 1.2vw;
     max-width: 90%;
-} 
+}
 
 /* Área para postar ===================================================================================*/
 
@@ -505,7 +452,8 @@
     font-weight: bold;
     text-decoration: none;
 }
-.perfil a:hover{
+
+.perfil a:hover {
     text-decoration: underline;
 }
 
@@ -519,7 +467,7 @@
     display: none;
 }
 
-.areaPost{
+.areaPost {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -889,6 +837,7 @@
     text-align: left;
     margin: 0px 0px 0px 30px;
 }
+
 /* area de comentários =================================================================================================*/
 
 .most {
@@ -1051,14 +1000,19 @@
 
 /* carregando ============================================================================================= */
 .custom-loader {
-    width:50px;
-    height:50px;
+    width: 50px;
+    height: 50px;
     margin-top: 5vh;
     margin-bottom: 20vh;
-    border-radius:50%;
-    background:conic-gradient(#0000 10%,#009e2d);
-    -webkit-mask:radial-gradient(farthest-side,#0000 calc(100% - 8px),#000 0);
-    mask:radial-gradient(farthest-side,#0000 calc(100% - 8px),#000 0);
-    animation:s3 1s infinite linear;
-  }
-  @keyframes s3 {to{transform: rotate(1turn)}}
+    border-radius: 50%;
+    background: conic-gradient(#0000 10%, #009e2d);
+    -webkit-mask: radial-gradient(farthest-side, #0000 calc(100% - 8px), #000 0);
+    mask: radial-gradient(farthest-side, #0000 calc(100% - 8px), #000 0);
+    animation: s3 1s infinite linear;
+}
+
+@keyframes s3 {
+    to {
+        transform: rotate(1turn)
+    }
+}

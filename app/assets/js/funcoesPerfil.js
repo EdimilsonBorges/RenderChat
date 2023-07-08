@@ -43,20 +43,7 @@ class FuncoesPerfil {
             imgCapaPerfil.setAttribute("src", `assets/images/capa.jpg`);
         }
 
-        let sobreposicao;
-        if (this.perfilId == this.perfilUserId) {
-            sobreposicao = document.createElement("div");
-            sobreposicao.setAttribute("class", "sobreposicao-capa");
-            const textoSobreposicao = document.createElement("p");
-            textoSobreposicao.innerHTML = "Mudar imagem da capa";
-            sobreposicao.appendChild(textoSobreposicao);
-        }
-
         imagemCapa.appendChild(imgCapaPerfil);
-
-        if (this.perfilId == this.perfilUserId) {
-            imagemCapa.appendChild(sobreposicao);
-        }
 
         capa.appendChild(imagemCapa);
 
@@ -73,19 +60,8 @@ class FuncoesPerfil {
         } else {
             imgPefil.setAttribute("src", "assets/images/sem-foto.jpg");
         }
-
-        let sobreposicaoPerfil;
-        if (this.perfilId == this.perfilUserId) {
-            sobreposicaoPerfil = document.createElement("div");
-            sobreposicaoPerfil.setAttribute("class", "sobreposicao-perfil");
-            const pSobreposicao = document.createElement("p");
-            pSobreposicao.innerHTML = "Mudar foto";
-            sobreposicaoPerfil.appendChild(pSobreposicao);
-        }
+        
         imagemPerfil.appendChild(imgPefil);
-        if (this.perfilId == this.perfilUserId) {
-            imagemPerfil.appendChild(sobreposicaoPerfil);
-        }
         perfil.appendChild(imagemPerfil);
 
         const descricao = document.createElement("div");

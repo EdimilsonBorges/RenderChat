@@ -47,7 +47,7 @@ class Chat {
 
     carregarUserChat() {
 
-        const endPoint = `Controllers/get_all_status?user_id=${this.userId}`;
+        const endPoint = `Controllers/get_all_users?user_id=${this.userId}`;
 
         fetch(endPoint)
             .then(res => res.json())

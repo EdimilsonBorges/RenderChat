@@ -103,6 +103,10 @@
     background-color: #050;
 }
 
+.imgEmpty{
+    width: 400px;
+}
+
 .visivel {
     visibility:visible;
 }

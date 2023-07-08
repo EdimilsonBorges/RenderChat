@@ -22,17 +22,15 @@ let funcoesPosts = new FuncoesPosts(userId, nameC, photo, pagina);
 
 if (pagina === "perfil") {
     new FuncoesPerfil();
-    chat.connect(); // abrir chat
-    //carrega os posts
-    funcoesPosts.getAllPosts();
+    funcoesPosts.getAllPosts(); //carrega os posts
 } else if (pagina === "home") {
     new FuncoesLinhaDoTempo();
-    chat.connect(); // abrir chat
-    //carrega os posts
-    funcoesPosts.getAllPosts();
+    funcoesPosts.getAllPosts(); //carrega os posts
 } else if (pagina === "friends") {
     new FuncoesFriends(userId);
 }
+
+chat.connect(); // abrir chat
 
 //Publicar um Post (Página Home)
 const btnPublicarHome = document.getElementById("btnPublicarHome");

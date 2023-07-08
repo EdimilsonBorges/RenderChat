@@ -55,6 +55,10 @@ class FuncoesFriends {
             .then(res => res.json())
             .then(results => {
 
+                if (results.results.length === 0) {
+                    this.addImageEmpty();
+                }
+
                 if (results.status == "SUCESS") {
                     results['results'].forEach(result => {
 
@@ -67,7 +71,6 @@ class FuncoesFriends {
                         } else {
                             this.img.src = `assets/images/sem-foto.jpg`;
                         }
-
 
                         this.h3 = document.createElement("h3");
                         this.h3.innerHTML = `${result.first_name} ${result.last_name}`
@@ -95,96 +98,15 @@ class FuncoesFriends {
             });
     }
 
-    enviarConvite = (event, friends_id) => {
-        this.endPoint = `Controllers/create_new_friendrequests?user_id=${this.userid}&friends_id=${friends_id}`;
-        fetch(this.endPoint)
-            .then(res => res.json())
-            .then(results => {
-
-                if (results.status == "SUCESS") {
-                    event.target.parentNode.remove();
-                } else {
-                    console.log(results['message']);
-                }
-            }).catch(error => {
-                // Lidar com erros
-                console.error('Erro:', error);
-            });
-    }
-
-    aceitarConvite = (event, friends_id) => {
-        this.endPoint = `Controllers/create_new_friend?user_id=${this.userid}&friends_id=${friends_id}`;
-        fetch(this.endPoint)
-            .then(res => res.json())
-            .then(results => {
-
-                if (results.status == "SUCESS") {
-                    event.target.parentNode.remove();
-                } else {
-                    console.log(results['message']);
-                }
-            }).catch(error => {
-                // Lidar com erros
-                console.error('Erro:', error);
-            });
-    }
-
-    negarConvite = (event, friends_id) => {
-        this.endPoint = `Controllers/delete_friendrequest?user_id=${this.userid}&friends_id=${friends_id}`;
-        fetch(this.endPoint)
-            .then(res => res.json())
-            .then(results => {
-
-                if (results.status == "SUCESS") {
-                    event.target.parentNode.remove();
-                } else {
-                    console.log(results['message']);
-                }
-            }).catch(error => {
-                // Lidar com erros
-                console.error('Erro:', error);
-            });
-    }
-
-    cancelConvite = (event, friends_id) =>{
-        this.endPoint = `Controllers/delete_friendrequest?user_id=${friends_id}&friends_id=${this.userid}`;
-        fetch(this.endPoint)
-            .then(res => res.json())
-            .then(results => {
-
-                if (results.status == "SUCESS") {
-                    event.target.parentNode.remove();
-                } else {
-                    console.log(results['message']);
-                }
-            }).catch(error => {
-                // Lidar com erros
-                console.error('Erro:', error);
-            });
-    }
-
-    removerFriend = (event, friends_id) => {
-        this.endPoint = `Controllers/delete_friend?user_id=${this.userid}&friends_id=${friends_id}`;
-        fetch(this.endPoint)
-            .then(res => res.json())
-            .then(results => {
-
-                if (results.status == "SUCESS") {
-                    event.target.parentNode.remove();
-                } else {
-                    console.log(results['message']);
-                }
-            }).catch(error => {
-                // Lidar com erros
-                console.error('Erro:', error);
-            });
-    }
-
     getAllFriends = () => {
         this.endPoint = `Controllers/get_all_friends?user_id=${this.userid}`;
         fetch(this.endPoint)
             .then(res => res.json())
             .then(results => {
+
+                if (results.results.length === 0) {
+                    this.addImageEmpty();
+                }
 
                 if (results.status == "SUCESS") {
                     results['results'].forEach(result => {
@@ -232,6 +154,10 @@ class FuncoesFriends {
             .then(res => res.json())
             .then(results => {
 
+                if (results.results.length === 0) {
+                    this.addImageEmpty();
+                }
+
                 if (results.status == "SUCESS") {
                     results['results'].forEach(result => {
 
@@ -276,6 +202,10 @@ class FuncoesFriends {
         fetch(this.endPoint)
             .then(res => res.json())
             .then(results => {
+
+                if (results.results.length === 0) {
+                    this.addImageEmpty();
+                }
 
                 if (results.status == "SUCESS") {
                     results['results'].forEach(result => {
@@ -322,7 +252,116 @@ class FuncoesFriends {
             }).catch(error => {
                 // Lidar com erros
                 console.error('Erro:', error);
-            }); 
+            });
+    }
+
+
+    enviarConvite = (event, friends_id) => {
+        this.endPoint = `Controllers/create_new_friendrequests?user_id=${this.userid}&friends_id=${friends_id}`;
+        fetch(this.endPoint)
+            .then(res => res.json())
+            .then(results => {
+
+                if (results.status == "SUCESS") {
+                    event.target.parentNode.remove();
+                    if (!document.querySelector(".perfil-friends")) {
+                        this.addImageEmpty();
+                    }
+                } else {
+                    console.log(results['message']);
+                }
+            }).catch(error => {
+                // Lidar com erros
+                console.error('Erro:', error);
+            });
+    }
+
+    aceitarConvite = (event, friends_id) => {
+        this.endPoint = `Controllers/create_new_friend?user_id=${this.userid}&friends_id=${friends_id}`;
+        fetch(this.endPoint)
+            .then(res => res.json())
+            .then(results => {
+
+                if (results.status == "SUCESS") {
+                    event.target.parentNode.remove();
+                    if (!document.querySelector(".perfil-friends")) {
+                        this.addImageEmpty();
+                    }
+                } else {
+                    console.log(results['message']);
+                }
+            }).catch(error => {
+                // Lidar com erros
+                console.error('Erro:', error);
+            });
+    }
+
+    negarConvite = (event, friends_id) => {
+        this.endPoint = `Controllers/delete_friendrequest?user_id=${this.userid}&friends_id=${friends_id}`;
+        fetch(this.endPoint)
+            .then(res => res.json())
+            .then(results => {
+
+                if (results.status == "SUCESS") {
+                    event.target.parentNode.remove();
+                    if (!document.querySelector(".perfil-friends")) {
+                        this.addImageEmpty();
+                    }
+                } else {
+                    console.log(results['message']);
+                }
+            }).catch(error => {
+                // Lidar com erros
+                console.error('Erro:', error);
+            });
+    }
+
+    cancelConvite = (event, friends_id) => {
+        this.endPoint = `Controllers/delete_friendrequest?user_id=${friends_id}&friends_id=${this.userid}`;
+        fetch(this.endPoint)
+            .then(res => res.json())
+            .then(results => {
+
+                if (results.status == "SUCESS") {
+                    event.target.parentNode.remove();
+                    if (!document.querySelector(".perfil-friends")) {
+                        this.addImageEmpty();
+                    }
+
+                } else {
+                    console.log(results['message']);
+                }
+            }).catch(error => {
+                // Lidar com erros
+                console.error('Erro:', error);
+            });
+    }
+
+    removerFriend = (event, friends_id) => {
+        this.endPoint = `Controllers/delete_friend?user_id=${this.userid}&friends_id=${friends_id}`;
+        fetch(this.endPoint)
+            .then(res => res.json())
+            .then(results => {
+
+                if (results.status == "SUCESS") {
+                    event.target.parentNode.remove();
+                    if (!document.querySelector(".perfil-friends")) {
+                        this.addImageEmpty();
+                    }
+                } else {
+                    console.log(results['message']);
+                }
+            }).catch(error => {
+                // Lidar com erros
+                console.error('Erro:', error);
+            });
+    }
+
+    addImageEmpty = () => {
+        this.imgEmpty = document.createElement("img");
+        this.imgEmpty.setAttribute("class", "imgEmpty");
+        this.imgEmpty.src = `assets/images/empty.svg`;
+        this.containerFriends.appendChild(this.imgEmpty);
     }
 }
 
