@@ -94,39 +94,6 @@ conta.addEventListener("click", () => {
     console.log("clicou");
 });
 
-
-// const menuHome = document.getElementById("menuHome");
-// const menuPerfil = document.getElementById("menuPerfil");
-// const menuFriends = document.getElementById("menuFriends");
-// const menuConvites = document.getElementById("menuConvites");
-// const menuMesseger = document.getElementById("menuMesseger");
-// const menuNotifly = document.getElementById("menuNotifly");
-// const menuConfig = document.getElementById("menuConfig");
-
-//  menuHome.addEventListener("click", ()=>{
-//     menuHome.classList.add("active");
-//     console.log(menuHome);
-//  });
-
-// menuPerfil.onclick = () => {
-//     menuPerfil.classList.add("active");
-// }
-// menuFriends.onclick = () => {
-//     menuFriends.classList.add("active");
-// }
-// menuConvites.onclick = () => {
-//     menuConvites.classList.add("active");
-// }
-// menuMesseger.onclick = () => {
-//     menuMesseger.classList.add("active");
-// }
-// menuNotifly.onclick = () => {
-//     menuNotifly.classList.add("active");
-// }
-// menuConfig.onclick = () => {
-//     menuConfig.classList.add("active");
-// }
-
 function showHint(str) {
     if (str.length == 0) {
         document.getElementById("txtHint").innerHTML = "";

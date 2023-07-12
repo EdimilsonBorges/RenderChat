@@ -60,11 +60,17 @@
 .perfil-friends img{
     border-radius: 10px 10px 0px 0px;
     width: 100%;
+    cursor: pointer;
 }
 
 .perfil-friends h3{
     margin: 10px;
     font-size: 13pt;
+    cursor: pointer;
+}
+
+.perfil-friends h3:hover{
+    text-decoration: underline;
 }
 
 .btnRemover, .btnRecusarFriend, .btnCancelSolicit{

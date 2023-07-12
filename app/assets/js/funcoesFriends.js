@@ -71,9 +71,15 @@ class FuncoesFriends {
                         } else {
                             this.img.src = `assets/images/sem-foto.jpg`;
                         }
+                        this.img.addEventListener("click",()=>{
+                            window.location.href = `/RenderChat/app/?r=perfil&id=${result.friends_id}`;
+                        });
 
                         this.h3 = document.createElement("h3");
                         this.h3.innerHTML = `${result.first_name} ${result.last_name}`
+                        this.h3.addEventListener("click",()=>{
+                            window.location.href = `/RenderChat/app/?r=perfil&id=${result.friends_id}`;
+                        });
 
                         this.btnAdicionar = document.createElement("button");
                         this.btnAdicionar.setAttribute("class", "btnAdicionar");
@@ -121,9 +127,16 @@ class FuncoesFriends {
                             this.img.src = `assets/images/sem-foto.jpg`;
                         }
 
+                        this.img.addEventListener("click",()=>{
+                            window.location.href = `/RenderChat/app/?r=perfil&id=${result.friends_id}`;
+                        });
+
 
                         this.h3 = document.createElement("h3");
                         this.h3.innerHTML = `${result.first_name} ${result.last_name}`
+                        this.h3.addEventListener("click",()=>{
+                            window.location.href = `/RenderChat/app/?r=perfil&id=${result.friends_id}`;
+                        });
 
                         this.buttonRemover = document.createElement("button");
                         this.buttonRemover.setAttribute("class", "btnRemover");
@@ -171,8 +184,15 @@ class FuncoesFriends {
                             this.img.src = `assets/images/sem-foto.jpg`;
                         }
 
+                        this.img.addEventListener("click",()=>{
+                            window.location.href = `/RenderChat/app/?r=perfil&id=${result.friends_id}`;
+                        });
+
                         this.h3 = document.createElement("h3");
                         this.h3.innerHTML = `${result.first_name} ${result.last_name}`
+                        this.h3.addEventListener("click",()=>{
+                            window.location.href = `/RenderChat/app/?r=perfil&id=${result.friends_id}`;
+                        });
 
                         this.btnCancelSolicit = document.createElement("button");
                         this.btnCancelSolicit.setAttribute("class", "btnCancelSolicit");
@@ -220,8 +240,15 @@ class FuncoesFriends {
                             this.img.src = `assets/images/sem-foto.jpg`;
                         }
 
+                        this.img.addEventListener("click",()=>{
+                            window.location.href = `/RenderChat/app/?r=perfil&id=${result.friends_id}`;
+                        });
+
                         this.h3 = document.createElement("h3");
                         this.h3.innerHTML = `${result.first_name} ${result.last_name}`
+                        this.h3.addEventListener("click",()=>{
+                            window.location.href = `/RenderChat/app/?r=perfil&id=${result.friends_id}`;
+                        });
 
                         this.btnAceitarFriend = document.createElement("button");
                         this.btnAceitarFriend.setAttribute("class", "btnAceitarFriend");
