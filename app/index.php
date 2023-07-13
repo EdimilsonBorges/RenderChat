@@ -89,12 +89,6 @@ switch ($rotas) {
         require_once(dirname(__DIR__) . '\\app\\Views\\html_footer.php');
         break;
 
-    case 'convites':
-        require_once(dirname(__DIR__) . '\\app\\Views\\html_header.php');
-        require_once(dirname(__DIR__) . '\\app\\Views\\html_chat.php');
-        require_once(dirname(__DIR__) . '\\app\\Views\\html_footer.php');
-        break;
-
     case 'messeger':
         require_once(dirname(__DIR__) . '\\app\\Views\\html_header.php');
 

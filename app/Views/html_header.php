@@ -29,10 +29,6 @@ defined("ROOT") or die("Acesso negado");
             <link rel="stylesheet" href="assets/css/friends.css">
             <link rel="stylesheet" href="assets/css/chat.css">
         <?php endif; ?>
-        <?php if ($_GET['r'] == 'convites') : ?>
-            <link rel="stylesheet" href="assets/css/menu.css">
-            <link rel="stylesheet" href="assets/css/chat.css">
-        <?php endif; ?>
         <?php if ($_GET['r'] == 'messeger') : ?>
             <link rel="stylesheet" href="assets/css/menu.css">
         <?php endif; ?>
@@ -68,9 +64,6 @@ defined("ROOT") or die("Acesso negado");
                 <li class="menu <?php if (isset($_GET['r']) && $_GET['r'] == 'friends') {
                                     echo 'active';
                                 } ?>"><a href="?r=friends">Amigos</a></li>
-                <li class="menu <?php if (isset($_GET['r']) && $_GET['r'] == 'convites') {
-                                    echo 'active';
-                                } ?>"><a href="?r=convites">Convites</a></li>
                 <li class="menu <?php if (isset($_GET['r']) && $_GET['r'] == 'messeger') {
                                     echo 'active';
                                 } ?>"><a href="?r=messeger">Mensagens</a></li>
