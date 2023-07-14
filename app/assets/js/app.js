@@ -94,6 +94,7 @@ conta.addEventListener("click", () => {
     console.log("clicou");
 });
 
+
 function showHint(str) {
     if (str.length == 0) {
         document.getElementById("txtHint").innerHTML = "";

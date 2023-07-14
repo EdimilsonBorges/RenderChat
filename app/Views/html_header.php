@@ -57,22 +57,22 @@ defined("ROOT") or die("Acesso negado");
             <ul>
                 <li class="menu <?php if (!isset($_GET['r']) || $_GET['r'] == 'home') {
                                     echo 'active';
-                                } ?>"><a href="?r=home">Linha do tempo</a></li>
+                                } ?>"><a href="?r=home"><img src="./assets/icons/home.svg"></img>Home</a></li>
                 <li class="menu <?php if (isset($_GET['r']) && $_GET['r'] == 'perfil') {
                                     echo 'active';
-                                } ?>"><a href="?r=perfil">Perfil</a></li>
+                                } ?>"><a href="?r=perfil"><img src="./assets/icons/perfil.svg"></img>Perfil</a></li>
                 <li class="menu <?php if (isset($_GET['r']) && $_GET['r'] == 'friends') {
                                     echo 'active';
-                                } ?>"><a href="?r=friends">Amigos</a></li>
+                                } ?>"><a href="?r=friends"><img src="./assets/icons/friends.svg"></img>Amigos</a></li>
                 <li class="menu <?php if (isset($_GET['r']) && $_GET['r'] == 'messeger') {
                                     echo 'active';
-                                } ?>"><a href="?r=messeger">Mensagens</a></li>
+                                } ?>"><a href="?r=messeger"><img src="./assets/icons/messeger.svg"></img>Mensagens</a></li>
                 <li class="menu <?php if (isset($_GET['r']) && $_GET['r'] == 'notifly') {
                                     echo 'active';
-                                } ?>"><a href="?r=notifly">Notificações</a></li>
+                                } ?>"><a href="?r=notifly"><img src="./assets/icons/notifications.svg"></img>Notificações</a></li>
                 <li class="menu <?php if (isset($_GET['r']) && $_GET['r'] == 'config') {
                                     echo 'active';
-                                } ?>"><a href="?r=config">Configurações</a></li>
+                                } ?>"><a href="?r=config"><img src="./assets/icons/config.svg"></img>Configurações</a></li>
             </ul>
 
             <!-- <ul>
