@@ -55,6 +55,15 @@ body {
     list-style: none;
 }
 
+svg path {
+    width: 30px;
+    height: 30px;
+}
+
+/* .menu:hover a{
+    color: red;
+} */
+
 .principal nav li {
     margin-top: 6px;
     margin-bottom: 0px;
@@ -65,10 +74,24 @@ body {
     /* border-radius: 8px; */
 }
 
-.active,
-.principal nav li:hover {
-    /* background-color: rgb(255 36 36) !important; */
+.menu:hover svg path{
+    fill: #faa;
+}
+
+.menu:hover a{
+    color: #faa;
+}
+
+.active{
     border-bottom: #fff solid 1px;
+}
+
+.active a{
+    color: #faa !important;
+}
+
+.active svg path{
+    fill: #faa;
 }
 
 .principal nav li a {

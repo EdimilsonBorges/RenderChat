@@ -91,7 +91,7 @@ switch ($rotas) {
 
     case 'messeger':
         require_once(dirname(__DIR__) . '\\app\\Views\\html_header.php');
-
+        require_once(dirname(__DIR__) . '\\app\\Views\\html_messeger.php');
         require_once(dirname(__DIR__) . '\\app\\Views\\html_footer.php');
         break;
 
