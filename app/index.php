@@ -97,7 +97,6 @@ switch ($rotas) {
 
     case 'notifly':
         require_once(dirname(__DIR__) . '\\app\\Views\\html_header.php');
-
         require_once(dirname(__DIR__) . '\\app\\Views\\html_footer.php');
         break;
 

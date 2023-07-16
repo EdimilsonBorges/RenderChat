@@ -3,6 +3,7 @@ import { Chat } from "./chat.js";
 import { FuncoesPerfil } from "./funcoesPerfil.js";
 import { FuncoesLinhaDoTempo } from "./funcoesLinhaDoTempo.js";
 import { FuncoesFriends } from "./funcoesFriends.js";
+import { FuncoesMesseger } from "./funcoesMesseger.js";
 
 const userId = document.getElementById("principal").dataset.userid;
 const nameC = document.getElementById("principal").dataset.namec;
@@ -23,14 +24,17 @@ let funcoesPosts = new FuncoesPosts(userId, nameC, photo, pagina);
 if (pagina === "perfil") {
     new FuncoesPerfil();
     funcoesPosts.getAllPosts(); //carrega os posts
+    chat.connect(); // abrir chat
 } else if (pagina === "home") {
     new FuncoesLinhaDoTempo();
     funcoesPosts.getAllPosts(); //carrega os posts
+    chat.connect(); // abrir chat
 } else if (pagina === "friends") {
     new FuncoesFriends(userId);
+    chat.connect(); // abrir chat
+}else if(pagina === "messeger"){
+     new FuncoesMesseger(userId, nameC, photo);
 }
-
-chat.connect(); // abrir chat
 
 //Publicar um Post (Página Home)
 const btnPublicarHome = document.getElementById("btnPublicarHome");
@@ -109,11 +113,13 @@ function showHint(str) {
     }
 }
 
+if(document.getElementById("cabecalhoBatePapoPrincipal")){
+    document.getElementById("cabecalhoBatePapoPrincipal").onclick = function () {
 
-document.getElementById("cabecalhoBatePapoPrincipal").onclick = function () {
-
-    ocultarDesocultarBatePapo();
+        ocultarDesocultarBatePapo();
+    }
 }
+
 
 function ocultarDesocultarBatePapo() {
 
