@@ -17,20 +17,21 @@ if(!pagina){
     pagina = "home";
 }
 
-let chat = new Chat(userId, nameC, photo)
 let funcoesPosts = new FuncoesPosts(userId, nameC, photo, pagina);
 
-
 if (pagina === "perfil") {
+    new Chat(userId, nameC, photo);
     new FuncoesPerfil();
     funcoesPosts.getAllPosts(); //carrega os posts
 } else if (pagina === "home") {
+    new Chat(userId, nameC, photo);
     new FuncoesLinhaDoTempo();
     funcoesPosts.getAllPosts(); //carrega os posts
 } else if (pagina === "friends") {
+    new Chat(userId, nameC, photo);
     new FuncoesFriends(userId);
 }else if(pagina === "messeger"){
-     new FuncoesMesseger(userId, nameC, photo, chat);
+     new FuncoesMesseger(userId, nameC, photo);
 }
 
 //Publicar um Post (Página Home)

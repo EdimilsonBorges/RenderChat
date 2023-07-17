@@ -1,20 +1,21 @@
+import { ConnectChat } from "./connectChat";
 
 class FuncoesMesseger {
 
-    constructor(userId, nameC, photo, chat) {
+    constructor(userId, nameC, photo) {
         this.userId = userId;
         this.nameC = nameC;
         this.photo = photo;
-        this.chat = chat;
+        this.onlines = [];
+        this.chat = new ConnectChat(this.userId);
         this.carregarInputs();
         this.receberMenssage();
-
+        this.carregarUserChat();
     }
 
     carregarUserChat() {
 
         const endPoint = `Controllers/get_all_users?user_id=${this.userId}`;
-
         fetch(endPoint)
             .then(res => res.json())
             .then(results => {
@@ -145,16 +146,23 @@ class FuncoesMesseger {
         });
 
         const div = document.createElement("div");
-
         const img = document.createElement("img");
         if (result.photo_url) {
             img.src = `assets/images/${result.photo_url}`;
         } else {
             img.src = `assets/images/sem-foto.jpg`;
         }
-
         const online = document.createElement("div");
-        online.setAttribute("class", "online");
+
+        if (this.onlines.includes(result.id)) {
+            online.setAttribute("class", "online");
+        } else {
+            online.setAttribute("class", "offline");
+        }
+
+        if(this.userId == result.id){
+            online.setAttribute("class", "online");  
+        }
 
         div.appendChild(img);
         div.appendChild(online);
@@ -187,17 +195,32 @@ class FuncoesMesseger {
         this.chat.conn.onmessage = (e) => {
             let data = JSON.parse(e.data);
 
-            if (data.message == null) {
-                if (data.read_at == null) {
-                    this.onlines = JSON.stringify(data);
-                    this.carregarUserChat();
-                }
+            if (data.message == null && data.read_at == null) {
+                this.onlines = JSON.stringify(data);
+                this.onlineUpdate();
             } else if (data.userId != this.userId) {
                 this.createMessegerOutro(data);
             } else {
                 this.createMessegerEu(data);
             }
         }
+    }
+
+    onlineUpdate() {
+        const itemChat = [...document.getElementsByClassName("itemChat")];
+
+        itemChat.forEach((item) => {
+            const friendId = item.dataset.friendid;
+            const div = item.firstChild.lastChild;
+            if (this.onlines.includes(friendId)) {
+                div.classList.remove("offline");
+                div.classList.add("online");
+            } else {
+                div.classList.remove("online");
+                div.classList.add("offline");
+            }
+        });
+
     }
 
     enviarMenssage(event) {
@@ -224,8 +247,13 @@ class FuncoesMesseger {
                     .then(res => res.json())
                     .then(results => {
                         if (results.status == "SUCESS") {
-                            msg = JSON.stringify(msg); //converte para json
-                            this.chat.conn.send(msg);
+                            if (this.onlines.length === 0) {
+                                this.createMessegerEu(msg);
+                            } else {
+                                msg = JSON.stringify(msg); //converte para json
+                                this.chat.conn.send(msg);
+                            }
+
                         } else {
                             console.log(results['message']);
                         }

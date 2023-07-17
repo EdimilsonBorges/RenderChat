@@ -1,49 +1,46 @@
+import { ConnectChat } from "./connectChat";
 class Chat {
     constructor(userId, nameC, photo) {
         this.userId = userId;
         this.nameC = nameC;
         this.photo = photo;
+        this.onlines = [];
+        this.connection = new ConnectChat(this.userId);
         this.connect();
+        this.carregarUserChat();
     }
-    //const conn = new WebSocket('ws:localhost:8080/wss');
-    conn = new WebSocket('ws:192.168.0.110:8080/wss');
-    onlines = [];
 
     // abre a conexao do chat
     connect = () => {
-        this.conn.onopen = (e) => {
-            console.log("Connection established!");
 
-            let msg = { // cria um objeto msg
-                'userId': this.userId
-            }
-            msg = JSON.stringify(msg); //converte para json
-            this.conn.send(msg);
-
-            this.carregarUserChat();
-        };
-
-        this.conn.onclose = (e) => {
-            console.log("Connection fechada!");
-        };
-
-        this.conn.onmessage = (e) => {
-
+        this.connection.conn.onmessage = (e) => {
             let data = JSON.parse(e.data);
-
-            if (data.message == null) {
-                if (data.read_at == null) {
-                    this.onlines = JSON.stringify(data);
-                    this.carregarUserChat();
-                }
+            if (data.message == null && data.read_at == null) {
+                this.onlines = JSON.stringify(data);
+                this.onlineUpdate();
             } else if (data.userId != this.userId) {
-                const dados = JSON.stringify(data);
-                this.showChatMessage(dados, "other", this.userId);
+                this.showChatMessage(data, "other", this.userId);
             } else {
-                const dados = JSON.stringify(data);
-                this.showChatMessage(dados, "me", this.userId);
+                this.showChatMessage(data, "me", this.userId);
             }
         };
+    }
+
+    onlineUpdate() {
+        const itemChat = [...document.getElementsByClassName("itemChat")];
+
+        itemChat.forEach((item) => {
+            const friendId = item.dataset.friendid;
+            const div = item.firstChild.lastChild;
+            if (this.onlines.includes(friendId)) {
+                div.classList.remove("offline");
+                div.classList.add("online");
+            } else {
+                div.classList.remove("online");
+                div.classList.add("offline");
+            }
+        });
+
     }
 
     carregarUserChat() {
@@ -67,6 +64,7 @@ class Chat {
                         const nomeCompleto = `${result['first_name']} ${result['last_name']}`;
                         const itemChat = document.createElement("section");
                         itemChat.setAttribute("class", "itemChat");
+                        itemChat.setAttribute("data-friendid", result.id);
                         let count = 0;
                         itemChat.onclick = () => {
 
@@ -226,7 +224,7 @@ class Chat {
             btnchat.type = "button";
             btnchat.id = `btnChat${this.userId}`;
             btnchat.innerText = "Enviar";
-            btnchat.onclick =  (event) => {
+            btnchat.onclick = (event) => {
                 this.enviarMessageChat(event, this.userId, fromId);
             }
 
@@ -254,7 +252,6 @@ class Chat {
                                     'message': result['message'],
                                     'read_at': result['read_at']
                                 }
-                                msg = JSON.stringify(msg); //converte para json
                                 this.showChatMessage(msg, "me");
                             }
 
@@ -266,7 +263,6 @@ class Chat {
                                     'message': result['message'],
                                     'read_at': result['read_at']
                                 }
-                                msg = JSON.stringify(msg); //converte para json
                                 this.showChatMessage(msg, "me");
                             }
                             if (this.userId != fromId && result['user_id'] != result['to_user_id'] && fromId == result['user_id']) {
@@ -277,7 +273,6 @@ class Chat {
                                     'message': result['message'],
                                     'read_at': result['read_at']
                                 }
-                                msg = JSON.stringify(msg); //converte para json
                                 this.showChatMessage(msg, "other");
                             }
                         });
@@ -291,7 +286,7 @@ class Chat {
         }
     }
 
-     marcarChatComoLido(fromId) {
+    marcarChatComoLido(fromId) {
 
         const endPoint = `Controllers/update_messeger_chat?from_id=${fromId}&user_id=${this.userId}`;
         fetch(endPoint)
@@ -304,9 +299,8 @@ class Chat {
                         'fromId': fromId,
                         'read_at': Date(),
                     }
-    
                     read = JSON.stringify(read); //converte para json
-                    this.conn.send(read);
+                    this.connection.conn.send(read);
                 } else {
                     console.log(results['message']);
                 }
@@ -316,31 +310,29 @@ class Chat {
             });
     }
 
-     showChatMessage(msg, user) {
+    showChatMessage(msg, user) {
 
-        msg = JSON.parse(msg);
-    
         if (user == "me") {
-    
+
             let areaMenssage = document.getElementById(msg.userId + msg.fromId);
-    
+
             const caixaEu = document.createElement('div');
             caixaEu.setAttribute('class', 'caixa-eu');
-    
+
             const mensagemEu = document.createElement('div');
             mensagemEu.setAttribute('class', 'mensagem-eu');
-    
+
             const mensagemEup = document.createElement('p');
             mensagemEup.textContent = msg.message;
-    
+
             const visto = document.createElement('div');
             visto.setAttribute("class", "visto");
             visto.style = "width: 10px; height: 10px; background-color: #0f0; border-radius: 50%; margin-top: 16px; margin-left: -18px;";
-    
+
             const nVisto = document.createElement('div');
             nVisto.setAttribute("class", "nvisto");
             nVisto.style = "width: 10px; height: 10px; background-color: #bbb; border-radius: 50%; margin-top: 16px; margin-left: -18px;";
-    
+
             mensagemEu.appendChild(mensagemEup);
             caixaEu.appendChild(mensagemEu);
             if (msg.read_at != null) {
@@ -348,14 +340,14 @@ class Chat {
             } else {
                 caixaEu.appendChild(nVisto);
             }
-    
+
             areaMenssage.appendChild(caixaEu);
-    
+
             areaMenssage.scrollTop = areaMenssage.scrollHeight;
         } else {
             let areaMenssage = document.getElementById(msg.fromId + msg.userId);
             this.openChat(msg.userId, msg.name, msg.photo, true);
-    
+
             if (areaMenssage != null) {
                 this.receberMensagemChat(msg);
                 areaMenssage.scrollTop = areaMenssage.scrollHeight;
@@ -364,14 +356,14 @@ class Chat {
         }
     }
 
-     enviarMessageChat(event, userId, fromId) {
+    enviarMessageChat(event, userId, fromId) {
 
         if ((event.keyCode == 13) || (event.keyCode == null)) {
-    
+
             const chatMessage = document.getElementById(`chat${fromId}`);
-    
+
             if (chatMessage.value != "") {
-    
+
                 let msg = { // cria um objeto msg
                     'userId': userId,
                     'fromId': fromId,
@@ -379,17 +371,21 @@ class Chat {
                     'photo': this.photo,
                     'message': chatMessage.value
                 }
-    
+
                 const endPoint = `Controllers/create_new_messager_chat?messeger=${chatMessage.value}&user_id=${userId}&to_user_id=${fromId}`;
-    
+
                 chatMessage.value = "";
-    
+
                 fetch(endPoint)
                     .then(res => res.json())
                     .then(results => {
                         if (results.status == "SUCESS") {
-                            msg = JSON.stringify(msg); //converte para json
-                            this.conn.send(msg);
+                            if(this.onlines.length === 0){
+                                this.showChatMessage(msg, "me", this.userId);
+                            }else{
+                                msg = JSON.stringify(msg); //converte para json
+                                this.connection.conn.send(msg);
+                            }
                         } else {
                             console.log(results['message']);
                         }
@@ -401,23 +397,22 @@ class Chat {
         }
     }
 
-     receberMensagemChat = (msg) => {
+    receberMensagemChat = (msg) => {
 
         let areaMenssage = document.getElementById(msg.fromId + msg.userId);
-    
+
         const caixaOutro = document.createElement('div');
         caixaOutro.setAttribute('class', 'caixa-outro');
-    
+
         const mensagemOutro = document.createElement('div');
         mensagemOutro.setAttribute('class', 'mensagem-outro');
-    
+
         const mensagemOutrop = document.createElement('p');
         mensagemOutrop.textContent = msg.message;
-    
+
         mensagemOutro.appendChild(mensagemOutrop);
         caixaOutro.appendChild(mensagemOutro);
         areaMenssage.appendChild(caixaOutro);
     }
-
 }
 export { Chat };

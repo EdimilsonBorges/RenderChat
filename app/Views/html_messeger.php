@@ -3,7 +3,6 @@ defined("ROOT") or die("Acesso negado");
 ?>
 <section class="containerChat">
     <section class="perfilFriends" id="perfilFriends">
-        
     </section>
     <section class="containerConversa">
         <section class="conversas" id="conversas">
