@@ -3,6 +3,7 @@ class Chat {
         this.userId = userId;
         this.nameC = nameC;
         this.photo = photo;
+        this.connect();
     }
     //const conn = new WebSocket('ws:localhost:8080/wss');
     conn = new WebSocket('ws:192.168.0.110:8080/wss');
@@ -250,7 +251,7 @@ class Chat {
                                 let msg = { // cria um objeto msg
                                     'userId': this.userId,
                                     'fromId': fromId,
-                                    'message': result['messeger'],
+                                    'message': result['message'],
                                     'read_at': result['read_at']
                                 }
                                 msg = JSON.stringify(msg); //converte para json
@@ -262,7 +263,7 @@ class Chat {
                                 let msg = { // cria um objeto msg
                                     'userId': this.userId,
                                     'fromId': fromId,
-                                    'message': result['messeger'],
+                                    'message': result['message'],
                                     'read_at': result['read_at']
                                 }
                                 msg = JSON.stringify(msg); //converte para json
@@ -273,7 +274,7 @@ class Chat {
                                 let msg = { // cria um objeto msg
                                     'userId': fromId,
                                     'fromId': this.userId,
-                                    'message': result['messeger'],
+                                    'message': result['message'],
                                     'read_at': result['read_at']
                                 }
                                 msg = JSON.stringify(msg); //converte para json

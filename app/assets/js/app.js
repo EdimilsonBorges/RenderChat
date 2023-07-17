@@ -24,16 +24,13 @@ let funcoesPosts = new FuncoesPosts(userId, nameC, photo, pagina);
 if (pagina === "perfil") {
     new FuncoesPerfil();
     funcoesPosts.getAllPosts(); //carrega os posts
-    chat.connect(); // abrir chat
 } else if (pagina === "home") {
     new FuncoesLinhaDoTempo();
     funcoesPosts.getAllPosts(); //carrega os posts
-    chat.connect(); // abrir chat
 } else if (pagina === "friends") {
     new FuncoesFriends(userId);
-    chat.connect(); // abrir chat
 }else if(pagina === "messeger"){
-     new FuncoesMesseger(userId, nameC, photo);
+     new FuncoesMesseger(userId, nameC, photo, chat);
 }
 
 //Publicar um Post (Página Home)

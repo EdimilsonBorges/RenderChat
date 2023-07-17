@@ -26,7 +26,7 @@ foreach ($results as $result) {
         'id' => api_encript::aesEncriptar($result->id),
         'user_id' => api_encript::aesEncriptar($result->user_id),
         'to_user_id' => api_encript::aesEncriptar($result->to_user_id),
-        'messeger' => $result->messeger,
+        'message' => $result->messeger,
         'read_at' => $result->read_at,
         'created_at' => $result->created_at,
         'deleted_at' => $result->deleted_at

@@ -1,10 +1,14 @@
+
 class FuncoesMesseger {
 
-    constructor(userId, nameC, photo) {
+    constructor(userId, nameC, photo, chat) {
         this.userId = userId;
         this.nameC = nameC;
         this.photo = photo;
-        this.carregarUserChat();
+        this.chat = chat;
+        this.carregarInputs();
+        this.receberMenssage();
+
     }
 
     carregarUserChat() {
@@ -19,7 +23,12 @@ class FuncoesMesseger {
                         this.createItemChat(result);
                     });
                     const itemChat = document.getElementsByClassName("itemChat")[0];
-                    this.carregarConversa(itemChat.dataset.friendid);
+                    this.fromId = itemChat.dataset.friendid;
+                    this.carregarConversa(this.fromId);
+                    const item = [...document.getElementsByClassName("itemChat")];
+                    item.forEach((ite) => {
+                        ite.classList.remove("selected");
+                    });
                     itemChat.classList.add("selected");
                 } else {
                     console.log(results['message']);
@@ -42,11 +51,8 @@ class FuncoesMesseger {
                     const perfilFriends = document.getElementById("conversas");
                     perfilFriends.innerHTML = "";
 
-                    const conversas = document.getElementById("conversas");
-
                     results['results'].forEach((result) => {
                         this.createMessegerChat(result, fromId);
-                        conversas.scrollTop = conversas.scrollHeight;
                     });
                 } else {
                     console.log(results['message']);
@@ -87,7 +93,7 @@ class FuncoesMesseger {
         mensagemEu.setAttribute("class", "mensagem-eu");
 
         const p = document.createElement("p");
-        p.innerHTML = result.messeger;
+        p.innerHTML = result.message;
 
         const visto = document.createElement("div");
         visto.style = "width: 10px; height: 10px; background-color: rgb(0, 255, 0); border-radius: 50%; margin-top: 16px; margin-left: -18px;";
@@ -96,6 +102,8 @@ class FuncoesMesseger {
         caixaEu.appendChild(mensagemEu);
         caixaEu.appendChild(visto);
         conversas.appendChild(caixaEu);
+
+        conversas.scrollTop = conversas.scrollHeight;
     }
 
     createMessegerOutro(result) {
@@ -108,11 +116,13 @@ class FuncoesMesseger {
         mensagemOutro.setAttribute("class", "mensagem-outro");
 
         const p = document.createElement("p");
-        p.innerHTML = result.messeger;
+        p.innerHTML = result.message;
 
         mensagemOutro.appendChild(p);
         caixaOutro.appendChild(mensagemOutro);
         conversas.appendChild(caixaOutro);
+
+        conversas.scrollTop = conversas.scrollHeight;
     }
 
     createItemChat(result) {
@@ -124,9 +134,10 @@ class FuncoesMesseger {
         itemChat.setAttribute("data-friendid", result.id);
 
         itemChat.addEventListener("click", () => {
-            this.carregarConversa(itemChat.dataset.friendid);
+            this.fromId = itemChat.dataset.friendid;
+            this.carregarConversa(this.fromId);
             const item = [...document.getElementsByClassName("itemChat")];
-            item.forEach((ite)=>{
+            item.forEach((ite) => {
                 ite.classList.remove("selected");
             });
 
@@ -159,6 +170,71 @@ class FuncoesMesseger {
 
         itemChat.appendChild(mensagem);
         perfilFriends.appendChild(itemChat);
+    }
+
+    carregarInputs() {
+        const btnChat = document.getElementById("btnChat");
+        btnChat.addEventListener("click", (event) => {
+            this.enviarMenssage(event);
+        });
+        const inputChatMessage = document.getElementById("inputChatMessage");
+        inputChatMessage.addEventListener("keydown", (event) => {
+            this.enviarMenssage(event);
+        });
+    }
+
+    receberMenssage() {
+        this.chat.conn.onmessage = (e) => {
+            let data = JSON.parse(e.data);
+
+            if (data.message == null) {
+                if (data.read_at == null) {
+                    this.onlines = JSON.stringify(data);
+                    this.carregarUserChat();
+                }
+            } else if (data.userId != this.userId) {
+                this.createMessegerOutro(data);
+            } else {
+                this.createMessegerEu(data);
+            }
+        }
+    }
+
+    enviarMenssage(event) {
+
+        if ((event.keyCode == 13) || (event.keyCode == null)) {
+
+            const inputChatMessage = document.getElementById("inputChatMessage");
+
+            if (inputChatMessage.value != "") {
+
+                let msg = { // cria um objeto msg
+                    'userId': this.userId,
+                    'fromId': this.fromId,
+                    'name': this.nameC,
+                    'photo': this.photo,
+                    'message': inputChatMessage.value
+                }
+
+                const endPoint = `Controllers/create_new_messager_chat?messeger=${inputChatMessage.value}&user_id=${this.userId}&to_user_id=${this.fromId}`;
+
+                inputChatMessage.value = "";
+
+                fetch(endPoint)
+                    .then(res => res.json())
+                    .then(results => {
+                        if (results.status == "SUCESS") {
+                            msg = JSON.stringify(msg); //converte para json
+                            this.chat.conn.send(msg);
+                        } else {
+                            console.log(results['message']);
+                        }
+                    }).catch(error => {
+                        // Lidar com erros
+                        console.error('Erro:', error);
+                    });
+            }
+        }
     }
 
 }
