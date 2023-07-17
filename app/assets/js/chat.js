@@ -98,6 +98,10 @@ class Chat {
                             statu.setAttribute("class", "offline");
                         }
 
+                        if(this.userId == result['id']){
+                            statu.setAttribute("class", "online");  
+                        }
+
                         const mensagem = document.createElement("div");
                         mensagem.setAttribute("class", "mensagem");
 
@@ -300,7 +304,6 @@ class Chat {
                         'read_at': Date(),
                     }
                     read = JSON.stringify(read); //converte para json
-                    this.connection.conn.send(read);
                 } else {
                     console.log(results['message']);
                 }

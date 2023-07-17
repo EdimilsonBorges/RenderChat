@@ -108,8 +108,8 @@ class FuncoesMesseger {
     }
 
     createMessegerOutro(result) {
-        const conversas = document.getElementById("conversas");
 
+        const conversas = document.getElementById("conversas");
         const caixaOutro = document.createElement("div");
         caixaOutro.setAttribute("class", "caixa-outro");
 
@@ -160,8 +160,8 @@ class FuncoesMesseger {
             online.setAttribute("class", "offline");
         }
 
-        if(this.userId == result.id){
-            online.setAttribute("class", "online");  
+        if (this.userId == result.id) {
+            online.setAttribute("class", "online");
         }
 
         div.appendChild(img);
@@ -199,7 +199,11 @@ class FuncoesMesseger {
                 this.onlines = JSON.stringify(data);
                 this.onlineUpdate();
             } else if (data.userId != this.userId) {
-                this.createMessegerOutro(data);
+                const selected = document.getElementsByClassName("selected")[0];
+                if (data.userId == selected.dataset.friendid) {
+                    this.createMessegerOutro(data);
+                }
+
             } else {
                 this.createMessegerEu(data);
             }
