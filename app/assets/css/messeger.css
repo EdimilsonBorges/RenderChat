@@ -83,6 +83,22 @@
     background-color: #888;
 }
 
+.divNunHistory{
+    width: 20px;
+    font-size: 10pt;
+    color: rgb(255, 255, 255);
+    height: 20px !important;
+    padding: 4px;
+    background-color: rgba(141, 0, 0, 0.8);
+    position: absolute;
+    right: 7px;
+    top: 25px;
+    border-radius: 50%;
+    text-align: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
 .conversas{
     height: 480px;
     width: 530px;
@@ -108,7 +124,7 @@
     width: fit-content;
     border-radius: 15px 15px 0px 15px;
     color: #fff;
-    text-align: end;
+    text-align: start;
     background-color: #333;
     margin-top: 10px;
     padding: 10px;

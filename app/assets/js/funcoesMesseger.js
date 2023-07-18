@@ -1,13 +1,11 @@
-import { ConnectChat } from "./connectChat";
-
 class FuncoesMesseger {
 
-    constructor(userId, nameC, photo) {
+    constructor(userId, nameC, photo, connection) {
         this.userId = userId;
         this.nameC = nameC;
         this.photo = photo;
         this.onlines = [];
-        this.chat = new ConnectChat(this.userId);
+        this.chat = connection;
         this.carregarInputs();
         this.receberMenssage();
         this.carregarUserChat();
@@ -126,6 +124,29 @@ class FuncoesMesseger {
         conversas.scrollTop = conversas.scrollHeight;
     }
 
+    marcarChatComoLido(fromId) {
+
+        const endPoint = `Controllers/update_messeger_chat?from_id=${fromId}&user_id=${this.userId}`;
+        fetch(endPoint)
+            .then(res => res.json())
+            .then(results => {
+                if (results.status == "SUCESS") {
+                    // atualiza para visto em tempo real
+                    let read = { // cria um objeto msg
+                        'userId': this.userId,
+                        'fromId': fromId,
+                        'read_at': Date(),
+                    }
+                    read = JSON.stringify(read); //converte para json
+                } else {
+                    console.log(results['message']);
+                }
+            }).catch(error => {
+                // Lidar com erros
+                console.error('Erro:', error);
+            });
+    }
+
     createItemChat(result) {
 
         const perfilFriends = document.getElementById("perfilFriends");
@@ -135,6 +156,12 @@ class FuncoesMesseger {
         itemChat.setAttribute("data-friendid", result.id);
 
         itemChat.addEventListener("click", () => {
+
+            if(itemChat.children[2]){
+                itemChat.removeChild(itemChat.children[2]);
+                this.marcarChatComoLido(result.id);
+            }
+
             this.fromId = itemChat.dataset.friendid;
             this.carregarConversa(this.fromId);
             const item = [...document.getElementsByClassName("itemChat")];
@@ -177,6 +204,12 @@ class FuncoesMesseger {
         mensagem.appendChild(h3);
 
         itemChat.appendChild(mensagem);
+        if (result.count_nread > 0) {
+            const divNunHistory = document.createElement("div");
+            divNunHistory.setAttribute("class", "divNunHistory");
+            divNunHistory.innerHTML = result.count_nread;
+            itemChat.appendChild(divNunHistory);
+        }
         perfilFriends.appendChild(itemChat);
     }
 

@@ -1,4 +1,5 @@
 import { FuncoesPosts } from "./funcoesPosts.js";
+import { ConnectChat } from "./connectChat";
 import { Chat } from "./chat.js";
 import { FuncoesPerfil } from "./funcoesPerfil.js";
 import { FuncoesLinhaDoTempo } from "./funcoesLinhaDoTempo.js";
@@ -12,6 +13,7 @@ const photo = document.getElementById("principal").dataset.photo;
 const urlAtual = window.location.href;
 const urlClass = new URL(urlAtual);
 let pagina = urlClass.searchParams.get("r");
+const connection = new ConnectChat(userId);
 
 if(!pagina){
     pagina = "home";
@@ -20,18 +22,18 @@ if(!pagina){
 let funcoesPosts = new FuncoesPosts(userId, nameC, photo, pagina);
 
 if (pagina === "perfil") {
-    new Chat(userId, nameC, photo);
+    new Chat(userId, nameC, photo, connection);
     new FuncoesPerfil();
     funcoesPosts.getAllPosts(); //carrega os posts
 } else if (pagina === "home") {
-    new Chat(userId, nameC, photo);
+    new Chat(userId, nameC, photo, connection);
     new FuncoesLinhaDoTempo();
     funcoesPosts.getAllPosts(); //carrega os posts
 } else if (pagina === "friends") {
-    new Chat(userId, nameC, photo);
+    new Chat(userId, nameC, photo, connection);
     new FuncoesFriends(userId);
 }else if(pagina === "messeger"){
-     new FuncoesMesseger(userId, nameC, photo);
+     new FuncoesMesseger(userId, nameC, photo, connection);
 }
 
 //Publicar um Post (Página Home)

@@ -1,11 +1,10 @@
-import { ConnectChat } from "./connectChat";
 class Chat {
-    constructor(userId, nameC, photo) {
+    constructor(userId, nameC, photo, connection) {
         this.userId = userId;
         this.nameC = nameC;
         this.photo = photo;
         this.onlines = [];
-        this.connection = new ConnectChat(this.userId);
+        this.connection = connection;
         this.connect();
         this.carregarUserChat();
     }
@@ -68,9 +67,14 @@ class Chat {
                         let count = 0;
                         itemChat.onclick = () => {
 
-                            divNunHistory.style = "visibility:hidden; width:37px; font-size: 10pt; color: #fff; height: 21px; padding-top: 5px; background-color:rgb(141 0 0 / 80%); position: relative; right: 10px; top: 20px; border-radius: 50%;text-align: center; font-weight: bold;";
                             if (count == 0) {
-                                divTotalHistory.innerHTML -= divNunHistory.innerHTML;
+                                divTotalHistory.innerHTML -= result['count_nread'];
+                                if (itemChat.children[2]) {
+                                    const node = itemChat.children[2];
+                                    itemChat.removeChild(node);
+                                    this.marcarChatComoLido(result['id']);
+                                }
+
                                 count++
                             }
                             if (this.onlines.includes(result['id'])) {
@@ -98,8 +102,8 @@ class Chat {
                             statu.setAttribute("class", "offline");
                         }
 
-                        if(this.userId == result['id']){
-                            statu.setAttribute("class", "online");  
+                        if (this.userId == result['id']) {
+                            statu.setAttribute("class", "online");
                         }
 
                         const mensagem = document.createElement("div");
@@ -119,17 +123,6 @@ class Chat {
 
                         const hr = document.createElement("hr");
 
-                        let divNunHistory = document.createElement('div');
-                        divNunHistory.setAttribute("class", "divNunHistory");
-
-                        if (result['count_nread'] > 0) {
-                            divNunHistory.style = "width:37px; font-size: 10pt; color: #fff; height: 21px; padding-top: 5px; background-color:rgb(141 0 0 / 80%); position: relative; right: 10px; top: 20px; border-radius: 50%;text-align: center; font-weight: bold;";
-                        } else {
-                            divNunHistory.style = "visibility:hidden; width:37px; font-size: 10pt; color: #fff; height: 21px; padding-top: 5px; background-color:rgb(141 0 0 / 80%); position: relative; right: 10px; top: 20px; border-radius: 50%;text-align: center; font-weight: bold;";
-                        }
-
-                        divNunHistory.innerText = result['count_nread'];
-
                         mensagem.appendChild(nome);
                         mensagem.appendChild(historico);
                         mensagem.appendChild(hr);
@@ -139,7 +132,12 @@ class Chat {
 
                         itemChat.appendChild(div);
                         itemChat.appendChild(mensagem);
-                        itemChat.appendChild(divNunHistory);
+                        if (result['count_nread'] > 0) {
+                            let divNunHistory = document.createElement('div');
+                            divNunHistory.setAttribute("class", "divNunHistory");
+                            divNunHistory.innerText = result['count_nread'];
+                            itemChat.appendChild(divNunHistory);
+                        }
 
                         conversaBatePapo.appendChild(itemChat);
                         divTotalHistory.innerHTML = total_nread;
@@ -154,8 +152,6 @@ class Chat {
     }
 
     openChat(fromId, nomeCompleto, perfImg, online) {
-
-        this.marcarChatComoLido(fromId);
 
         const myElement = document.getElementById(this.userId + fromId);
 
@@ -383,9 +379,9 @@ class Chat {
                     .then(res => res.json())
                     .then(results => {
                         if (results.status == "SUCESS") {
-                            if(this.onlines.length === 0){
+                            if (this.onlines.length === 0) {
                                 this.showChatMessage(msg, "me", this.userId);
-                            }else{
+                            } else {
                                 msg = JSON.stringify(msg); //converte para json
                                 this.connection.conn.send(msg);
                             }

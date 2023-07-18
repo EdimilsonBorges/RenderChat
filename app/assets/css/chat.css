@@ -76,6 +76,21 @@
     background-color: #888;
 }
 
+.divNunHistory{
+    width: 37px; 
+    font-size: 10pt; 
+    color: rgb(255, 255, 255); 
+    height: 21px; 
+    padding-top: 5px; 
+    background-color: rgba(141, 0, 0, 0.8); 
+    position: relative; 
+    right: 10px; 
+    top: 20px; 
+    border-radius: 50%; 
+    text-align: center; 
+    font-weight: bold;
+}
+
 .conversa-bate-papo {
     height: 87%;
     overflow: scroll;
