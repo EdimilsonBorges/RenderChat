@@ -157,7 +157,7 @@ class FuncoesMesseger {
 
         itemChat.addEventListener("click", () => {
 
-            if(itemChat.children[2]){
+            if (itemChat.children[2]) {
                 itemChat.removeChild(itemChat.children[2]);
                 this.marcarChatComoLido(result.id);
             }
@@ -234,7 +234,23 @@ class FuncoesMesseger {
             } else if (data.userId != this.userId) {
                 const selected = document.getElementsByClassName("selected")[0];
                 if (data.userId == selected.dataset.friendid) {
+                    this.marcarChatComoLido(data.userId);
                     this.createMessegerOutro(data);
+                } else {
+                    const itemChat = [...document.getElementsByClassName("itemChat")];
+                    itemChat.forEach((item) => {
+                        if (item.dataset.friendid === data.userId){
+                            if(item.children[2]){
+                                item.children[2].innerHTML++;
+                            }else{
+                                const divNunHistory = document.createElement("div");
+                                divNunHistory.setAttribute("class", "divNunHistory");
+                                divNunHistory.innerHTML = 1;
+                                item.appendChild(divNunHistory);
+                            }
+                            
+                        };
+                    });
                 }
 
             } else {
