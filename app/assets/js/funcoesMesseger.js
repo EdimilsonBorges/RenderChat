@@ -95,7 +95,10 @@ class FuncoesMesseger {
         p.innerHTML = result.message;
 
         const visto = document.createElement("div");
-        visto.style = "width: 10px; height: 10px; background-color: rgb(0, 255, 0); border-radius: 50%; margin-top: 16px; margin-left: -18px;";
+        visto.setAttribute("class", "visto");
+        //visto.innerHTML = "<svg xmlns='http://www.w3.org/2000/svg' height='20' viewBox='0 -960 960 960' width='20'><path fill='#333' d='M378-246 154-470l43-43 181 181 384-384 43 43-427 427Z'/></svg>";
+        //visto.innerHTML = "<svg xmlns='http://www.w3.org/2000/svg' height='20' viewBox='0 -960 960 960' width='20'><path fill='#333' d='M294.565-214.868 56.999-452.434 113-509l181 181 56.566 56.566-56.001 56.566ZM464-228.434 225.869-467.13 283-523.131l181 181 383.435-382.87L904.566-669 464-228.434Zm0-184.131-56.001-56.566 257-257L721-669.565l-257 257Z'/></svg>"; 
+        visto.innerHTML = "<svg xmlns='http://www.w3.org/2000/svg' height='20' viewBox='0 -960 960 960' width='20'><path fill='#0a0' d='M294.565-214.868 56.999-452.434 113-509l181 181 56.566 56.566-56.001 56.566ZM464-228.434 225.869-467.13 283-523.131l181 181 383.435-382.87L904.566-669 464-228.434Zm0-184.131-56.001-56.566 257-257L721-669.565l-257 257Z'/></svg>"; 
 
         mensagemEu.appendChild(p);
         caixaEu.appendChild(mensagemEu);

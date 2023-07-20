@@ -113,8 +113,7 @@ class Chat {
                         nome.innerText = nomeCompleto;
 
                         const historico = document.createElement("p");
-                        historico.id = `his${result['id']}`;
-                        if (result['messeger'] != undefined) {
+                        if (result.messeger) {
                             historico.innerText = result['messeger'];
                         } else {
                             historico.innerText = "Sem nova mensagem";
@@ -346,6 +345,14 @@ class Chat {
         } else {
             let areaMenssage = document.getElementById(msg.fromId + msg.userId);
             this.openChat(msg.userId, msg.name, msg.photo, true);
+             const itemChat = [...document.getElementsByClassName("itemChat")];
+             itemChat.forEach((item)=>{
+                if (item.children[2]) {
+                         const node = item.children[2];
+                         item.removeChild(node);
+                         this.marcarChatComoLido(msg.userId);
+                     }
+             });
 
             if (areaMenssage != null) {
                 this.receberMensagemChat(msg);
