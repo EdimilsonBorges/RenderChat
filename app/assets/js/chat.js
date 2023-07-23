@@ -325,21 +325,19 @@ class Chat {
 
             const visto = document.createElement('div');
             visto.setAttribute("class", "visto");
-            visto.style = "width: 10px; height: 10px; background-color: #0f0; border-radius: 50%; margin-top: 16px; margin-left: -18px;";
-
-            const nVisto = document.createElement('div');
-            nVisto.setAttribute("class", "nvisto");
-            nVisto.style = "width: 10px; height: 10px; background-color: #bbb; border-radius: 50%; margin-top: 16px; margin-left: -18px;";
 
             mensagemEu.appendChild(mensagemEup);
-            caixaEu.appendChild(mensagemEu);
-            if (msg.read_at != null) {
-                caixaEu.appendChild(visto);
-            } else {
-                caixaEu.appendChild(nVisto);
-            }
 
-            areaMenssage.appendChild(caixaEu);
+            if(msg.read_at){
+                visto.innerHTML = "<svg xmlns='http://www.w3.org/2000/svg' height='20' viewBox='0 -960 960 960' width='20'><path fill='#0a0' d='M294.565-214.868 56.999-452.434 113-509l181 181 56.566 56.566-56.001 56.566ZM464-228.434 225.869-467.13 283-523.131l181 181 383.435-382.87L904.566-669 464-228.434Zm0-184.131-56.001-56.566 257-257L721-669.565l-257 257Z'/></svg>"; 
+             }else{
+                visto.innerHTML = "<svg xmlns='http://www.w3.org/2000/svg' height='20' viewBox='0 -960 960 960' width='20'><path fill='#333' d='M294.565-214.868 56.999-452.434 113-509l181 181 56.566 56.566-56.001 56.566ZM464-228.434 225.869-467.13 283-523.131l181 181 383.435-382.87L904.566-669 464-228.434Zm0-184.131-56.001-56.566 257-257L721-669.565l-257 257Z'/></svg>"; 
+             }
+            caixaEu.appendChild(mensagemEu);
+            caixaEu.appendChild(visto);
+
+             areaMenssage.appendChild(caixaEu);
+
 
             areaMenssage.scrollTop = areaMenssage.scrollHeight;
         } else {
