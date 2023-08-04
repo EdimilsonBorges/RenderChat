@@ -29,6 +29,38 @@ class FuncoesMesseger {
                         ite.classList.remove("selected");
                     });
                     itemChat.classList.add("selected");
+                    if (itemChat.children[2]) {
+                        itemChat.children[2].remove();
+                    }
+
+                    this.marcarChatComoLido(this.fromId);
+
+
+                    if (this.chat.connectado) {
+                        // enviar mensagen de lido
+                        let msg = {
+                            'userId': this.userId,
+                            'fromId': this.fromId,
+                            'read_at': Date()
+                        }
+                        msg = JSON.stringify(msg); //converte para json
+                        this.chat.conn.send(msg);
+
+                    } else {
+                        console.log(this.chat.connectado);
+                        setTimeout(() => {
+
+                            // enviar mensagen de lido
+                            let msg = {
+                                'userId': this.userId,
+                                'fromId': this.fromId,
+                                'read_at': Date()
+                            }
+                            msg = JSON.stringify(msg); //converte para json
+                            this.chat.conn.send(msg);
+                        }, 3000);
+                    }
+
                 } else {
                     console.log(results['message']);
                 }

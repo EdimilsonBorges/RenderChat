@@ -16,10 +16,11 @@ class Chat {
             let data = JSON.parse(e.data);
             if (!data.message) {
                 if (data.read_at) {
-
                     const visto = [...document.querySelectorAll(".vFalse")];
                     visto.forEach((e) => {
-                        e.innerHTML = "<svg xmlns='http://www.w3.org/2000/svg' height='20' viewBox='0 -960 960 960' width='20'><path fill='#0a0' d='M294.565-214.868 56.999-452.434 113-509l181 181 56.566 56.566-56.001 56.566ZM464-228.434 225.869-467.13 283-523.131l181 181 383.435-382.87L904.566-669 464-228.434Zm0-184.131-56.001-56.566 257-257L721-669.565l-257 257Z'/></svg>";
+                        if(e.dataset.userid == data.userId){
+                            e.innerHTML = "<svg xmlns='http://www.w3.org/2000/svg' height='20' viewBox='0 -960 960 960' width='20'><path fill='#0a0' d='M294.565-214.868 56.999-452.434 113-509l181 181 56.566 56.566-56.001 56.566ZM464-228.434 225.869-467.13 283-523.131l181 181 383.435-382.87L904.566-669 464-228.434Zm0-184.131-56.001-56.566 257-257L721-669.565l-257 257Z'/></svg>";
+                        }
                     });
 
                 } else {
@@ -318,7 +319,6 @@ class Chat {
     }
 
     showChatMessage(msg, user) {
-
         if (user == "me") {
 
             let areaMenssage = document.getElementById(msg.userId + msg.fromId);
@@ -333,6 +333,7 @@ class Chat {
             mensagemEup.textContent = msg.message;
 
             const visto = document.createElement('div');
+            visto.setAttribute("data-userid", msg.fromId);
 
             if (this.userId === msg.fromId) {
                 visto.setAttribute("class", "visto vTrue");
@@ -358,19 +359,21 @@ class Chat {
 
             this.marcarChatComoLido(msg.userId);
 
-            // enviar mensagen de lido
-            let mess = {
-                'userId': this.userId,
-                'fromId': msg.userId,
-                'read_at': Date()
-            }
-            mess = JSON.stringify(mess); //converte para json
-            this.connection.conn.send(mess);
 
-
-            if (areaMenssage != null) {
+            if (areaMenssage) {
                 this.receberMensagemChat(msg);
                 areaMenssage.scrollTop = areaMenssage.scrollHeight;
+
+                if (!msg.read_at) {
+                    // enviar mensagen de lido
+                    let read = {
+                        'userId': this.userId,
+                        'fromId': msg.userId,
+                        'read_at': Date()
+                    }
+                    read = JSON.stringify(read); //converte para json
+                    this.connection.conn.send(read);
+                }
             }
 
         }

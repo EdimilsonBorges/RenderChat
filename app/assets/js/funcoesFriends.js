@@ -4,48 +4,47 @@ class FuncoesFriends {
         this.userid = userid;
         this.containerFriends = document.getElementById("containerFriends");
         this.btnSugestoes = document.getElementById("btnSugestoes");
-        this.btnSugestoes.style.backgroundColor = "#700";
+        this.btnSugestoes.classList.add("btnRemoverActive");
         this.getAllSugestionFriends();
         this.buttons();
     }
-
 
     buttons = () => {
         this.btnAllFriends = document.getElementById("btnAllFriends");
         this.btnAllFriends.addEventListener("click", () => {
             this.containerFriends.innerHTML = "";
             this.getAllFriends();
-            this.btnAllFriends.style.backgroundColor = "#700";
-            this.btnSolicitacoesE.style.backgroundColor = "#e22";
-            this.btnSolicitacoesR.style.backgroundColor = "#e22";
-            this.btnSugestoes.style.backgroundColor = "#e22";
+            this.btnAllFriends.classList.add("btnRemoverActive");
+            this.btnSolicitacoesE.classList.remove("btnRemoverActive");
+            this.btnSolicitacoesR.classList.remove("btnRemoverActive");
+            this.btnSugestoes.classList.remove("btnRemoverActive");
         });
         this.btnSolicitacoesE = document.getElementById("btnSolicitacoesE");
         this.btnSolicitacoesE.addEventListener("click", () => {
             this.containerFriends.innerHTML = "";
             this.getSolicitacoesFriendsE();
-            this.btnSolicitacoesE.style.backgroundColor = "#700";
-            this.btnSolicitacoesR.style.backgroundColor = "#e22";
-            this.btnAllFriends.style.backgroundColor = "#e22";
-            this.btnSugestoes.style.backgroundColor = "#e22";
+            this.btnSolicitacoesE.classList.add("btnRemoverActive");
+            this.btnAllFriends.classList.remove("btnRemoverActive");
+            this.btnSolicitacoesR.classList.remove("btnRemoverActive");
+            this.btnSugestoes.classList.remove("btnRemoverActive");
         });
         this.btnSolicitacoesR = document.getElementById("btnSolicitacoesR");
         this.btnSolicitacoesR.addEventListener("click", () => {
             this.containerFriends.innerHTML = "";
             this.getSolicitacoesFriendsR();
-            this.btnSolicitacoesR.style.backgroundColor = "#700";
-            this.btnSolicitacoesE.style.backgroundColor = "#e22";
-            this.btnAllFriends.style.backgroundColor = "#e22";
-            this.btnSugestoes.style.backgroundColor = "#e22";
+            this.btnSolicitacoesR.classList.add("btnRemoverActive");
+            this.btnSolicitacoesE.classList.remove("btnRemoverActive");
+            this.btnAllFriends.classList.remove("btnRemoverActive");
+            this.btnSugestoes.classList.remove("btnRemoverActive");
         });
         this.btnSugestoes = document.getElementById("btnSugestoes");
         this.btnSugestoes.addEventListener("click", () => {
             this.containerFriends.innerHTML = "";
             this.getAllSugestionFriends();
-            this.btnSugestoes.style.backgroundColor = "#700";
-            this.btnSolicitacoesE.style.backgroundColor = "#e22";
-            this.btnSolicitacoesR.style.backgroundColor = "#e22";
-            this.btnAllFriends.style.backgroundColor = "#e22";
+            this.btnSugestoes.classList.add("btnRemoverActive");
+            this.btnSolicitacoesR.classList.remove("btnRemoverActive");
+            this.btnSolicitacoesE.classList.remove("btnRemoverActive");
+            this.btnAllFriends.classList.remove("btnRemoverActive");
         });
     }
 

@@ -83,7 +83,7 @@ class Chat implements MessageComponentInterface
 
                 foreach ($this->users as $key => $user) {
 
-                    if (($user == $this->reads['fromId']) || ($user == $this->reads['userId'])) {
+                    if (($user == $this->reads['fromId'])) {
                         if ($key == $client->resourceId) {
                             $msg = json_encode($this->reads, true);
                             $client->send($msg, true);
