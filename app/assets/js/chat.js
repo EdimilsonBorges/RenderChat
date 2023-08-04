@@ -14,9 +14,18 @@ class Chat {
 
         this.connection.conn.onmessage = (e) => {
             let data = JSON.parse(e.data);
-            if (data.message == null && data.read_at == null) {
-                this.onlines = JSON.stringify(data);
-                this.onlineUpdate();
+            if (!data.message) {
+                if (data.read_at) {
+
+                    const visto = [...document.querySelectorAll(".vFalse")];
+                    visto.forEach((e) => {
+                        e.innerHTML = "<svg xmlns='http://www.w3.org/2000/svg' height='20' viewBox='0 -960 960 960' width='20'><path fill='#0a0' d='M294.565-214.868 56.999-452.434 113-509l181 181 56.566 56.566-56.001 56.566ZM464-228.434 225.869-467.13 283-523.131l181 181 383.435-382.87L904.566-669 464-228.434Zm0-184.131-56.001-56.566 257-257L721-669.565l-257 257Z'/></svg>";
+                    });
+
+                } else {
+                    this.onlines = JSON.stringify(data);
+                    this.onlineUpdate();
+                }
             } else if (data.userId != this.userId) {
                 this.showChatMessage(data, "other", this.userId);
             } else {
@@ -324,33 +333,40 @@ class Chat {
             mensagemEup.textContent = msg.message;
 
             const visto = document.createElement('div');
-            visto.setAttribute("class", "visto");
+
+            if (this.userId === msg.fromId) {
+                visto.setAttribute("class", "visto vTrue");
+                visto.innerHTML = "<svg xmlns='http://www.w3.org/2000/svg' height='20' viewBox='0 -960 960 960' width='20'><path fill='#0a0' d='M294.565-214.868 56.999-452.434 113-509l181 181 56.566 56.566-56.001 56.566ZM464-228.434 225.869-467.13 283-523.131l181 181 383.435-382.87L904.566-669 464-228.434Zm0-184.131-56.001-56.566 257-257L721-669.565l-257 257Z'/></svg>";
+                this.marcarChatComoLido(msg.fromId);
+            } else if (msg.read_at) {
+                visto.setAttribute("class", "visto vTrue");
+                visto.innerHTML = "<svg xmlns='http://www.w3.org/2000/svg' height='20' viewBox='0 -960 960 960' width='20'><path fill='#0a0' d='M294.565-214.868 56.999-452.434 113-509l181 181 56.566 56.566-56.001 56.566ZM464-228.434 225.869-467.13 283-523.131l181 181 383.435-382.87L904.566-669 464-228.434Zm0-184.131-56.001-56.566 257-257L721-669.565l-257 257Z'/></svg>";
+            } else {
+                visto.setAttribute("class", "visto vFalse");
+                visto.innerHTML = "<svg xmlns='http://www.w3.org/2000/svg' height='20' viewBox='0 -960 960 960' width='20'><path fill='#333' d='M294.565-214.868 56.999-452.434 113-509l181 181 56.566 56.566-56.001 56.566ZM464-228.434 225.869-467.13 283-523.131l181 181 383.435-382.87L904.566-669 464-228.434Zm0-184.131-56.001-56.566 257-257L721-669.565l-257 257Z'/></svg>";
+            }
 
             mensagemEu.appendChild(mensagemEup);
-
-            if(msg.read_at){
-                visto.innerHTML = "<svg xmlns='http://www.w3.org/2000/svg' height='20' viewBox='0 -960 960 960' width='20'><path fill='#0a0' d='M294.565-214.868 56.999-452.434 113-509l181 181 56.566 56.566-56.001 56.566ZM464-228.434 225.869-467.13 283-523.131l181 181 383.435-382.87L904.566-669 464-228.434Zm0-184.131-56.001-56.566 257-257L721-669.565l-257 257Z'/></svg>"; 
-             }else{
-                visto.innerHTML = "<svg xmlns='http://www.w3.org/2000/svg' height='20' viewBox='0 -960 960 960' width='20'><path fill='#333' d='M294.565-214.868 56.999-452.434 113-509l181 181 56.566 56.566-56.001 56.566ZM464-228.434 225.869-467.13 283-523.131l181 181 383.435-382.87L904.566-669 464-228.434Zm0-184.131-56.001-56.566 257-257L721-669.565l-257 257Z'/></svg>"; 
-             }
             caixaEu.appendChild(mensagemEu);
             caixaEu.appendChild(visto);
 
-             areaMenssage.appendChild(caixaEu);
-
-
+            areaMenssage.appendChild(caixaEu);
             areaMenssage.scrollTop = areaMenssage.scrollHeight;
         } else {
             let areaMenssage = document.getElementById(msg.fromId + msg.userId);
             this.openChat(msg.userId, msg.name, msg.photo, true);
-             const itemChat = [...document.getElementsByClassName("itemChat")];
-             itemChat.forEach((item)=>{
-                if (item.children[2]) {
-                         const node = item.children[2];
-                         item.removeChild(node);
-                         this.marcarChatComoLido(msg.userId);
-                     }
-             });
+
+            this.marcarChatComoLido(msg.userId);
+
+            // enviar mensagen de lido
+            let mess = {
+                'userId': this.userId,
+                'fromId': msg.userId,
+                'read_at': Date()
+            }
+            mess = JSON.stringify(mess); //converte para json
+            this.connection.conn.send(mess);
+
 
             if (areaMenssage != null) {
                 this.receberMensagemChat(msg);

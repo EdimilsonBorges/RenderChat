@@ -95,15 +95,18 @@ class FuncoesMesseger {
         p.innerHTML = result.message;
 
         const visto = document.createElement("div");
-        visto.setAttribute("class", "visto");
-
-      //  visto.innerHTML = "<svg xmlns='http://www.w3.org/2000/svg' height='20' viewBox='0 -960 960 960' width='20'><path fill='#333' d='M378-246 154-470l43-43 181 181 384-384 43 43-427 427Z'/></svg>";
-        if(result.read_at){
-           visto.innerHTML = "<svg xmlns='http://www.w3.org/2000/svg' height='20' viewBox='0 -960 960 960' width='20'><path fill='#0a0' d='M294.565-214.868 56.999-452.434 113-509l181 181 56.566 56.566-56.001 56.566ZM464-228.434 225.869-467.13 283-523.131l181 181 383.435-382.87L904.566-669 464-228.434Zm0-184.131-56.001-56.566 257-257L721-669.565l-257 257Z'/></svg>"; 
-        }else{
-           visto.innerHTML = "<svg xmlns='http://www.w3.org/2000/svg' height='20' viewBox='0 -960 960 960' width='20'><path fill='#333' d='M294.565-214.868 56.999-452.434 113-509l181 181 56.566 56.566-56.001 56.566ZM464-228.434 225.869-467.13 283-523.131l181 181 383.435-382.87L904.566-669 464-228.434Zm0-184.131-56.001-56.566 257-257L721-669.565l-257 257Z'/></svg>"; 
+        if (this.userId === result.fromId) {
+            visto.setAttribute("class", "visto vTrue");
+            visto.innerHTML = "<svg xmlns='http://www.w3.org/2000/svg' height='20' viewBox='0 -960 960 960' width='20'><path fill='#0a0' d='M294.565-214.868 56.999-452.434 113-509l181 181 56.566 56.566-56.001 56.566ZM464-228.434 225.869-467.13 283-523.131l181 181 383.435-382.87L904.566-669 464-228.434Zm0-184.131-56.001-56.566 257-257L721-669.565l-257 257Z'/></svg>";
+            this.marcarChatComoLido(result.fromId);
+        } else if (result.read_at) {
+            visto.setAttribute("class", "visto vTrue");
+            visto.innerHTML = "<svg xmlns='http://www.w3.org/2000/svg' height='20' viewBox='0 -960 960 960' width='20'><path fill='#0a0' d='M294.565-214.868 56.999-452.434 113-509l181 181 56.566 56.566-56.001 56.566ZM464-228.434 225.869-467.13 283-523.131l181 181 383.435-382.87L904.566-669 464-228.434Zm0-184.131-56.001-56.566 257-257L721-669.565l-257 257Z'/></svg>";
+        } else {
+            visto.setAttribute("class", "visto vFalse");
+            visto.innerHTML = "<svg xmlns='http://www.w3.org/2000/svg' height='20' viewBox='0 -960 960 960' width='20'><path fill='#333' d='M294.565-214.868 56.999-452.434 113-509l181 181 56.566 56.566-56.001 56.566ZM464-228.434 225.869-467.13 283-523.131l181 181 383.435-382.87L904.566-669 464-228.434Zm0-184.131-56.001-56.566 257-257L721-669.565l-257 257Z'/></svg>";
         }
-        
+
         mensagemEu.appendChild(p);
         caixaEu.appendChild(mensagemEu);
         caixaEu.appendChild(visto);
@@ -137,15 +140,7 @@ class FuncoesMesseger {
         fetch(endPoint)
             .then(res => res.json())
             .then(results => {
-                if (results.status == "SUCESS") {
-                    // atualiza para visto em tempo real
-                    let read = { // cria um objeto msg
-                        'userId': this.userId,
-                        'fromId': fromId,
-                        'read_at': Date(),
-                    }
-                    read = JSON.stringify(read); //converte para json
-                } else {
+                if (results.status != "SUCESS") {
                     console.log(results['message']);
                 }
             }).catch(error => {
@@ -166,7 +161,18 @@ class FuncoesMesseger {
 
             if (itemChat.children[2]) {
                 itemChat.removeChild(itemChat.children[2]);
+
                 this.marcarChatComoLido(result.id);
+
+                // enviar mensagen de lido
+                let msg = {
+                    'userId': this.userId,
+                    'fromId': result.id,
+                    'read_at': Date()
+                }
+                msg = JSON.stringify(msg); //converte para json
+                this.chat.conn.send(msg);
+
             }
 
             this.fromId = itemChat.dataset.friendid;
@@ -175,8 +181,8 @@ class FuncoesMesseger {
             item.forEach((ite) => {
                 ite.classList.remove("selected");
             });
-
             itemChat.classList.add("selected");
+
         });
 
         const div = document.createElement("div");
@@ -235,33 +241,51 @@ class FuncoesMesseger {
         this.chat.conn.onmessage = (e) => {
             let data = JSON.parse(e.data);
 
-            if (data.message == null && data.read_at == null) {
-                this.onlines = JSON.stringify(data);
-                this.onlineUpdate();
+            if (!data.message) {
+
+                if (data.read_at) {
+
+                    const visto = [...document.querySelectorAll(".vFalse")];
+                    visto.forEach((e) => {
+                        e.innerHTML = "<svg xmlns='http://www.w3.org/2000/svg' height='20' viewBox='0 -960 960 960' width='20'><path fill='#0a0' d='M294.565-214.868 56.999-452.434 113-509l181 181 56.566 56.566-56.001 56.566ZM464-228.434 225.869-467.13 283-523.131l181 181 383.435-382.87L904.566-669 464-228.434Zm0-184.131-56.001-56.566 257-257L721-669.565l-257 257Z'/></svg>";
+                    });
+
+                } else {
+                    this.onlines = JSON.stringify(data);
+                    this.onlineUpdate();
+                }
+
             } else if (data.userId != this.userId) {
                 const selected = document.getElementsByClassName("selected")[0];
                 if (data.userId == selected.dataset.friendid) {
-                    this.marcarChatComoLido(data.userId);
                     this.createMessegerOutro(data);
+                    this.marcarChatComoLido(data.userId);
+                    // enviar mensagen de lido
+                    let msg = {
+                        'userId': this.userId,
+                        'fromId': data.userId,
+                        'read_at': Date()
+                    }
+                    msg = JSON.stringify(msg); //converte para json
+                    this.chat.conn.send(msg);
                 } else {
                     const itemChat = [...document.getElementsByClassName("itemChat")];
                     itemChat.forEach((item) => {
-                        if (item.dataset.friendid === data.userId){
-                            if(item.children[2]){
+                        if (item.dataset.friendid === data.userId) {
+                            if (item.children[2]) {
                                 item.children[2].innerHTML++;
-                            }else{
+                            } else {
                                 const divNunHistory = document.createElement("div");
                                 divNunHistory.setAttribute("class", "divNunHistory");
                                 divNunHistory.innerHTML = 1;
                                 item.appendChild(divNunHistory);
                             }
-                            
+
                         };
                     });
                 }
 
             } else {
-                this.marcarChatComoLido(data.userId)
                 this.createMessegerEu(data);
             }
         }
@@ -298,7 +322,7 @@ class FuncoesMesseger {
                     'name': this.nameC,
                     'photo': this.photo,
                     'message': inputChatMessage.value
-                }    
+                }
 
                 const endPoint = `Controllers/create_new_messager_chat?messeger=${inputChatMessage.value}&user_id=${this.userId}&to_user_id=${this.fromId}`;
 

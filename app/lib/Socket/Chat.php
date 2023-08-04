@@ -11,6 +11,7 @@ class Chat implements MessageComponentInterface
     protected $userIdChat;
     private $users = [];
     private $messages;
+    private $reads;
     private $onlines = [];
 
     public function __construct()
@@ -73,13 +74,22 @@ class Chat implements MessageComponentInterface
                 $client->send(json_encode($this->onlines, true));
             }
         }else{
-                 $reads = [
+                 $this->reads = [
                     'userId'=> $msg['userId'],
                     'fromId'=> $msg['fromId'],
                     'read_at' => $msg['read_at'],
             ];
             foreach ($this->clients as $client) {
-                $client->send(json_encode($reads, true));
+
+                foreach ($this->users as $key => $user) {
+
+                    if (($user == $this->reads['fromId']) || ($user == $this->reads['userId'])) {
+                        if ($key == $client->resourceId) {
+                            $msg = json_encode($this->reads, true);
+                            $client->send($msg, true);
+                        }
+                    }
+                }
             }
 
         }
