@@ -1016,3 +1016,21 @@
         transform: rotate(1turn)
     }
 }
+  /* fim ============================================================================================= */
+  .fim-loader{
+    border: 1px solid var(--borda-janelas);
+    background-color: var(--background-janelas);
+    border-radius: 15px;
+    margin-bottom: 100px;
+    width: 100%;
+    background-color: #cfc;
+
+  }
+
+  .fim-loader p{
+    text-align: center;
+    color: #333;
+    font-size: 15pt;
+    font-weight: bold;
+    margin: 5px;
+  }

@@ -38,6 +38,21 @@ class FuncoesPosts {
     console.log("Carregou!!!");
   }
 
+  createFimLoader = () => {
+    const areaPost = document.getElementById("areaPost");
+
+    const p = document.createElement("p");
+    p.innerHTML = "Sem mais publicações até o momento..."
+
+    const custonLoader = document.createElement("div");
+    custonLoader.setAttribute("class", "fim-loader");
+
+    custonLoader.appendChild(p);
+
+    areaPost.appendChild(custonLoader);
+    console.log("Fimm!!!");
+  }
+
   getAllPosts = () => {
 
     if (!this.fim) {
@@ -47,7 +62,7 @@ class FuncoesPosts {
         if (elemento != null) {
           let rect = elemento.getBoundingClientRect();
           if (rect.top < window.innerHeight) {
-            if (!this.carregando) {
+            if (!this.carregando && this.limit != 0) {
               this.offset += this.limit;
               this.getAllPosts();
             }
@@ -65,8 +80,10 @@ class FuncoesPosts {
 
     posts.appendChild(areaPost);
 
-    this.carregando = true;
-    this.lendo();
+    if (!this.fim) {
+      this.carregando = true;
+      this.lendo();
+    }
 
     let endPoint;
 
@@ -91,14 +108,23 @@ class FuncoesPosts {
             this.createPost(result);
             this.postPosition++;
             this.carregando = false;
-            if(!this.fim){
+
+            const custonLoader = document.querySelector(".custom-loader");
+            if (custonLoader && !this.fim) {
               this.carregou();
             }
-            
-            if (results['results'].length < this.limit) {
-              this.fim = true; 
-            }
           });
+
+          if ((results['results'].length < this.limit) || (results['results'] == 0)) {
+            const custonLoader = document.querySelector(".custom-loader");
+            if (custonLoader) {
+              this.carregou();
+            }
+            this.limit = 0;
+            this.fim = true;
+            this.carregando = false;
+            this.createFimLoader();
+          }
 
         } else {
           console.log(results['message']);
