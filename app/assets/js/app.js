@@ -23,7 +23,7 @@ let funcoesPosts = new FuncoesPosts(userId, nameC, photo, pagina);
 
 if (pagina === "perfil") {
     new Chat(userId, nameC, photo, connection);
-    new FuncoesPerfil();
+    new FuncoesPerfil(userId);
     funcoesPosts.getAllPosts(); //carrega os posts
 } else if (pagina === "home") {
     new Chat(userId, nameC, photo, connection);

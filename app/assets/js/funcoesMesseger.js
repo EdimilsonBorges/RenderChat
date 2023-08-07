@@ -47,7 +47,6 @@ class FuncoesMesseger {
                         this.chat.conn.send(msg);
 
                     } else {
-                        console.log(this.chat.connectado);
                         setTimeout(() => {
 
                             // enviar mensagen de lido
@@ -130,7 +129,9 @@ class FuncoesMesseger {
         if (this.userId === result.fromId) {
             visto.setAttribute("class", "visto vTrue");
             visto.innerHTML = "<svg xmlns='http://www.w3.org/2000/svg' height='20' viewBox='0 -960 960 960' width='20'><path fill='#0a0' d='M294.565-214.868 56.999-452.434 113-509l181 181 56.566 56.566-56.001 56.566ZM464-228.434 225.869-467.13 283-523.131l181 181 383.435-382.87L904.566-669 464-228.434Zm0-184.131-56.001-56.566 257-257L721-669.565l-257 257Z'/></svg>";
-            this.marcarChatComoLido(result.fromId);
+            if(!result.read_at){
+                this.marcarChatComoLido(result.fromId);
+            }
         } else if (result.read_at) {
             visto.setAttribute("class", "visto vTrue");
             visto.innerHTML = "<svg xmlns='http://www.w3.org/2000/svg' height='20' viewBox='0 -960 960 960' width='20'><path fill='#0a0' d='M294.565-214.868 56.999-452.434 113-509l181 181 56.566 56.566-56.001 56.566ZM464-228.434 225.869-467.13 283-523.131l181 181 383.435-382.87L904.566-669 464-228.434Zm0-184.131-56.001-56.566 257-257L721-669.565l-257 257Z'/></svg>";

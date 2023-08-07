@@ -18,7 +18,7 @@ class Chat {
                 if (data.read_at) {
                     const visto = [...document.querySelectorAll(".vFalse")];
                     visto.forEach((e) => {
-                        if(e.dataset.userid == data.userId){
+                        if (e.dataset.userid == data.userId) {
                             e.innerHTML = "<svg xmlns='http://www.w3.org/2000/svg' height='20' viewBox='0 -960 960 960' width='20'><path fill='#0a0' d='M294.565-214.868 56.999-452.434 113-509l181 181 56.566 56.566-56.001 56.566ZM464-228.434 225.869-467.13 283-523.131l181 181 383.435-382.87L904.566-669 464-228.434Zm0-184.131-56.001-56.566 257-257L721-669.565l-257 257Z'/></svg>";
                         }
                     });
@@ -28,9 +28,9 @@ class Chat {
                     this.onlineUpdate();
                 }
             } else if (data.userId != this.userId) {
-                this.showChatMessage(data, "other", this.userId);
+                this.showChatMessageOutro(data);
             } else {
-                this.showChatMessage(data, "me", this.userId);
+                this.showChatMessageEu(data);
             }
         };
     }
@@ -222,7 +222,6 @@ class Chat {
 
             const input = document.createElement("input");
             input.setAttribute("class", "chatMessage");
-            input.id = `chat${fromId}`;
             input.type = "text";
             input.onkeydown = (event) => {
                 this.enviarMessageChat(event, this.userId, fromId);
@@ -230,8 +229,7 @@ class Chat {
 
             const btnchat = document.createElement("button");
             btnchat.setAttribute("class", "btnChat");
-            btnchat.type = "button";
-            btnchat.id = `btnChat${this.userId}`;
+            btnchat.type = "button";;
             btnchat.innerText = "Enviar";
             btnchat.onclick = (event) => {
                 this.enviarMessageChat(event, this.userId, fromId);
@@ -261,7 +259,7 @@ class Chat {
                                     'message': result['message'],
                                     'read_at': result['read_at']
                                 }
-                                this.showChatMessage(msg, "me");
+                                this.showChatMessageEu(msg);
                             }
 
                             if (this.userId != fromId && this.userId == result['user_id'] && result['user_id'] != result['to_user_id'] && fromId == result['to_user_id']) {
@@ -272,7 +270,7 @@ class Chat {
                                     'message': result['message'],
                                     'read_at': result['read_at']
                                 }
-                                this.showChatMessage(msg, "me");
+                                this.showChatMessageEu(msg);
                             }
                             if (this.userId != fromId && result['user_id'] != result['to_user_id'] && fromId == result['user_id']) {
                                 // eu recebi de outra pessoa
@@ -282,7 +280,7 @@ class Chat {
                                     'message': result['message'],
                                     'read_at': result['read_at']
                                 }
-                                this.showChatMessage(msg, "other");
+                                this.showChatMessageOutro(msg);
                             }
                         });
                     } else {
@@ -318,64 +316,65 @@ class Chat {
             });
     }
 
-    showChatMessage(msg, user) {
-        if (user == "me") {
+    showChatMessageEu(msg) {
+        let areaMenssage = document.getElementById(msg.userId + msg.fromId);
 
-            let areaMenssage = document.getElementById(msg.userId + msg.fromId);
+        const caixaEu = document.createElement('div');
+        caixaEu.setAttribute('class', 'caixa-eu');
 
-            const caixaEu = document.createElement('div');
-            caixaEu.setAttribute('class', 'caixa-eu');
+        const mensagemEu = document.createElement('div');
+        mensagemEu.setAttribute('class', 'mensagem-eu');
 
-            const mensagemEu = document.createElement('div');
-            mensagemEu.setAttribute('class', 'mensagem-eu');
+        const mensagemEup = document.createElement('p');
+        mensagemEup.textContent = msg.message;
 
-            const mensagemEup = document.createElement('p');
-            mensagemEup.textContent = msg.message;
+        const visto = document.createElement('div');
+        visto.setAttribute("data-userid", msg.fromId);
 
-            const visto = document.createElement('div');
-            visto.setAttribute("data-userid", msg.fromId);
-
-            if (this.userId === msg.fromId) {
-                visto.setAttribute("class", "visto vTrue");
-                visto.innerHTML = "<svg xmlns='http://www.w3.org/2000/svg' height='20' viewBox='0 -960 960 960' width='20'><path fill='#0a0' d='M294.565-214.868 56.999-452.434 113-509l181 181 56.566 56.566-56.001 56.566ZM464-228.434 225.869-467.13 283-523.131l181 181 383.435-382.87L904.566-669 464-228.434Zm0-184.131-56.001-56.566 257-257L721-669.565l-257 257Z'/></svg>";
+        if (this.userId === msg.fromId) {
+            visto.setAttribute("class", "visto vTrue");
+            visto.innerHTML = "<svg xmlns='http://www.w3.org/2000/svg' height='20' viewBox='0 -960 960 960' width='20'><path fill='#0a0' d='M294.565-214.868 56.999-452.434 113-509l181 181 56.566 56.566-56.001 56.566ZM464-228.434 225.869-467.13 283-523.131l181 181 383.435-382.87L904.566-669 464-228.434Zm0-184.131-56.001-56.566 257-257L721-669.565l-257 257Z'/></svg>";
+            if (!msg.read_at) {
                 this.marcarChatComoLido(msg.fromId);
-            } else if (msg.read_at) {
-                visto.setAttribute("class", "visto vTrue");
-                visto.innerHTML = "<svg xmlns='http://www.w3.org/2000/svg' height='20' viewBox='0 -960 960 960' width='20'><path fill='#0a0' d='M294.565-214.868 56.999-452.434 113-509l181 181 56.566 56.566-56.001 56.566ZM464-228.434 225.869-467.13 283-523.131l181 181 383.435-382.87L904.566-669 464-228.434Zm0-184.131-56.001-56.566 257-257L721-669.565l-257 257Z'/></svg>";
-            } else {
-                visto.setAttribute("class", "visto vFalse");
-                visto.innerHTML = "<svg xmlns='http://www.w3.org/2000/svg' height='20' viewBox='0 -960 960 960' width='20'><path fill='#333' d='M294.565-214.868 56.999-452.434 113-509l181 181 56.566 56.566-56.001 56.566ZM464-228.434 225.869-467.13 283-523.131l181 181 383.435-382.87L904.566-669 464-228.434Zm0-184.131-56.001-56.566 257-257L721-669.565l-257 257Z'/></svg>";
             }
-
-            mensagemEu.appendChild(mensagemEup);
-            caixaEu.appendChild(mensagemEu);
-            caixaEu.appendChild(visto);
-
-            areaMenssage.appendChild(caixaEu);
-            areaMenssage.scrollTop = areaMenssage.scrollHeight;
+        } else if (msg.read_at) {
+            visto.setAttribute("class", "visto vTrue");
+            visto.innerHTML = "<svg xmlns='http://www.w3.org/2000/svg' height='20' viewBox='0 -960 960 960' width='20'><path fill='#0a0' d='M294.565-214.868 56.999-452.434 113-509l181 181 56.566 56.566-56.001 56.566ZM464-228.434 225.869-467.13 283-523.131l181 181 383.435-382.87L904.566-669 464-228.434Zm0-184.131-56.001-56.566 257-257L721-669.565l-257 257Z'/></svg>";
         } else {
-            let areaMenssage = document.getElementById(msg.fromId + msg.userId);
-            this.openChat(msg.userId, msg.name, msg.photo, true);
+            visto.setAttribute("class", "visto vFalse");
+            visto.innerHTML = "<svg xmlns='http://www.w3.org/2000/svg' height='20' viewBox='0 -960 960 960' width='20'><path fill='#333' d='M294.565-214.868 56.999-452.434 113-509l181 181 56.566 56.566-56.001 56.566ZM464-228.434 225.869-467.13 283-523.131l181 181 383.435-382.87L904.566-669 464-228.434Zm0-184.131-56.001-56.566 257-257L721-669.565l-257 257Z'/></svg>";
+        }
 
+        mensagemEu.appendChild(mensagemEup);
+        caixaEu.appendChild(mensagemEu);
+        caixaEu.appendChild(visto);
+
+        areaMenssage.appendChild(caixaEu);
+        areaMenssage.scrollTop = areaMenssage.scrollHeight;
+    }
+
+    showChatMessageOutro(msg) {
+        let areaMenssage = document.getElementById(msg.fromId + msg.userId);
+        this.openChat(msg.userId, msg.name, msg.photo, true);
+
+        if (!msg.read_at) {
             this.marcarChatComoLido(msg.userId);
+        }
 
+        if (areaMenssage) {
+            this.receberMensagemChat(msg);
+            areaMenssage.scrollTop = areaMenssage.scrollHeight;
 
-            if (areaMenssage) {
-                this.receberMensagemChat(msg);
-                areaMenssage.scrollTop = areaMenssage.scrollHeight;
-
-                if (!msg.read_at) {
-                    // enviar mensagen de lido
-                    let read = {
-                        'userId': this.userId,
-                        'fromId': msg.userId,
-                        'read_at': Date()
-                    }
-                    read = JSON.stringify(read); //converte para json
-                    this.connection.conn.send(read);
+            if (!msg.read_at) {
+                // enviar mensagen de lido
+                let read = {
+                    'userId': this.userId,
+                    'fromId': msg.userId,
+                    'read_at': Date()
                 }
+                read = JSON.stringify(read); //converte para json
+                this.connection.conn.send(read);
             }
-
         }
     }
 
@@ -383,40 +382,43 @@ class Chat {
 
         if ((event.keyCode == 13) || (event.keyCode == null)) {
 
-            const chatMessage = document.getElementById(`chat${fromId}`);
+            const chatMessage = [...document.getElementsByClassName("chatMessage")];
+            chatMessage.forEach((el) => {
 
-            if (chatMessage.value != "") {
+                if (el.value != "") {
 
-                let msg = { // cria um objeto msg
-                    'userId': userId,
-                    'fromId': fromId,
-                    'name': this.nameC,
-                    'photo': this.photo,
-                    'message': chatMessage.value
+                    let msg = { // cria um objeto msg
+                        'userId': userId,
+                        'fromId': fromId,
+                        'name': this.nameC,
+                        'photo': this.photo,
+                        'message': el.value
+                    }
+
+                    const endPoint = `Controllers/create_new_messager_chat?messeger=${el.value}&user_id=${userId}&to_user_id=${fromId}`;
+
+                    el.value = "";
+
+                    fetch(endPoint)
+                        .then(res => res.json())
+                        .then(results => {
+                            if (results.status == "SUCESS") {
+                                if (this.onlines.length === 0) {
+                                    this.showChatMessageEu(msg);
+                                } else {
+                                    msg = JSON.stringify(msg); //converte para json
+                                    this.connection.conn.send(msg);
+                                }
+                            } else {
+                                console.log(results['message']);
+                            }
+                        }).catch(error => {
+                            // Lidar com erros
+                            console.error('Erro:', error);
+                        });
                 }
 
-                const endPoint = `Controllers/create_new_messager_chat?messeger=${chatMessage.value}&user_id=${userId}&to_user_id=${fromId}`;
-
-                chatMessage.value = "";
-
-                fetch(endPoint)
-                    .then(res => res.json())
-                    .then(results => {
-                        if (results.status == "SUCESS") {
-                            if (this.onlines.length === 0) {
-                                this.showChatMessage(msg, "me", this.userId);
-                            } else {
-                                msg = JSON.stringify(msg); //converte para json
-                                this.connection.conn.send(msg);
-                            }
-                        } else {
-                            console.log(results['message']);
-                        }
-                    }).catch(error => {
-                        // Lidar com erros
-                        console.error('Erro:', error);
-                    });
-            }
+            });
         }
     }
 

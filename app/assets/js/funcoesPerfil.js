@@ -4,9 +4,9 @@ class FuncoesPerfil {
     urlAtual = window.location.href;
     urlClass = new URL(this.urlAtual);
     perfilId = this.urlClass.searchParams.get("id");
-    perfilUserId = document.getElementById("principal").dataset.userid;
 
-    constructor(){
+    constructor(perfilUserId) {
+        this.perfilUserId = perfilUserId;
         this.getPerfil();
     }
 
@@ -20,9 +20,15 @@ class FuncoesPerfil {
         fetch(endPoint)
             .then(res => res.json())
             .then(result => {
-                this.carregarPerfil(result);
+                if (result.status == "SUCESS") {
+                        this.carregarPerfil(result);
+                } else {
+                    console.error('Erro:', result.status);
+                }
+
             }).catch(error => {
                 // Lidar com erros
+                window.location.href = "?r=pagenotfound" ;
                 console.error('Erro:', error);
             });
     }
@@ -60,7 +66,7 @@ class FuncoesPerfil {
         } else {
             imgPefil.setAttribute("src", "assets/images/sem-foto.jpg");
         }
-        
+
         imagemPerfil.appendChild(imgPefil);
         perfil.appendChild(imagemPerfil);
 
