@@ -29,12 +29,15 @@
     background-color: #fff;
     border-radius: 15px 15px 0px 0px;
     height: 57px;
+    justify-content: space-between;
 }
 
-.perfil-bate-papo:hover {
-    background-color: rgb(250, 250, 250);
-    border-radius: 15px 15px 0px 0px;
-    cursor: pointer;
+.tituloChat{
+    width: 160px; 
+}
+
+.nomePessoaChat{
+    width: 190px;   
 }
 
 .perfil-bate-papo img {
@@ -177,15 +180,10 @@
 
 .perfil-bate-papo-perfil {
     display: flex;
+    justify-content: space-between;
     background-color: #fff;
     border-radius: 15px 15px 0px 0px;
     height: 57px;
-}
-
-.perfil-bate-papo-perfil:hover {
-    background-color: rgb(250, 250, 250);
-    border-radius: 15px 15px 0px 0px;
-    cursor: pointer;
 }
 
 .perfil-bate-papo-perfil img {
@@ -193,14 +191,12 @@
     width: 40px;
     margin-left: 10px;
     margin-top: 10px;
-    margin-right: 10px;
 }
 
 .perfil-bate-papo-perfil h3 {
     border-radius: 50%;
     width: 100%;
     margin-top: 20px;
-    margin-left: 10px;
     color: #555;
     font-size: 12pt;
 }
@@ -264,4 +260,55 @@
     font-size: 11pt;
     margin-right: 13px;
     word-break: break-all;
+}
+
+.imgFecharChat {
+    align-items: center;
+    display: flex;
+    position: relative;
+    margin-right: 5px;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    justify-content: center;
+    margin-top: 12px;
+}
+
+.imgFecharChat:hover {
+    background-color: #eee;
+    cursor: pointer;
+}
+
+.imgMinimizarChat{
+    align-items: center;
+    display: flex;
+    position: relative;
+    margin-right: 5px;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    justify-content: center;
+    margin-top: 12px; 
+}
+
+.imgMinimizarChat:hover {
+    background-color: #eee;
+    cursor: pointer;
+}
+
+.divTotalHistory{
+    width:27px; 
+    height: 21px;
+    font-size: 10pt; 
+    color: #fff;  
+    padding-top: 5px; 
+    background-color:rgb(141 0 0 / 80%); 
+    position: relative; 
+    border-radius: 50%;
+    text-align: center; 
+    font-weight: bold;
+    margin-top: 16px; 
+}
+.ocultar{
+    visibility: hidden;
 }

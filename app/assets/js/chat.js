@@ -5,8 +5,29 @@ class Chat {
         this.photo = photo;
         this.onlines = [];
         this.connection = connection;
+        this.fucoesChat();
         this.connect();
         this.carregarUserChat();
+    }
+
+    fucoesChat = () => {
+        const imgMinimizarChat = document.querySelector(".imgMinimizarChat");
+        imgMinimizarChat.addEventListener("click", () => {
+            this.ocultarDesocultarBatePapo();
+        });
+    }
+
+    ocultarDesocultarBatePapo = () => {
+        const batepapo = document.getElementById("batePapo");
+        const imgMinimizarChat = document.querySelector(".imgMinimizarChat");
+
+        if (batepapo.style.height == "75vh") {
+            batepapo.style.height = "57px";
+            imgMinimizarChat.innerHTML = "<svg xmlns='http://www.w3.org/2000/svg' height='48' viewBox='0 -960 960 960' width='48'><path d='m286.462-358.463-32.615-32.614L480-617.23l226.153 225.537-32.615 32.615L480-552.616 286.462-358.463Z'/></svg>";
+        } else if (batepapo.style.height < "60px") {
+            batepapo.style.height = "75vh";
+            imgMinimizarChat.innerHTML = "<svg xmlns='http://www.w3.org/2000/svg' height='48' viewBox='0 -960 960 960' width='48'><path d='M480-358.463 253.847-584.615l32.615-32.615L480-423.076l193.538-193.539L706.153-584 480-358.463Z'/></svg>";
+        }
     }
 
     // abre a conexao do chat
@@ -63,7 +84,7 @@ class Chat {
                     const conversaBatePapo = document.getElementById("conversa-bate-papo");
                     conversaBatePapo.innerHTML = "";
 
-                    const divTotalHistory = document.querySelector('#divTotalHistory');
+                    const divTotalHistory = document.querySelector('.divTotalHistory');
                     let total_nread = 0;
 
                     results['results'].forEach((result) => {
@@ -92,6 +113,10 @@ class Chat {
                             } else {
                                 this.openChat(result['id'], nomeCompleto, result['photo_url'], false);
                             }
+                            if (divTotalHistory.innerHTML <= 0) {
+                                divTotalHistory.classList.add("ocultar");
+                             }
+                            
 
                         }
 
@@ -149,7 +174,12 @@ class Chat {
                         }
 
                         conversaBatePapo.appendChild(itemChat);
-                        divTotalHistory.innerHTML = total_nread;
+
+                        if (total_nread > 0) {
+                            divTotalHistory.innerHTML = total_nread;
+                            divTotalHistory.classList.remove("ocultar");
+                        }
+
                     });
                 } else {
                     console.log(results['message']);
@@ -174,11 +204,6 @@ class Chat {
 
             const headerPapoPerfil = document.createElement('header');
             headerPapoPerfil.setAttribute('class', 'perfil-bate-papo-perfil');
-            headerPapoPerfil.id = "cabecalhoBatePapo";
-
-            headerPapoPerfil.onclick = function () {
-                areaChat.removeChild(batePapoPerfil);
-            }
 
             const div = document.createElement('div');
 
@@ -197,18 +222,27 @@ class Chat {
                 status.setAttribute("class", "offline");
             }
 
-            const div2 = document.createElement('div');
+            const nomePessoaChat = document.createElement('div');
+            nomePessoaChat.setAttribute("class", "nomePessoaChat");
 
             const h3 = document.createElement('h3');
             h3.innerText = nomeCompleto;
 
             const hr = document.createElement('hr');
 
-            div2.appendChild(h3);
+            const imgFecharChat = document.createElement('div');
+            imgFecharChat.setAttribute("class", "imgFecharChat");
+            imgFecharChat.innerHTML = "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 -960 960 960' width='30'><path fill='#555' d='m249-207-42-42 231-231-231-231 42-42 231 231 231-231 42 42-231 231 231 231-42 42-231-231-231 231Z'/></svg>";
+            imgFecharChat.addEventListener("click", () => {
+                areaChat.removeChild(batePapoPerfil);
+            });
+
+            nomePessoaChat.appendChild(h3);
             div.appendChild(img);
             div.appendChild(status);
             headerPapoPerfil.appendChild(div);
-            headerPapoPerfil.appendChild(div2);
+            headerPapoPerfil.appendChild(nomePessoaChat);
+            headerPapoPerfil.appendChild(imgFecharChat);
             batePapoPerfil.appendChild(headerPapoPerfil);
             batePapoPerfil.appendChild(hr);
 

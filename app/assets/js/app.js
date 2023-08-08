@@ -113,22 +113,4 @@ function showHint(str) {
     }
 }
 
-if(document.getElementById("cabecalhoBatePapoPrincipal")){
-    document.getElementById("cabecalhoBatePapoPrincipal").onclick = function () {
-
-        ocultarDesocultarBatePapo();
-    }
-}
-
-
-function ocultarDesocultarBatePapo() {
-
-    const batepapo = document.getElementById("batePapo");
-
-    if (batepapo.style.height == "75vh") {
-        batepapo.style.height = "57px";
-    } else if (batepapo.style.height < "60px") {
-        batepapo.style.height = "75vh";
-    }
-}
 // =======================================================================================================

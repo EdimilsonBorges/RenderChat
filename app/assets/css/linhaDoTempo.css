@@ -38,7 +38,7 @@ body {
     width: 100%;
 }
 
-.posts .divisaoPost{
+.posts .divisaoPost {
     margin-top: 15px;
     margin-bottom: 15px;
 }
@@ -319,7 +319,8 @@ body {
     font-weight: bold;
     text-decoration: none;
 }
-.perfil a:hover{
+
+.perfil a:hover {
     text-decoration: underline;
 }
 
@@ -333,7 +334,7 @@ body {
     display: none;
 }
 
-.areaPost{
+.areaPost {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -836,7 +837,7 @@ body {
     width: 90px;
     text-align: center;
     right: 2vw;
-    z-index: 9;  
+    z-index: 9;
     background-color: #eee;
     border-radius: 5px;
     box-shadow: #000 0px 0px 2px;
@@ -872,20 +873,25 @@ body {
 
 /* carregando ============================================================================================= */
 .custom-loader {
-    width:50px;
-    height:50px;
+    width: 50px;
+    height: 50px;
     margin-top: 5vh;
     margin-bottom: 20vh;
-    border-radius:50%;
-    background:conic-gradient(#0000 10%,#009e2d);
-    -webkit-mask:radial-gradient(farthest-side,#0000 calc(100% - 8px),#000 0);
-    mask:radial-gradient(farthest-side,#0000 calc(100% - 8px),#000 0);
-    animation:s3 1s infinite linear;
-  }
-  @keyframes s3 {to{transform: rotate(1turn)}}
+    border-radius: 50%;
+    background: conic-gradient(#0000 10%, #009e2d);
+    -webkit-mask: radial-gradient(farthest-side, #0000 calc(100% - 8px), #000 0);
+    mask: radial-gradient(farthest-side, #0000 calc(100% - 8px), #000 0);
+    animation: s3 1s infinite linear;
+}
 
-  /* fim ============================================================================================= */
-  .fim-loader{
+@keyframes s3 {
+    to {
+        transform: rotate(1turn)
+    }
+}
+
+/* fim ============================================================================================= */
+.fim-loader {
     border: 1px solid var(--borda-janelas);
     background-color: var(--background-janelas);
     border-radius: 15px;
@@ -893,15 +899,16 @@ body {
     width: 100%;
     background-color: #cfc;
 
-  }
+}
 
-  .fim-loader p{
+.fim-loader p {
     text-align: center;
     color: #333;
     font-size: 15pt;
     font-weight: bold;
     margin: 5px;
-  }
+}
+
 /* Responsividade ========================================================================================= */
 
 @media screen and (max-width: 800px) {
