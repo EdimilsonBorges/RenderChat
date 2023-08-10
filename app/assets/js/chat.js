@@ -23,10 +23,10 @@ class Chat {
 
         if (batepapo.style.height == "75vh") {
             batepapo.style.height = "57px";
-            imgMinimizarChat.innerHTML = "<svg xmlns='http://www.w3.org/2000/svg' height='48' viewBox='0 -960 960 960' width='48'><path d='m286.462-358.463-32.615-32.614L480-617.23l226.153 225.537-32.615 32.615L480-552.616 286.462-358.463Z'/></svg>";
+            imgMinimizarChat.innerHTML = "<svg xmlns='http://www.w3.org/2000/svg' height='48' viewBox='0 -960 960 960' width='48'><path fill='#555' d='m286.462-358.463-32.615-32.614L480-617.23l226.153 225.537-32.615 32.615L480-552.616 286.462-358.463Z'/></svg>";
         } else if (batepapo.style.height < "60px") {
             batepapo.style.height = "75vh";
-            imgMinimizarChat.innerHTML = "<svg xmlns='http://www.w3.org/2000/svg' height='48' viewBox='0 -960 960 960' width='48'><path d='M480-358.463 253.847-584.615l32.615-32.615L480-423.076l193.538-193.539L706.153-584 480-358.463Z'/></svg>";
+            imgMinimizarChat.innerHTML = "<svg xmlns='http://www.w3.org/2000/svg' height='48' viewBox='0 -960 960 960' width='48'><path fill='#555' d='M480-358.463 253.847-584.615l32.615-32.615L480-423.076l193.538-193.539L706.153-584 480-358.463Z'/></svg>";
         }
     }
 
@@ -113,10 +113,10 @@ class Chat {
                             } else {
                                 this.openChat(result['id'], nomeCompleto, result['photo_url'], false);
                             }
-                            if (divTotalHistory.innerHTML <= 0) {
+                            if (parseInt(divTotalHistory.innerHTML) <= 0) {
                                 divTotalHistory.classList.add("ocultar");
-                             }
-                            
+                            }
+
 
                         }
 
@@ -390,6 +390,22 @@ class Chat {
     showChatMessageOutro(msg) {
         let areaMenssage = document.getElementById(msg.fromId + msg.userId);
         this.openChat(msg.userId, msg.name, msg.photo, true);
+
+        const itemChat = [...document.getElementsByClassName("itemChat")];
+        itemChat.forEach((elemento) => {
+            const divNunHistory = elemento.children[2];
+
+            if (divNunHistory && elemento.dataset.friendid == msg.userId) {
+                let divTotalHistory = document.querySelector(".divTotalHistory");
+                if (parseInt(divTotalHistory.innerHTML) > parseInt(divNunHistory.innerHTML)) {
+                    divTotalHistory.innerHTML -= divNunHistory.innerHTML;
+                } else {
+                    divTotalHistory.remove();
+                }
+
+                divNunHistory.remove();
+            }
+        });
 
         if (!msg.read_at) {
             this.marcarChatComoLido(msg.userId);
