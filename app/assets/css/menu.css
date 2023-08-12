@@ -74,23 +74,23 @@ svg path {
     /* border-radius: 8px; */
 }
 
-.menu:hover svg path{
+.menu:hover svg path {
     fill: #faa;
 }
 
-.menu:hover a{
+.menu:hover a {
     color: #faa;
 }
 
-.active{
+.active {
     border-bottom: #fff solid 1px;
 }
 
-.active a{
+.active a {
     color: #faa !important;
 }
 
-.active svg path{
+.active svg path {
     fill: #faa;
 }
 
@@ -114,6 +114,7 @@ svg path {
     cursor: pointer;
 }
 
+
 .conta .per {
     margin-right: 10px;
     border-radius: 50%;
@@ -124,8 +125,11 @@ svg path {
     font-size: 10pt;
 }
 
-.conta span:hover{
-    color: #eee;
+.conta:hover span,
+.conta:hover svg path {
+    /* color: #eee; */
+    fill: #ddd;
+    color: #ddd;
 }
 
 .navLinkConta {
@@ -151,11 +155,11 @@ svg path {
     cursor: pointer;
 }
 
-.navLinkConta a:hover {
+/* .navLinkConta a:hover {
     border-radius: 5px;
     background-color: #ccc;
 }
 
 .navLinkConta a img {
     margin-right: 3px;
-}
+} */

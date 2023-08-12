@@ -93,7 +93,7 @@ defined("ROOT") or die("Acesso negado");
                 <img class="per" src="assets/images/<?= $_SESSION['photo_url'] ?>">
             <?php endif;?>
             <span><?= $_SESSION['first_name'] . " " . $_SESSION['last_name'] ?></span>
-            <img src="assets/icons/mais.svg">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="30"><path fill="#fff" d="M480-360 280-559h400L480-360Z"/></svg>
         </div>
         <nav class="navLinkConta" id="navLinkConta">
                 <a href="?r=perfil"><img src="assets/icons/person.svg">Conta</a>
