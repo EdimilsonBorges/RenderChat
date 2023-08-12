@@ -312,9 +312,11 @@
 }
 
 .linksPostMenuDrop {
-    max-width: 90px;
-    height: 85px;
+    width: max-content;
+    height: max-content;
     background-color: #eee;
+    border-radius: 5px;
+    box-shadow: #000 0px 0px 2px;
 }
 
 .linksPostMenuDrop a {
@@ -506,10 +508,20 @@
     border-radius: 10px 10px 0 0;
 }
 
-.btnFecharPostModal {
+.btnFecharPostModal, .btnFecharCurtidas, .btnFecharComp, .btnFecharCompartModal {
     position: absolute;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    justify-content: center;
+    border-radius: 50%;
     cursor: pointer;
     right: 15px;
+    bottom: 9px;
+}
+
+.btnFecharPostModal:hover, .btnFecharCurtidas:hover, .btnFecharComp:hover, .btnFecharCompartModal:hover{
+    background-color: #fff;
 }
 
 .postModal .cabecalhoPostModal h4 {
@@ -592,7 +604,6 @@
     padding: 15px;
     background-color: #cfc;
     border-radius: 12px 12px 0px 0px;
-    margin-bottom: 10px;
 }
 
 .arealinksComp .linksComp .cabecalhoComp {
@@ -601,15 +612,6 @@
     padding: 15px;
     background-color: #dde;
     border-radius: 12px 12px 0px 0px;
-    margin-bottom: 10px;
-}
-
-.btnFecharCurtidas,
-.btnFecharComp {
-    position: absolute;
-    top: 2vh;
-    cursor: pointer;
-    right: 15px;
 }
 
 .perfilCurtidas,
@@ -653,6 +655,7 @@
 
 .totalCurtidas,
 .totalComp {
+    margin-top: 10px;
     margin-left: 40px;
 }
 

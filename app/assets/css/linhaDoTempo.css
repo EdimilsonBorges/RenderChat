@@ -373,10 +373,20 @@ body {
     border-radius: 10px 10px 0 0;
 }
 
-.btnFecharPostModal {
+.btnFecharPostModal, .btnFecharCurtidas, .btnFecharComp, .btnFecharCompartModal {
     position: absolute;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    justify-content: center;
+    border-radius: 50%;
     cursor: pointer;
     right: 15px;
+    bottom: 9px;
+}
+
+.btnFecharPostModal:hover, .btnFecharCurtidas:hover, .btnFecharComp:hover, .btnFecharCompartModal:hover{
+    background-color: #fff;
 }
 
 .postModal .cabecalhoPostModal h4 {
@@ -459,7 +469,6 @@ body {
     padding: 15px;
     background-color: #cfc;
     border-radius: 12px 12px 0px 0px;
-    margin-bottom: 10px;
 }
 
 .arealinksComp .linksComp .cabecalhoComp {
@@ -468,15 +477,6 @@ body {
     padding: 15px;
     background-color: #dde;
     border-radius: 12px 12px 0px 0px;
-    margin-bottom: 10px;
-}
-
-.btnFecharCurtidas,
-.btnFecharComp {
-    position: absolute;
-    top: 2vh;
-    cursor: pointer;
-    right: 15px;
 }
 
 .perfilCurtidas,
@@ -520,6 +520,7 @@ body {
 
 .totalCurtidas,
 .totalComp {
+    margin-top: 10px;
     margin-left: 40px;
 }
 
@@ -641,15 +642,6 @@ body {
     display: flex;
     background-color: rgb(166, 247, 120);
     border-radius: 10px 10px 0 0;
-}
-
-.btnFecharCompartModal {
-    position: absolute;
-    font-weight: bold;
-    font-family: Arial, Helvetica, sans-serif;
-    cursor: pointer;
-    right: 15px;
-    color: var(--titulo-compart-modal);
 }
 
 .compartModal .cabecalhoCompartModal h4 {
@@ -869,6 +861,14 @@ body {
     right: 3.5vw;
     font-weight: bold;
     z-index: 8;
+}
+
+.confirm{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color:#090;
+    text-align: center;
 }
 
 /* carregando ============================================================================================= */

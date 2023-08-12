@@ -63,6 +63,7 @@ defined("ROOT") or die("Acesso negado");
                 <h4>Curtidas</h4>
                 <span id="btnFecharCurtidas" class="btnFecharCurtidas"><img src="./assets/icons/close.svg"></span>
             </div>
+            <hr>
             <div class="totalCurtidas">
                 <h5>Todas </h5><span></span>
             </div>
@@ -77,6 +78,7 @@ defined("ROOT") or die("Acesso negado");
                 <h4>Compartilhamentos</h4>
                 <span id="btnFecharComp" class="btnFecharComp"><img src="./assets/icons/close.svg"></span>
             </div>
+            <hr>
             <div class="totalComp">
                 <h5>Todas </h5><span></span>
             </div>

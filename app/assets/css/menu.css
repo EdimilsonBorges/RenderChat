@@ -155,11 +155,7 @@ svg path {
     cursor: pointer;
 }
 
-/* .navLinkConta a:hover {
+.navLinkConta a:hover {
     border-radius: 5px;
     background-color: #ccc;
 }
-
-.navLinkConta a img {
-    margin-right: 3px;
-} */

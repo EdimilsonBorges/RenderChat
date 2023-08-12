@@ -665,7 +665,7 @@ class FuncoesPosts {
 
     campo.innerHTML = "";
 
-    const endPoint = `Controllers/get_all_likes/index.php?post_id=${result.id}`;
+    const endPoint = `Controllers/get_all_likes/index.php?post_id=${result.id}&user_id=${this.userId}`;
 
     fetch(endPoint)
       .then(res => res.json())
@@ -690,15 +690,43 @@ class FuncoesPosts {
             const h5 = document.createElement("h5");
             h5.innerText = `${like['first_name']} ${like['last_name']}`;
 
-            const btnAdicionar = document.createElement("button");
-            btnAdicionar.type = "button";
-            btnAdicionar.innerText = "Adicionar";
-
             const hr = document.createElement("hr");
 
             perfilCurtidas.appendChild(img);
             perfilCurtidas.appendChild(h5);
-            perfilCurtidas.appendChild(btnAdicionar);
+
+            if (like.friendrequest == 1 && like.user_id != this.userId) {
+              const confirm = document.createElement("div");
+              confirm.setAttribute("class", "confirm");
+              confirm.innerText = "Aguardando confirmação";
+              perfilCurtidas.appendChild(confirm);;
+            }
+
+            if (like.friend != 1 && like.friendrequest != 1 && like.user_id != this.userId) {
+              const btnAdicionar = document.createElement("button");
+              btnAdicionar.type = "button";
+              btnAdicionar.innerText = "Adicionar";
+              btnAdicionar.addEventListener("click", (evt) => {
+                const endPoint = `Controllers/create_new_friendrequests?user_id=${this.userId}&friends_id=${like.user_id}`;
+                fetch(endPoint)
+                  .then(res => res.json())
+                  .then(results => {
+                    if (results.status == "SUCESS") {
+                      evt.target.remove();
+                      const confirm = document.createElement("div");
+                      confirm.setAttribute("class", "confirm");
+                      confirm.innerText = "Aguardando confirmação";
+                      perfilCurtidas.appendChild(confirm);
+                    } else {
+                      console.log(results['message']);
+                    }
+                  }).catch(error => {
+                    // Lidar com erros
+                    console.error('Erro:', error);
+                  });
+              });
+              perfilCurtidas.appendChild(btnAdicionar);
+            }
 
             campo.appendChild(perfilCurtidas);
             campo.appendChild(hr);
