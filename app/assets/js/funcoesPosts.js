@@ -785,8 +785,7 @@ class FuncoesPosts {
 
     campo.innerHTML = "";
 
-    const endPoint = `Controllers/get_all_shares/index.php?post_id=${result.id}`;
-
+    const endPoint = `Controllers/get_all_shares/index.php?post_id=${result.id}&user_id=${this.userId}`;
     fetch(endPoint)
       .then(res => res.json())
       .then(results => {
@@ -798,6 +797,7 @@ class FuncoesPosts {
 
             const perfilComp = document.createElement("div");
             perfilComp.setAttribute("class", "perfilComp");
+            perfilComp.setAttribute("data-idperf", share.user_id);
 
             const img = document.createElement("img");
 
@@ -810,15 +810,49 @@ class FuncoesPosts {
             const h5 = document.createElement("h5");
             h5.innerText = `${share['first_name']} ${share['last_name']}`;
 
-            const btnAdicionar = document.createElement("button");
-            btnAdicionar.type = "button";
-            btnAdicionar.innerText = "Adicionar";
-
             const hr = document.createElement("hr");
 
             perfilComp.appendChild(img);
             perfilComp.appendChild(h5);
-            perfilComp.appendChild(btnAdicionar);
+
+            if (share.friendrequest == 1 && share.user_id != this.userId) {
+              const confirm = document.createElement("div");
+              confirm.setAttribute("class", "confirm");
+              confirm.innerText = "Aguardando confirmação";
+              perfilComp.appendChild(confirm);;
+            }
+
+            if (share.friend != 1 && share.friendrequest != 1 && share.user_id != this.userId) {
+              const btnAdicionar = document.createElement("button");
+              btnAdicionar.type = "button";
+              btnAdicionar.innerText = "Adicionar";
+              btnAdicionar.addEventListener("click", (evt) => {
+
+                const endPoint = `Controllers/create_new_friendrequests?user_id=${this.userId}&friends_id=${share.user_id}`;
+                fetch(endPoint)
+                  .then(res => res.json())
+                  .then(results => {
+                    if (results.status == "SUCESS") {
+                      const users = [...document.querySelectorAll(".perfilComp")];
+                      users.forEach((item) => {
+                        if (item.dataset.idperf == share.user_id) {
+                          item.lastChild.remove();
+                          const confirm = document.createElement("div");
+                          confirm.setAttribute("class", "confirm");
+                          confirm.innerText = "Aguardando confirmação";
+                          item.appendChild(confirm);
+                        }
+                      });
+                    } else {
+                      console.log(results['message']);
+                    }
+                  }).catch(error => {
+                    // Lidar com erros
+                    console.error('Erro:', error);
+                  });
+              });
+              perfilComp.appendChild(btnAdicionar);
+            }
 
             campo.appendChild(perfilComp);
             campo.appendChild(hr);

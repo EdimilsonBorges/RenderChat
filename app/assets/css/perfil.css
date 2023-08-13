@@ -1001,6 +1001,14 @@
     z-index: 8;
 }
 
+.confirm{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color:#090;
+    text-align: center;
+}
+
 /* carregando ============================================================================================= */
 .custom-loader {
     width: 50px;
