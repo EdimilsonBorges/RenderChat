@@ -42,7 +42,7 @@ class FuncoesPosts {
     const areaPost = document.getElementById("areaPost");
 
     const p = document.createElement("p");
-    p.innerHTML = "Sem mais publicações até o momento..."
+    p.innerHTML = "Sem publicações..."
 
     const custonLoader = document.createElement("div");
     custonLoader.setAttribute("class", "fim-loader");
@@ -556,9 +556,10 @@ class FuncoesPosts {
     const corpoComment = document.createElement("div");
     corpoComment.setAttribute("class", "corpo_comment");
 
-    const nomePerf = document.createElement("p");
-    nomePerf.setAttribute("class", "nomePerf");
-    nomePerf.innerText = `${result['co_first_name']} ${result['co_last_name']}`;
+    const aNomeUserComment = document.createElement("a");
+    aNomeUserComment.setAttribute("href", `/RenderChat/app/?r=perfil&id=${result.user_id}`);
+    aNomeUserComment.innerHTML = `${result.co_first_name} ${result.co_last_name}`;
+    console.log(result);
 
     const p = document.createElement("p");
     p.innerHTML = result['comment'];
@@ -571,7 +572,7 @@ class FuncoesPosts {
     ccommentMenuDrop.appendChild(btnCommentMenuDrop);
     ccommentMenuDrop.appendChild(navLinksComment);
 
-    corpoComment.appendChild(nomePerf);
+    corpoComment.appendChild(aNomeUserComment);
     corpoComment.appendChild(p);
 
     const itemComment = document.createElement("div");
@@ -687,13 +688,14 @@ class FuncoesPosts {
               img.src = "assets/images/sem-foto.jpg";
             }
 
-            const h5 = document.createElement("h5");
-            h5.innerText = `${like['first_name']} ${like['last_name']}`;
+            const aNomeUserLike = document.createElement("a");
+            aNomeUserLike.setAttribute("href", `/RenderChat/app/?r=perfil&id=${like.user_id}`);
+            aNomeUserLike.innerHTML = `${like.first_name} ${like.last_name}`;
 
             const hr = document.createElement("hr");
 
             perfilCurtidas.appendChild(img);
-            perfilCurtidas.appendChild(h5);
+            perfilCurtidas.appendChild(aNomeUserLike);
 
             if (like.friendrequest == 1 && like.user_id != this.userId) {
               const confirm = document.createElement("div");
@@ -807,13 +809,14 @@ class FuncoesPosts {
               img.src = "assets/images/sem-foto.jpg";
             }
 
-            const h5 = document.createElement("h5");
-            h5.innerText = `${share['first_name']} ${share['last_name']}`;
+            const aNomeUserShare = document.createElement("a");
+            aNomeUserShare.setAttribute("href", `/RenderChat/app/?r=perfil&id=${share.user_id}`);
+            aNomeUserShare.innerHTML = `${share.first_name} ${share.last_name}`;
 
             const hr = document.createElement("hr");
 
             perfilComp.appendChild(img);
-            perfilComp.appendChild(h5);
+            perfilComp.appendChild(aNomeUserShare);
 
             if (share.friendrequest == 1 && share.user_id != this.userId) {
               const confirm = document.createElement("div");

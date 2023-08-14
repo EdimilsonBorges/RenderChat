@@ -499,14 +499,35 @@ body {
     width: 100%;
 }
 
-.perfilCurtidas h5,
-.perfilComp h5,
 .perfilCurtidas span,
 .perfilComp span {
     width: 100%;
     margin-top: 15px;
     font-size: 11pt;
     color: #444;
+}
+
+.perfilCurtidas a,
+.perfilComp a{
+    width: 100%;
+    margin-top: 15px;
+    font-size: 11pt;
+    color: #444;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.corpo_comment a{
+    font-size: 11pt;
+    color: #444;
+    font-weight: bold;
+    text-decoration: none;
+    margin-left: 9px;
+}
+
+.perfilCurtidas a:hover,
+.perfilComp a:hover, .corpo_comment a:hover{
+    color: #292;
 }
 
 .campoCurtidas,
@@ -785,11 +806,11 @@ body {
     margin-bottom: -60px;
 }
 
-.area .corpo_comment .nomePerf {
+/* .area .corpo_comment .nomePerf {
     margin: 0px;
     padding: 5px 10px 10px 10px;
     font-weight: bold;
-}
+} */
 
 .area .corpo_comment p {
     position: relative;
