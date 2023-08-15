@@ -29,7 +29,7 @@ class FuncoesPerfil {
 
             }).catch(error => {
                 // Lidar com erros
-                //window.location.href = "?r=pagenotfound";
+                window.location.href = "?r=pagenotfound";
                 console.error('Erro:', error);
             });
     }
@@ -78,9 +78,9 @@ class FuncoesPerfil {
 
         const amigos = document.createElement("h2");
         if (result.results[0].qtdFriend == 1) {
-            amigos.innerHTML = `${result.results[0].qtdFriend} amigo`;
+            amigos.innerHTML = `${result.results[0].qtdFriend} Amigo`;
         } else {
-            amigos.innerHTML = `${result.results[0].qtdFriend} amigos`;
+            amigos.innerHTML = `${result.results[0].qtdFriend} Amigos`;
         }
 
         const divBtns = document.createElement("div");
@@ -100,6 +100,8 @@ class FuncoesPerfil {
             } else {
                 this.btnAddAmigos(divBtns);
             }
+        } else if (this.perfilId != this.userId) {
+            this.btnFriends(divBtns);
         }
 
         descricao.appendChild(nomeComp);
@@ -136,6 +138,7 @@ class FuncoesPerfil {
     }
 
     btnRemoveSolictEnvFriend = (divBtns) => {
+
         const btnRemoveSolicitFriend = document.createElement("button");
         btnRemoveSolicitFriend.setAttribute("class", "btnRemoveSolicitFriend");
         btnRemoveSolicitFriend.innerHTML = "Cancelar solicitação";
@@ -158,15 +161,113 @@ class FuncoesPerfil {
         divBtns.appendChild(btnRemoveSolicitFriend);
     }
 
+    btnFriends = (divBtns) => {
+
+        const navLinkBtnAguardandoConfir = document.createElement("nav");
+        navLinkBtnAguardandoConfir.setAttribute("class", "navLinkBtnAguardandoConfir");
+        navLinkBtnAguardandoConfir.setAttribute("id", "navLinkBtnAguardandoConfir");
+
+        const btnDesfazerAmizade = document.createElement("button");
+        btnDesfazerAmizade.setAttribute("class", "btnRemoveSolicit");
+        btnDesfazerAmizade.innerHTML = "Desfazer amizade";
+        btnDesfazerAmizade.addEventListener("click", () => {
+            const endPoint = `Controllers/delete_friend?user_id=${this.userId}&friends_id=${this.perfilId}`;
+            fetch(endPoint)
+                .then(res => res.json())
+                .then(results => {
+                    if (results.status == "SUCESS") {
+                        divButtons.remove();
+                        this.btnAddAmigos(divBtns);
+                    } else {
+                        console.log(results['message']);
+                    }
+                }).catch(error => {
+                    // Lidar com erros
+                    console.error('Erro:', error);
+                });
+        });
+
+        navLinkBtnAguardandoConfir.appendChild(btnDesfazerAmizade);
+
+        const divButtons = document.createElement("div");
+        divButtons.setAttribute("class", "divButtonsUm");
+
+        const btnFriend = document.createElement("button");
+        btnFriend.setAttribute("class", "btnAmigos");
+        btnFriend.innerHTML = "Amigo";
+        btnFriend.addEventListener("click", () => {
+            navLinkBtnAguardandoConfir.classList.toggle("mostrarBtnConfirm");
+        });
+
+        divButtons.appendChild(btnFriend);
+        divButtons.appendChild(navLinkBtnAguardandoConfir);
+        divBtns.appendChild(divButtons);
+    }
+
     btnsSolicitRecebFriend = (divBtns) => {
+
+        const navLinkBtnAguardandoConfir = document.createElement("nav");
+        navLinkBtnAguardandoConfir.setAttribute("class", "navLinkBtnAguardandoConfir");
+        navLinkBtnAguardandoConfir.setAttribute("id", "navLinkBtnAguardandoConfir");
+
+        const btnConfirmSolicit = document.createElement("button");
+        btnConfirmSolicit.setAttribute("class", "btnConfirmSolicit");
+        btnConfirmSolicit.innerHTML = "Aceitar solicitação";
+        btnConfirmSolicit.addEventListener("click", () => {
+            this.endPoint = `Controllers/create_new_friend?user_id=${this.userId}&friends_id=${this.perfilId}`;
+            fetch(this.endPoint)
+                .then(res => res.json())
+                .then(results => {
+
+                    if (results.status == "SUCESS") {
+                        divButtons.remove();
+                        this.btnFriends(divBtns);
+                    } else {
+                        console.log(results['message']);
+                    }
+                }).catch(error => {
+                    // Lidar com erros
+                    console.error('Erro:', error);
+                });
+
+        });
+
+        const btnRemoveSolicit = document.createElement("button");
+        btnRemoveSolicit.setAttribute("class", "btnRemoveSolicit");
+        btnRemoveSolicit.innerHTML = "Recusar solicitação";
+        btnRemoveSolicit.addEventListener("click", () => {
+            this.endPoint = `Controllers/delete_friendrequest?user_id=${this.userId}&friends_id=${this.perfilId}`;
+            fetch(this.endPoint)
+                .then(res => res.json())
+                .then(results => {
+    
+                    if (results.status == "SUCESS") {
+                        divButtons.remove();
+                        this.btnAddAmigos(divBtns);
+                    } else {
+                        console.log(results['message']);
+                    }
+                }).catch(error => {
+                    // Lidar com erros
+                    console.error('Erro:', error);
+                });
+        });
+
+        navLinkBtnAguardandoConfir.appendChild(btnConfirmSolicit);
+        navLinkBtnAguardandoConfir.appendChild(btnRemoveSolicit);
+
+        const divButtons = document.createElement("div");
+        divButtons.setAttribute("class", "divButtonsDois");
 
         const btnAguardandoConfir = document.createElement("button");
         btnAguardandoConfir.setAttribute("class", "btnAguardandoConfir");
-        btnAguardandoConfir.innerHTML = "Aguardando Confirmação";
+        btnAguardandoConfir.innerHTML = "Aguardando confirmação";
         btnAguardandoConfir.addEventListener("click", () => {
-            
+            navLinkBtnAguardandoConfir.classList.toggle("mostrarBtnConfirm");
         });
-         divBtns.appendChild(btnAguardandoConfir);
+        divButtons.appendChild(btnAguardandoConfir);
+        divButtons.appendChild(navLinkBtnAguardandoConfir);
+        divBtns.appendChild(divButtons);
     }
 
 }

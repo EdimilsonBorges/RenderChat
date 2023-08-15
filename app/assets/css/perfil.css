@@ -1028,7 +1028,18 @@
 .btnAddAmigos{
     height: 40px;
     background-color: #0e0;
-    margin: 10px 60px 10px 10px;
+    padding: 5px;
+    margin-right: 30px;
+    width: 18vw;
+    border-radius: 10px;
+    color: #fff;
+    cursor:pointer;
+    font-weight: bold;
+}
+
+.btnAmigos{
+    height: 40px;
+    background-color: #0e0;
     padding: 5px;
     width: 18vw;
     border-radius: 10px;
@@ -1037,11 +1048,11 @@
     font-weight: bold;
 }
 
-.btnAguardandoConfir, .btnRemoveSolicitFriend{
+.btnRemoveSolicitFriend{
     height: 40px;
     background-color: #e00;
-    margin: 10px 60px 10px 10px;
-    padding: 3px;
+    padding: 5px;
+    margin-right: 30px;
     width: 18vw;
     border-radius: 10px;
     color: #fff;
@@ -1049,16 +1060,84 @@
     font-weight: bold;  
 }
 
-.btnAguardandoConfir:hover, .btnRemoveSolicitFriend:hover{
+.btnAguardandoConfir{
+    height: 40px;
+    background-color: #e00;
+    padding: 3px;
+    width: 18vw;
+    border-radius: 10px;
+    color: #fff;
+    cursor:pointer;
+    font-weight: bold;
+}
+
+.btnAguardandoConfir:hover, .btnRemoveSolicitFriend:hover, .btnRemoveSolicit:hover{
     background-color: #a00; 
 }
 
-.btnAddAmigos:hover{
+.btnAddAmigos:hover, .btnConfirmSolicit:hover{
     background-color: #0a0;
 }
 
 .btnMostrarAmigos:hover{
     background-color: rgb(1, 103, 187); 
+}
+
+.navLinkBtnAguardandoConfir{
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    width: 15vw;
+    background-color: #eee;
+    margin-top: 5px;
+    border: solid 1px #999;
+    border-radius: 7px;
+    visibility: hidden;
+}
+
+.divButtonsUm{
+    display: flex;
+    position: relative;
+    margin-right: 30px;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    top: 23px;
+}
+
+.divButtonsDois{
+    display: flex;
+    position: relative;
+    margin-right: 30px;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    top: 43px;
+}
+
+.btnRemoveSolicit{
+    background-color: #e00;
+    font-weight: bold;
+    color: #fff;
+    margin: 5px;
+    padding: 5px;
+    border-radius: 6px;
+    cursor: pointer;
+
+}
+
+.btnConfirmSolicit{
+    background-color: #0e0;
+    font-weight: bold;
+    color: #fff;
+    margin: 5px;
+    padding: 5px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.mostrarBtnConfirm{
+    visibility: visible !important;
 }
 
 /* carregando ============================================================================================= */
