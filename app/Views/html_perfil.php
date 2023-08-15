@@ -8,7 +8,7 @@ defined("ROOT") or die("Acesso negado");
     </article>
     <article class="container-corpo-p">
         <section class="container-lateral-p">
-            <div>
+            <nav>
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eget enim vitae quam pulvinar
                     faucibus ac eget odio. Aliquam viverra turpis a dapibus bibendum. Phasellus vitae neque vitae
                     mauris ornare volutpat. Orci varius natoque penatibus et magnis dis parturient montes, nascetur
@@ -16,16 +16,16 @@ defined("ROOT") or die("Acesso negado");
                     ut scelerisque. Sed in augue sed mi rhoncus porta. Pellentesque pharetra sed arcu eget cursus.
                     Sed et diam sem. Integer ultrices a arcu at consequat. Pellentesque lacinia risus nisi, at
                     pretium erat vehicula sed.</p>
-            </div>
-            <div>
+            </nav>
+            <nav>
                 <p>Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nunc
                     non eleifend mi. Donec suscipit nulla congue hendrerit facilisis. Suspendisse potenti. Aliquam
                     tempor ex vel tristique pharetra. Nunc commodo lectus dolor, vel vulputate est commodo nec.
                     Vestibulum a augue finibus, efficitur turpis et, dignissim justo. Vestibulum sed urna at metus
                     gravida blandit. Curabitur ac molestie justo, quis rutrum nulla. Vivamus lacinia risus at lectus
                     aliquet, nec luctus orci volutpat. Nam imperdiet pharetra nisi, ac commodo dui.</p>
-            </div>
-            <div>
+            </nav>
+            <nav>
                 <p>Etiam quis lorem ut justo tincidunt finibus et nec dolor. Nam vitae pharetra risus, sed mattis
                     dui. Maecenas in accumsan lorem, eu pharetra nisi. Nunc sollicitudin eget est at porttitor. Sed
                     posuere, metus ac efficitur imperdiet, ex eros pulvinar magna, sit amet aliquet felis lorem at
@@ -34,7 +34,7 @@ defined("ROOT") or die("Acesso negado");
                     Praesent bibendum leo nibh, non tincidunt nunc suscipit sed. Maecenas imperdiet, tellus eu
                     rhoncus tincidunt, dui mauris mattis magna, ut faucibus sem dolor ut lectus. Nam mollis tempus
                     tortor.</p>
-            </div>
+            </nav>
         </section>
 
         <article class="posts" id="posts">

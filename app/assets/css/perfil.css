@@ -1,4 +1,16 @@
 /* Área principal ==================================================================================*/
+body {
+    --borda-janelas: #c0bfbf;
+    --background-janelas: #fff;
+
+    --borda-publicar: #000;
+    --texto-publicar: #444;
+    --background-hover-publicar: #eee;
+    --links-background-publicar: #00ffff;
+    --links-background-publicar-hover: #00f;
+
+    --titulo-compart-modal: var(--texto-publicar);
+}
 
 .container-corpo {
     width: 100%;
@@ -88,7 +100,7 @@
     width: 50%;
 }
 
-.container-lateral-p div {
+.container-lateral-p nav {
     padding: 5%;
     border-radius: 15px;
     margin-bottom: 8px;
@@ -353,7 +365,7 @@
     word-break: break-all;
 }
 
-.container-corpo nav p {
+.container-lateral-p nav p {
     margin-top: 10px;
     margin-bottom: 10px;
     padding: 0px 5% 0px 5%;
@@ -608,10 +620,32 @@
     border-radius: 12px 12px 0px 0px;
 }
 
-.perfilCurtidas,
-.perfilComp {
+.perfilComp, .perfilCurtidas {
     display: flex;
     margin: 10px;
+}
+
+.perfilCurtidas a,
+.perfilComp a{
+    width: 100%;
+    margin-top: 15px;
+    font-size: 11pt;
+    color: #444;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.perfilCurtidas a:hover,
+.perfilComp a:hover, .corpo_comment a:hover{
+    color: #292;
+}
+
+.corpo_comment a {
+    font-size: 11pt;
+    color: #444;
+    font-weight: bold;
+    text-decoration: none;
+    margin-left: 9px;
 }
 
 .perfilCurtidas img,
@@ -941,6 +975,8 @@
     max-width: 90px;
     height: 42px;
     background-color: #eee;
+    border-radius: 5px;
+    box-shadow: #000 0px 0px 2px;
 }
 
 .commentMenuDrop {
@@ -975,6 +1011,7 @@
     text-decoration: none;
     display: block;
     cursor: pointer;
+    border-radius: 5px;
 }
 
 .linksCommentMenuDrop a:hover {

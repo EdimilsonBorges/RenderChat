@@ -229,7 +229,6 @@ class FuncoesPerfil {
                     // Lidar com erros
                     console.error('Erro:', error);
                 });
-
         });
 
         const btnRemoveSolicit = document.createElement("button");
