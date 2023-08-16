@@ -998,12 +998,16 @@ class FuncoesPosts {
     janela.classList.remove("esconderPostModal");
 
     btnPublicarPost.onclick = () => {
-      const userId = document.querySelector("#postModal .userId").value;
       const post = document.querySelector("#postModal textarea").value.replaceAll('\n', '<br/>');
       const fotoUrl = document.querySelector("#postModal .fotoUrl").value;
       const videoUrl = document.querySelector("#postModal .videoUrl").value;
 
-      const endPoint = `Controllers/create_new_post?post=${post}&foto_url=${fotoUrl}&video_url=${videoUrl}&user_id=${userId}`;
+      console.log(post);
+      console.log(fotoUrl);
+      console.log(videoUrl);
+      console.log(this.userId);
+
+      const endPoint = `Controllers/create_new_post?post=${post}&foto_url=${fotoUrl}&video_url=${videoUrl}&user_id=${this.userId}`;
       fetch(endPoint)
         .then(res => res.json())
         .then(results => {

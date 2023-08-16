@@ -14,23 +14,35 @@ if (
     error_response('Os dados do cadastro estão incompletos');
 }
 
-if(empty($variables['post']) && empty($variables['foto_url']) && empty($variables['video_url'])){
-    error_response("Nada está sendo postado");
- }
+// if(empty($variables['post']) && empty($variables['foto_url']) && empty($variables['video_url'])){
+//     error_response("Nada está sendo postado");
+//  }
+
+// $params = [
+//     ':post' => nl2br($variables['post']),
+//     ':foto_url' => $variables['foto_url'],
+//     ':video_url' => $variables['video_url'],
+//     ':user_id' => api_encript::aesDesencriptar($variables['user_id']),
+// ];
+
+
+// $db->insert('INSERT INTO posts VALUES(
+//     0, 
+//     :post, 
+//     :foto_url, 
+//     :video_url,
+//     :user_id, 
+//     NOW(),
+//     NOW(),
+//     NULL)', $params);
 
 $params = [
     ':post' => nl2br($variables['post']),
-    ':foto_url' => $variables['foto_url'],
-    ':video_url' => $variables['video_url'],
     ':user_id' => api_encript::aesDesencriptar($variables['user_id']),
 ];
 
-
-$db->insert('INSERT INTO posts VALUES(
-    0, 
+$db->insert('INSERT INTO posts (post, user_id, created_at, modified_at, deleted_at) VALUES (
     :post, 
-    :foto_url, 
-    :video_url,
     :user_id, 
     NOW(),
     NOW(),

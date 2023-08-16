@@ -25,19 +25,27 @@ $results = $db->select(
         (SELECT COUNT(ss.post_id) FROM shares ss WHERE ss.post_id = pos.id) AS t_shares
     FROM posts pos 
 
-    INNER JOIN users AS usu ON usu.id = pos.user_id AND usu.deleted_at IS NULL
-    LEFT JOIN perfil AS perf ON perf.user_id = pos.user_id
+    INNER JOIN users usu ON usu.id = pos.user_id AND usu.deleted_at IS NULL
+    LEFT JOIN perfil perf ON perf.user_id = pos.user_id
     
-    LEFT JOIN likes AS li ON li.post_id = pos.id AND li.user_id = :user_id
+    LEFT JOIN likes li ON li.post_id = pos.id AND li.user_id = :user_id
+
+    LEFT JOIN shares sh ON sh.post_id = pos.id AND sh.created_at >= pos.modified_at
+    LEFT JOIN users us ON us.id = sh.user_id AND usu.deleted_at IS NULL
+    LEFT JOIN perfil per ON per.user_id = sh.user_id
     
-    LEFT JOIN shares AS sh ON sh.post_id = pos.id AND sh.created_at >= pos.modified_at
-    LEFT JOIN users AS us ON us.id = sh.user_id AND usu.deleted_at IS NULL
-    LEFT JOIN perfil AS per ON per.user_id = sh.user_id
+    LEFT JOIN likes lik ON lik.post_id = pos.id AND lik.created_at >= pos.modified_at
+    LEFT JOIN users u ON u.id = lik.user_id
+    LEFT JOIN perfil pe ON pe.user_id = lik.user_id
+
+    LEFT JOIN comments co ON co.post_id = pos.id
     
-    LEFT JOIN likes AS lik ON lik.post_id = pos.id AND lik.created_at >= pos.modified_at
-    LEFT JOIN users AS u ON u.id = lik.user_id
-    LEFT JOIN perfil AS pe ON pe.user_id = lik.user_id
-    
+    WHERE 
+    (pos.user_id = :user_id) OR
+    (:user_id IN (SELECT user_id FROM friends WHERE user_id = :user_id AND friends_id = pos.user_id)) OR 
+    (lik.user_id IN (SELECT friends_id FROM friends WHERE user_id = :user_id)) OR
+    (sh.user_id IN (SELECT friends_id FROM friends WHERE user_id = :user_id)) OR
+    (co.user_id IN (SELECT friends_id FROM friends WHERE user_id = :user_id))
     GROUP BY pos.id
     ORDER BY pos.modified_at DESC
     LIMIT ".$variables['limit']." OFFSET ".$variables['offset'],

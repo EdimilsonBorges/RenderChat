@@ -1123,33 +1123,23 @@ body {
 .navLinkBtnAguardandoConfir{
     display: flex;
     flex-direction: column;
-    position: relative;
+    position: absolute;
     width: 15vw;
     background-color: #eee;
     margin-top: 5px;
     border: solid 1px #999;
     border-radius: 7px;
     visibility: hidden;
+    top: 40px;
 }
 
-.divButtonsUm{
+.divButtons{
     display: flex;
     position: relative;
     margin-right: 30px;
     justify-content: center;
     flex-direction: column;
     align-items: center;
-    top: 23px;
-}
-
-.divButtonsDois{
-    display: flex;
-    position: relative;
-    margin-right: 30px;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
-    top: 43px;
 }
 
 .btnRemoveSolicit{

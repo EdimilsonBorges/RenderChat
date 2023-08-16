@@ -190,7 +190,7 @@ class FuncoesPerfil {
         navLinkBtnAguardandoConfir.appendChild(btnDesfazerAmizade);
 
         const divButtons = document.createElement("div");
-        divButtons.setAttribute("class", "divButtonsUm");
+        divButtons.setAttribute("class", "divButtons");
 
         const btnFriend = document.createElement("button");
         btnFriend.setAttribute("class", "btnAmigos");
@@ -256,7 +256,7 @@ class FuncoesPerfil {
         navLinkBtnAguardandoConfir.appendChild(btnRemoveSolicit);
 
         const divButtons = document.createElement("div");
-        divButtons.setAttribute("class", "divButtonsDois");
+        divButtons.setAttribute("class", "divButtons");
 
         const btnAguardandoConfir = document.createElement("button");
         btnAguardandoConfir.setAttribute("class", "btnAguardandoConfir");
