@@ -16,7 +16,13 @@ $params = [
     ':user_id'=> api_encript::aesDesencriptar($variables['user_id']),
 ];
 
-$results = $db->select('SELECT usu.first_name, usu.last_name, per.photo_url, per.capa_url, per.city_natal_id, per.city_mora_id, (SELECT COUNT(id) FROM friends WHERE user_id = :id) AS qtdFriend, (SELECT COUNT(id) FROM friends WHERE user_id = :user_id AND friends_id = :id) AS friend, (SELECT COUNT(id) FROM friendrequests WHERE user_id = :user_id AND friends_id = :id) AS friendrequestEnv, (SELECT COUNT(id) FROM friendrequests WHERE user_id = :id AND friends_id = :user_id) AS friendrequestReceb FROM users usu
+$results = $db->select('SELECT usu.first_name, usu.last_name, per.photo_url, per.capa_url, per.city_natal_id, per.city_mora_id, 
+(SELECT COUNT(id) FROM friends WHERE user_id = :id) AS qtdFriend, 
+(SELECT COUNT(id) FROM friends WHERE user_id IN (SELECT friends_id FROM friends WHERE user_id = :user_id) AND friends_id = :id AND :user_id != :id) AS qtdFriendComun,
+(SELECT COUNT(id) FROM friends WHERE user_id = :user_id AND friends_id = :id) AS friend, 
+(SELECT COUNT(id) FROM friendrequests WHERE user_id = :user_id AND friends_id = :id) AS friendrequestEnv, 
+(SELECT COUNT(id) FROM friendrequests WHERE user_id = :id AND friends_id = :user_id) AS friendrequestReceb 
+FROM users usu
 LEFT JOIN perfil per ON per.user_id = usu.id 
 WHERE usu.id = :id', $params);
 

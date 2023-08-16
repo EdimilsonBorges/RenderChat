@@ -60,39 +60,11 @@ class FuncoesFriends {
 
                 if (results.status == "SUCESS") {
                     results['results'].forEach(result => {
+                        const perfilFriends = document.createElement("div");
+                        perfilFriends.setAttribute("class", "perfil-friends");
 
-                        this.perfilFriends = document.createElement("div");
-                        this.perfilFriends.setAttribute("class", "perfil-friends");
-
-                        this.img = document.createElement("img");
-                        if (result.photo_url) {
-                            this.img.src = `assets/images/${result.photo_url}`;
-                        } else {
-                            this.img.src = `assets/images/sem-foto.jpg`;
-                        }
-                        this.img.addEventListener("click",()=>{
-                            window.location.href = `/RenderChat/app/?r=perfil&id=${result.friends_id}`;
-                        });
-
-                        this.h3 = document.createElement("h3");
-                        this.h3.innerHTML = `${result.first_name} ${result.last_name}`
-                        this.h3.addEventListener("click",()=>{
-                            window.location.href = `/RenderChat/app/?r=perfil&id=${result.friends_id}`;
-                        });
-
-                        this.btnAdicionar = document.createElement("button");
-                        this.btnAdicionar.setAttribute("class", "btnAdicionar");
-                        this.btnAdicionar.innerHTML = "Adicionar aos amigos";
-
-                        this.btnAdicionar.addEventListener("click", (event) => {
-                            this.enviarConvite(event, result.friends_id);
-                        });
-
-                        this.perfilFriends.appendChild(this.img);
-                        this.perfilFriends.appendChild(this.h3);
-                        this.perfilFriends.appendChild(this.btnAdicionar);
-
-                        this.containerFriends.appendChild(this.perfilFriends);
+                        this.createBannerPerfil(result, perfilFriends);
+                        this.createBtnAdicionar(result, perfilFriends);
                     });
                 } else {
                     console.log(results['message']);
@@ -115,41 +87,11 @@ class FuncoesFriends {
 
                 if (results.status == "SUCESS") {
                     results['results'].forEach(result => {
+                        const perfilFriends = document.createElement("div");
+                        perfilFriends.setAttribute("class", "perfil-friends");
 
-                        this.perfilFriends = document.createElement("div");
-                        this.perfilFriends.setAttribute("class", "perfil-friends");
-
-                        this.img = document.createElement("img");
-                        if (result.photo_url) {
-                            this.img.src = `assets/images/${result.photo_url}`;
-                        } else {
-                            this.img.src = `assets/images/sem-foto.jpg`;
-                        }
-
-                        this.img.addEventListener("click",()=>{
-                            window.location.href = `/RenderChat/app/?r=perfil&id=${result.friends_id}`;
-                        });
-
-
-                        this.h3 = document.createElement("h3");
-                        this.h3.innerHTML = `${result.first_name} ${result.last_name}`
-                        this.h3.addEventListener("click",()=>{
-                            window.location.href = `/RenderChat/app/?r=perfil&id=${result.friends_id}`;
-                        });
-
-                        this.buttonRemover = document.createElement("button");
-                        this.buttonRemover.setAttribute("class", "btnRemover");
-                        this.buttonRemover.innerHTML = "Remover dos amigos";
-
-                        this.buttonRemover.addEventListener("click", (event) => {
-                            this.removerFriend(event, result.friends_id);
-                        });
-
-                        this.perfilFriends.appendChild(this.img);
-                        this.perfilFriends.appendChild(this.h3);
-                        this.perfilFriends.appendChild(this.buttonRemover);
-
-                        this.containerFriends.appendChild(this.perfilFriends);
+                        this.createBannerPerfil(result, perfilFriends);
+                        this.createBtnRemove(result, perfilFriends);
                     });
                 } else {
                     console.log(results['message']);
@@ -172,40 +114,11 @@ class FuncoesFriends {
 
                 if (results.status == "SUCESS") {
                     results['results'].forEach(result => {
+                        const perfilFriends = document.createElement("div");
+                        perfilFriends.setAttribute("class", "perfil-friends");
 
-                        this.perfilFriends = document.createElement("div");
-                        this.perfilFriends.setAttribute("class", "perfil-friends");
-
-                        this.img = document.createElement("img");
-                        if (result.photo_url) {
-                            this.img.src = `assets/images/${result.photo_url}`;
-                        } else {
-                            this.img.src = `assets/images/sem-foto.jpg`;
-                        }
-
-                        this.img.addEventListener("click",()=>{
-                            window.location.href = `/RenderChat/app/?r=perfil&id=${result.friends_id}`;
-                        });
-
-                        this.h3 = document.createElement("h3");
-                        this.h3.innerHTML = `${result.first_name} ${result.last_name}`
-                        this.h3.addEventListener("click",()=>{
-                            window.location.href = `/RenderChat/app/?r=perfil&id=${result.friends_id}`;
-                        });
-
-                        this.btnCancelSolicit = document.createElement("button");
-                        this.btnCancelSolicit.setAttribute("class", "btnCancelSolicit");
-                        this.btnCancelSolicit.innerHTML = "Cancelar";
-
-                        this.btnCancelSolicit.addEventListener("click", (event) => {
-                            this.cancelConvite(event, result.friends_id);
-                        });
-
-                        this.perfilFriends.appendChild(this.img);
-                        this.perfilFriends.appendChild(this.h3);
-                        this.perfilFriends.appendChild(this.btnCancelSolicit);
-
-                        this.containerFriends.appendChild(this.perfilFriends);
+                        this.createBannerPerfil(result, perfilFriends);
+                        this.createBtnCancelSolicit(result, perfilFriends);
                     });
                 } else {
                     console.log(results['message']);
@@ -228,49 +141,12 @@ class FuncoesFriends {
 
                 if (results.status == "SUCESS") {
                     results['results'].forEach(result => {
+                        const perfilFriends = document.createElement("div");
+                        perfilFriends.setAttribute("class", "perfil-friends");
 
-                        this.perfilFriends = document.createElement("div");
-                        this.perfilFriends.setAttribute("class", "perfil-friends");
-
-                        this.img = document.createElement("img");
-                        if (result.photo_url) {
-                            this.img.src = `assets/images/${result.photo_url}`;
-                        } else {
-                            this.img.src = `assets/images/sem-foto.jpg`;
-                        }
-
-                        this.img.addEventListener("click",()=>{
-                            window.location.href = `/RenderChat/app/?r=perfil&id=${result.friends_id}`;
-                        });
-
-                        this.h3 = document.createElement("h3");
-                        this.h3.innerHTML = `${result.first_name} ${result.last_name}`
-                        this.h3.addEventListener("click",()=>{
-                            window.location.href = `/RenderChat/app/?r=perfil&id=${result.friends_id}`;
-                        });
-
-                        this.btnAceitarFriend = document.createElement("button");
-                        this.btnAceitarFriend.setAttribute("class", "btnAceitarFriend");
-                        this.btnAceitarFriend.innerHTML = "Aceitar";
-
-                        this.btnAceitarFriend.addEventListener("click", (event) => {
-                            this.aceitarConvite(event, result.friends_id);
-                        });
-
-                        this.btnRecusarFriend = document.createElement("button");
-                        this.btnRecusarFriend.setAttribute("class", "btnRecusarFriend");
-                        this.btnRecusarFriend.innerHTML = "Recusar";
-
-                        this.btnRecusarFriend.addEventListener("click", (event) => {
-                            this.negarConvite(event, result.friends_id);
-                        });
-
-                        this.perfilFriends.appendChild(this.img);
-                        this.perfilFriends.appendChild(this.h3);
-                        this.perfilFriends.appendChild(this.btnAceitarFriend);
-                        this.perfilFriends.appendChild(this.btnRecusarFriend);
-
-                        this.containerFriends.appendChild(this.perfilFriends);
+                        this.createBannerPerfil(result, perfilFriends);
+                        this.createBtnAceitarFriend(result, perfilFriends);
+                        this.createBtnRecusarFriend(result, perfilFriends);
                     });
                 } else {
                     console.log(results['message']);
@@ -383,11 +259,106 @@ class FuncoesFriends {
             });
     }
 
+    createBannerPerfil(result, perfilFriends) {
+
+        const img = document.createElement("img");
+        if (result.photo_url) {
+            img.src = `assets/images/${result.photo_url}`;
+        } else {
+            img.src = `assets/images/sem-foto.jpg`;
+        }
+        img.addEventListener("click", () => {
+            window.location.href = `/RenderChat/app/?r=perfil&id=${result.friends_id}`;
+        });
+
+        const namePerfil = document.createElement("h3");
+        namePerfil.innerHTML = `${result.first_name} ${result.last_name}`
+        namePerfil.addEventListener("click", () => {
+            window.location.href = `/RenderChat/app/?r=perfil&id=${result.friends_id}`;
+        });
+
+        const friendsCount = document.createElement("h2");
+        friendsCount.setAttribute("class","friendsCount");
+        friendsCount.innerHTML = `${result.qtdFriendsCount} Amigos`
+        friendsCount.addEventListener("click", () => {
+            // window.location.href = `/RenderChat/app/?r=perfil&id=${result.friends_id}`;
+        });
+
+        const friendsCountComum = document.createElement("h2");
+        friendsCountComum.setAttribute("class","friendsCountComum");
+        friendsCountComum.innerHTML = `${result.qtdFriendsComun} Amigos em comum`
+        friendsCountComum.addEventListener("click", () => {
+            // window.location.href = `/RenderChat/app/?r=perfil&id=${result.friends_id}`;
+        });
+        perfilFriends.appendChild(img);
+        perfilFriends.appendChild(namePerfil);
+        perfilFriends.appendChild(friendsCount);
+        perfilFriends.appendChild(friendsCountComum);
+        this.containerFriends.appendChild(perfilFriends);
+    }
+
+    createBtnAdicionar(result, perfilFriends) {
+        const btnAdicionar = document.createElement("button");
+        btnAdicionar.setAttribute("class", "btnAdicionar");
+        btnAdicionar.innerHTML = "Adicionar aos amigos";
+
+        btnAdicionar.addEventListener("click", (event) => {
+            this.enviarConvite(event, result.friends_id);
+        });
+
+        perfilFriends.appendChild(btnAdicionar);
+    }
+
+    createBtnRemove(result, perfilFriends) {
+        const buttonRemover = document.createElement("button");
+        buttonRemover.setAttribute("class", "btnRemover");
+        buttonRemover.innerHTML = "Remover dos amigos";
+
+        buttonRemover.addEventListener("click", (event) => {
+            this.removerFriend(event, result.friends_id);
+        });
+
+        perfilFriends.appendChild(buttonRemover);
+    }
+    createBtnCancelSolicit(result, perfilFriends) {
+        const btnCancelSolicit = document.createElement("button");
+        btnCancelSolicit.setAttribute("class", "btnCancelSolicit");
+        btnCancelSolicit.innerHTML = "Cancelar";
+
+        btnCancelSolicit.addEventListener("click", (event) => {
+            this.cancelConvite(event, result.friends_id);
+        });
+        perfilFriends.appendChild(btnCancelSolicit);
+    }
+
+    createBtnAceitarFriend(result, perfilFriends) {
+        const btnAceitarFriend = document.createElement("button");
+        btnAceitarFriend.setAttribute("class", "btnAceitarFriend");
+        btnAceitarFriend.innerHTML = "Aceitar";
+
+        btnAceitarFriend.addEventListener("click", (event) => {
+            this.aceitarConvite(event, result.friends_id);
+        });
+        perfilFriends.appendChild(btnAceitarFriend);
+    }
+
+    createBtnRecusarFriend(result, perfilFriends) {
+        const btnRecusarFriend = document.createElement("button");
+        btnRecusarFriend.setAttribute("class", "btnRecusarFriend");
+        btnRecusarFriend.innerHTML = "Recusar";
+
+        btnRecusarFriend.addEventListener("click", (event) => {
+            this.negarConvite(event, result.friends_id);
+        });
+
+        perfilFriends.appendChild(btnRecusarFriend);
+    }
+
     addImageEmpty = () => {
-        this.imgEmpty = document.createElement("img");
-        this.imgEmpty.setAttribute("class", "imgEmpty");
-        this.imgEmpty.src = `assets/images/empty.svg`;
-        this.containerFriends.appendChild(this.imgEmpty);
+        const imgEmpty = document.createElement("img");
+        imgEmpty.setAttribute("class", "imgEmpty");
+        imgEmpty.src = `assets/images/empty.svg`;
+        this.containerFriends.appendChild(imgEmpty);
     }
 }
 

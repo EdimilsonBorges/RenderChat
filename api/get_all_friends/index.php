@@ -18,7 +18,10 @@ $param = [
 ];
 
 $results = $db->select(
-    "SELECT fri.friends_id, usu.first_name, usu.last_name, perf.photo_url FROM friends fri 
+    "SELECT fri.friends_id, usu.first_name, usu.last_name, perf.photo_url,
+    (SELECT COUNT(id) FROM friends WHERE user_id = usu.id) AS qtdFriendsCount, 
+    (SELECT COUNT(id) FROM friends WHERE user_id IN (SELECT friends_id FROM friends WHERE user_id = :user_id) AND friends_id = usu.id) AS qtdFriendsComun
+    FROM friends fri 
     INNER JOIN users usu ON usu.id = fri.friends_id
     LEFT JOIN perfil perf ON perf.user_id = fri.friends_id
     WHERE fri.user_id = :user_id",
@@ -35,6 +38,8 @@ foreach ($results as $result) {
         'first_name' => $result->first_name,
         'last_name' => $result->last_name,
         'photo_url' => $result->photo_url,
+        'qtdFriendsCount' => $result->qtdFriendsCount,
+        'qtdFriendsComun' => $result->qtdFriendsComun,
     ]);
 }
 

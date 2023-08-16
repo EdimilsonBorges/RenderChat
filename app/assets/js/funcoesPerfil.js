@@ -106,6 +106,17 @@ class FuncoesPerfil {
 
         descricao.appendChild(nomeComp);
         descricao.appendChild(amigos);
+
+        if (this.perfilId != this.userId) {
+            const amigosEmComum = document.createElement("h2");
+            if (result.results[0].qtdFriendComun == 1) {
+                amigosEmComum.innerHTML = `${result.results[0].qtdFriendComun} Amigo em comum`;
+            } else {
+                amigosEmComum.innerHTML = `${result.results[0].qtdFriendComun} Amigos em comum`;
+            }
+            descricao.appendChild(amigosEmComum);
+        }
+
         perfil.appendChild(imagemPerfil);
         perfil.appendChild(descricao);
 
@@ -239,7 +250,7 @@ class FuncoesPerfil {
             fetch(this.endPoint)
                 .then(res => res.json())
                 .then(results => {
-    
+
                     if (results.status == "SUCESS") {
                         divButtons.remove();
                         this.btnAddAmigos(divBtns);

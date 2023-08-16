@@ -12,6 +12,10 @@ body {
     --titulo-compart-modal: var(--texto-publicar);
 }
 
+.menu-notify{
+    cursor: pointer;
+}
+
 .container-corpo {
     width: 100%;
     height: auto;

@@ -78,7 +78,19 @@
     text-decoration: underline;
 }
 
-.btnRemover, .btnRecusarFriend, .btnCancelSolicit{
+.btnRemover, .btnCancelSolicit{
+    width: 100px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 5px;
+    background-color: #e22;
+    color: #fff;
+    border: none;
+    border-radius: 3px 3px 3px 3px;
+    cursor: pointer;
+}
+
+.btnRecusarFriend{
     width: 100px;
     margin-bottom: 10px;
     padding: 5px;
@@ -98,6 +110,7 @@
 
 .btnAdicionar, .btnAceitarFriend{
     width: 100px;
+    margin-top: 10px;
     margin-bottom: 10px;
     padding: 5px;
     background-color: #2b2;
@@ -116,6 +129,11 @@
 
 .imgEmpty{
     width: 400px;
+}
+
+.friendsCountComum, .friendsCount{
+    font-size: 9pt;
+    color: #222
 }
 
 .visivel {
