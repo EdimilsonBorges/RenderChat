@@ -16,7 +16,7 @@ $params = [
     ':to_user_id' => api_encript::aesDesencriptar($variables['to_user_id']),
 ];
 
-$results = $db->select('SELECT * FROM chats WHERE (to_user_id = :to_user_id AND user_id = :user_id) OR (to_user_id = :user_id AND user_id = :to_user_id) LIMIT 20000 OFFSET 0', $params);
+$results = $db->select('SELECT * FROM (SELECT * FROM chats WHERE (to_user_id = :to_user_id AND user_id = :user_id) OR (to_user_id = :user_id AND user_id = :to_user_id) ORDER BY id DESC LIMIT 0, 20) reverse ORDER BY id ASC', $params);
 
 $resposta = [];
 
