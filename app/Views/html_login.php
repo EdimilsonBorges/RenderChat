@@ -13,6 +13,7 @@ defined("ROOT") or die("Acesso negado");
     <link rel="shortcut icon" href="favicon.ico" type="image/x-ico">
     <title>Tela de login</title>
     <link rel="stylesheet" href="assets/css/login.css">
+    <script src="assets/js/login.js" defer></script>
 </head>
 
 <body>
@@ -187,7 +188,5 @@ defined("ROOT") or die("Acesso negado");
             </div>
         </div>
     </div>
-
-    <script src="assets/js/login.js"></script>
 </body>
 </html>

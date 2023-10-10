@@ -11,6 +11,7 @@ defined("ROOT") or die("Acesso negado");
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="favicon.ico" type="image/x-ico">
     <title>RenderChat</title>
+    <script src="assets/js/app.js" type="module" defer></script>
 
     <?php
     if (isset($_GET['r'])) : ?>
@@ -54,7 +55,7 @@ defined("ROOT") or die("Acesso negado");
             <img src="assets/images/logo.png" alt="">
             <input type="search" name="pesqClients" onkeyup="showHint(this.value)" placeholder="Pesquisar">
         </div>
-        <nav>
+        <nav class="navLinksMenu">
             <ul>
                 <li class="menu <?php if (!isset($_GET['r']) || $_GET['r'] == 'home') {
                                     echo 'active';
@@ -68,21 +69,16 @@ defined("ROOT") or die("Acesso negado");
                 <li class="menu <?php if (isset($_GET['r']) && $_GET['r'] == 'messeger') {
                                     echo 'active';
                                 } ?>"><a href="?r=messeger"><svg xmlns="http://www.w3.org/2000/svg" height="30" viewBox="0 -960 960 960" width="30"><path fill="#fff" d="M252.847-411.962h292.345v-47.883H252.847v47.883Zm0-123.923h454.306v-47.884H252.847v47.884Zm0-123.923h454.306v-47.884H252.847v47.884ZM104.745-125.579v-669.982q0-24.582 17.793-42.375 17.793-17.794 42.314-17.794h630.296q24.521 0 42.314 17.794 17.793 17.793 17.793 42.322v471.228q0 24.529-17.793 42.322-17.793 17.794-42.313 17.794H243.436L104.745-125.579Z"/></svg>Mensagens</a></li>
-                <li class="menu"><a class="menu-notify"><svg xmlns="http://www.w3.org/2000/svg" height="30" viewBox="0 -960 960 960" width="30"><path fill="#fff" d="M183.347-208.436v-47.883h69.936v-305.835q0-80.577 49.578-143.654 49.579-63.076 128.088-79.397v-20.885q0-20.628 14.159-34.909 14.158-14.282 34.768-14.282 20.611 0 34.893 14.282 14.282 14.281 14.282 34.909v20.885q78.743 16.321 128.467 79.397 49.725 63.077 49.725 143.654v305.835h69.935v47.883H183.347ZM479.932-98.001q-29.355 0-50.323-21.015-20.967-21.016-20.967-50.343h142.716q0 29.423-21.035 50.391-21.036 20.967-50.391 20.967Z"/></svg>Notificações</a></li>
+                <li class="menu menu-notify">
+                    <a><svg xmlns="http://www.w3.org/2000/svg" height="30" viewBox="0 -960 960 960" width="30"><path fill="#fff" d="M183.347-208.436v-47.883h69.936v-305.835q0-80.577 49.578-143.654 49.579-63.076 128.088-79.397v-20.885q0-20.628 14.159-34.909 14.158-14.282 34.768-14.282 20.611 0 34.893 14.282 14.282 14.281 14.282 34.909v20.885q78.743 16.321 128.467 79.397 49.725 63.077 49.725 143.654v305.835h69.935v47.883H183.347ZM479.932-98.001q-29.355 0-50.323-21.015-20.967-21.016-20.967-50.343h142.716q0 29.423-21.035 50.391-21.036 20.967-50.391 20.967Z"/></svg>Notificações</a>
+                    <div class="corpoNotify">
+
+                    </div>
+                </li>
                 <li class="menu <?php if (isset($_GET['r']) && $_GET['r'] == 'config') {
                                     echo 'active';
                                 } ?>"><a href="?r=config"><svg xmlns="http://www.w3.org/2000/svg" height="30" viewBox="0 -960 960 960" width="30"><path fill="#fff" d="m399.232-104.745-17.128-119.346q-14.026-4.256-36.078-16.538-22.052-12.283-43.616-28.321l-110.256 48.897-81.678-143.741 98.974-73.205q-1.987-10.026-2.673-20.834-.686-10.808-.686-21.782 0-9.142.769-20.622.77-11.481 2.564-23.712l-98.948-73.513 81.678-142.241L303-690.973q16.218-13.244 37.129-25.443 20.91-12.199 41.59-18.852l17.513-120.462h162.062l17.128 119.731q20.667 7.59 40.494 18.968 19.827 11.378 36.571 26.058l113.141-48.73 81.422 142.241-101.936 74.538q2.039 11.18 2.827 21.719.789 10.538.789 21.205 0 10.09-.885 20.757-.885 10.666-2.962 22.244l100.949 73.205-81.679 143.741-111.666-49.756q-16.628 14.436-35.898 26.18-19.269 11.744-41.167 19.154l-17.128 119.73H399.232Zm79.229-262.5q47.077 0 79.916-32.839 32.84-32.84 32.84-79.916 0-47.076-32.84-79.916-32.839-32.839-79.916-32.839-47.384 0-80.069 32.839-32.686 32.84-32.686 79.916 0 47.076 32.686 79.916 32.685 32.839 80.069 32.839Z"/></svg>Configurações</a></li>
-            </ul>
-
-            <!-- <ul>
-                <li class="menu" id="menuHome"><a href="?r=home">Linha do tempo</a></li>
-                <li class="menu" id="menuPerfil"><a href="?r=perfil">Perfil</a></li>
-                <li class="menu" id="menuFriends"><a href="?r=friends">Amigos</a></li>
-                <li class="menu" id="menuConvites"><a href="?r=convites">Convites</a></li>
-                <li class="menu" id="menuMesseger"><a href="?r=messeger">Mensagens</a></li>
-                <li class="menu" id="menuNotifly"><a href="?r=notifly">Notificações</a></li>
-                <li class="menu" id="menuConfig"><a href="?r=config">Configurações</a></li> 
-            </ul>-->
+            </ul>      
         </nav>
         <div class="conta" id="conta">
             <?php if (is_null($_SESSION['photo_url'])):?>
