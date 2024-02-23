@@ -76,8 +76,6 @@ class FuncoesPosts {
     const areaPost = document.createElement("div");
     areaPost.setAttribute("class", "areaPost");
     areaPost.setAttribute("id", "areaPost");
-
-
     posts.appendChild(areaPost);
 
     if (!this.fim) {

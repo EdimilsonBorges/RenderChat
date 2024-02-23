@@ -1,7 +1,8 @@
+
 .container-friends{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content:center;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    gap: 20px;
     position:relative;
     border-radius: 20px;
     top: 100px;
@@ -9,8 +10,6 @@
     width: calc(95% - 270px);
     min-height: 400px;
     padding:10px;
-    /* border: 1px solid #ccc; */
-    /* background-color: #fff;     */
     margin-bottom: 20vh;
 }
 
@@ -52,8 +51,7 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    margin: 3px;
-    width:163px;
+    width:100%;
     height:fit-content;
     align-items: center;
     border-radius: 10px 10px 10px 10px;

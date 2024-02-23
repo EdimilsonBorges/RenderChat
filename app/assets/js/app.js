@@ -1,3 +1,5 @@
+"use strict";
+
 import { FuncoesPosts } from "./funcoesPosts.js";
 import { ConnectChat } from "./connectChat";
 import { Chat } from "./chat.js";

@@ -44,7 +44,6 @@ defined("ROOT") or die("Acesso negado");
             </div>
         </section>
         <hr class="divisaoPost">
-        
     </article>
 
     <nav class="direita">
